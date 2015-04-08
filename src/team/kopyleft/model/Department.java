@@ -4,12 +4,13 @@ package team.kopyleft.model;
  * Created by cfwloader on 4/6/15.
  */
 
-enum DepartmentType {
-    CONSTRUCTION_DEVICE(1), AUTOMOBILE(2), APPLIANCE(3), COMPUTER(4), SPECIALIST(5), ADMIN(6), UNKNOWN(7);
+/*
+public enum Department {
+    CONSTRUCTION_DEVICE(1), AUTOMOBILE(2), APPLIANCE(3), COMPUTER(4), SPECIALIST(5), ADMIN(6), HR(7), UNKNOWN(8);
 
     private int value;
 
-    private DepartmentType(int value){
+    private Department(int value){
         this.value = value;
     }
 
@@ -17,7 +18,7 @@ enum DepartmentType {
         return this.value;
     }
 
-    public static DepartmentType valueOf(int rawValue){
+    public static Department valueOf(int rawValue){
         switch (rawValue){
             case 1 : return CONSTRUCTION_DEVICE;
             case 2 : return AUTOMOBILE;
@@ -25,18 +26,21 @@ enum DepartmentType {
             case 4 : return COMPUTER;
             case 5 : return SPECIALIST;
             case 6 : return ADMIN;
+            case 7 : return HR;
             default: return UNKNOWN;
         }
     }
 };
+*/
+
 
 public class Department {
 
     private int id;
 
-    private int companyId;
+    //private int companyId;
 
-    private DepartmentType departmentType;
+    private String departmentType;
 
     public int getId() {
         return id;
@@ -46,6 +50,7 @@ public class Department {
         this.id = id;
     }
 
+    /*
     public int getCompanyId() {
         return companyId;
     }
@@ -53,12 +58,14 @@ public class Department {
     public void setCompanyId(int companyId) {
         this.companyId = companyId;
     }
+    */
 
-    public DepartmentType getDepartmentType() {
+    public String getDepartmentType() {
         return departmentType;
     }
 
-    public void setDepartmentType(DepartmentType departmentType) {
+    public void setDepartmentType(String departmentType) {
         this.departmentType = departmentType;
     }
 }
+
