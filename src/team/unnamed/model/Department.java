@@ -67,5 +67,13 @@ public class Department {
     public void setDepartmentType(String departmentType) {
         this.departmentType = departmentType;
     }
+
+    @Override
+    public String toString() {
+        return "Department{" +
+                "id=" + id +
+                ", departmentType='" + departmentType + '\'' +
+                '}';
+    }
 }
 

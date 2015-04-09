@@ -1,5 +1,7 @@
 package team.unnamed.model;
 
+import java.io.DataOutputStream;
+
 /**
  * Created by cfwloader on 4/6/15.
  */
@@ -13,9 +15,21 @@ public class Employee {
 
     private String gender;
 
+    private String phone;
+
+    private String address;
+
     private int companyId;
 
     private int departmentId;
+
+    private Company company;
+
+    private Department department;
+
+    public Employee() {
+        id = -1;
+    }
 
     public int getId() {
         return id;
@@ -49,6 +63,22 @@ public class Employee {
         this.gender = gender;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public int getCompanyId() {
         return companyId;
     }
@@ -63,5 +93,37 @@ public class Employee {
 
     public void setDepartmentId(int departmentId) {
         this.departmentId = departmentId;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", gender='" + gender + '\'' +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                ", companyId=" + companyId +
+                ", departmentId=" + departmentId +
+                ", company=" + company +
+                ", department=" + department +
+                '}';
     }
 }

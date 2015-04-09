@@ -5,6 +5,10 @@ import team.unnamed.model.Company;
 import team.unnamed.util.MySqlConnectionManager;
 
 import java.sql.*;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by cfwloader on 4/9/15.
@@ -118,6 +122,48 @@ public class MySqlCompanyDao implements CompanyDao {
         }
 
         return company;
+    }
+
+    @Override
+    public List<Company> getCompanies() throws SQLException {
+
+        List<Company> companySet = new LinkedList<Company>();
+        Company company = null;
+
+        String sql = "select * from company;";
+
+        Statement statement = null;
+        ResultSet resultSet = null;
+
+        try{
+            statement = connection.createStatement();
+
+            statement.execute(sql);
+
+            resultSet = statement.getResultSet();
+
+            while (resultSet.next()){
+                company = new Company();
+                company.setId(resultSet.getInt(1));
+                company.setCompanyName(resultSet.getString(2));
+                company.setLocation(resultSet.getString(3));
+
+                companySet.add(company);
+            }
+
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally{
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+        }
+
+        return companySet;
     }
 
     @Override

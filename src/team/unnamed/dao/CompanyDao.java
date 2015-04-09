@@ -3,6 +3,7 @@ package team.unnamed.dao;
 import team.unnamed.model.Company;
 
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Created by cfwloader on 4/8/15.
@@ -16,6 +17,8 @@ public interface CompanyDao {
     void updateCompany(Company company) throws SQLException;
 
     Company getCompanyByCompanyName(String companyName) throws SQLException;
+
+    List<Company> getCompanies() throws SQLException;
 
     void close() throws SQLException;
 }
