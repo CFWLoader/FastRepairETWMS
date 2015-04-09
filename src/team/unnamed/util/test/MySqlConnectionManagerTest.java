@@ -1,7 +1,7 @@
-package team.kopyleft.util.test;
+package team.unnamed.util.test;
 
 import org.junit.Test;
-import team.kopyleft.util.MySqlConnectionManager;
+import team.unnamed.util.MySqlConnectionManager;
 
 import java.sql.Connection;
 import java.sql.SQLException;

@@ -1,4 +1,4 @@
-package team.kopyleft.service;
+package team.unnamed.service;
 
 /**
  * Created by cfwloader on 4/8/15.

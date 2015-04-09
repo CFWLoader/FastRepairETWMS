@@ -1,4 +1,4 @@
-package team.kopyleft.util;
+package team.unnamed.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

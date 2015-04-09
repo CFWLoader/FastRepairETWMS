@@ -1,4 +1,4 @@
-package team.kopyleft.model;
+package team.unnamed.model;
 
 /**
  * Created by cfwloader on 4/6/15.
@@ -33,5 +33,14 @@ public class Company {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    @Override
+    public String toString() {
+        return "Company{" +
+                "id=" + id +
+                ", companyName='" + companyName + '\'' +
+                ", location='" + location + '\'' +
+                '}';
     }
 }
