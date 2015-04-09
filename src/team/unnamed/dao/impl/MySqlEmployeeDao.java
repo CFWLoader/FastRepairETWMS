@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public class MySqlEmployeeDao implements EmployeeDao {
 
-    Connection connection;
+    private Connection connection;
 
     public MySqlEmployeeDao() {
         this.connection = MySqlConnectionManager.getDefaultConnection();
@@ -173,7 +173,7 @@ public class MySqlEmployeeDao implements EmployeeDao {
 
         Map<Integer, Company> companyMap = new HashMap<Integer, Company>();
 
-        String sql = "select * from employee where departmentid = " + department.getId() + ";";
+        String sql = "select * from employee where departmentid = " + department.getId() + "  limit " + startIndex + "," + pageSize + ";";
 
         Statement statement;
 
@@ -208,7 +208,10 @@ public class MySqlEmployeeDao implements EmployeeDao {
 
                 employee.setCompany(companyMap.get(employee.getCompanyId()));
 
+                employees.add(employee);
             }
+
+            companyDao.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -218,7 +221,56 @@ public class MySqlEmployeeDao implements EmployeeDao {
 
     @Override
     public List<Employee> getEmployeesByCompany(Company company, int startIndex, int pageSize) {
-        return null;
+        List<Employee> employees = new LinkedList<Employee>();
+
+        Map<Integer, Department> departmentMap = new HashMap<Integer, Department>();
+
+        DepartmentDao departmentDao = new MySqlDepartmentDao();
+
+        String sql = "select * from employee where companyid = " + company.getId() + "  limit " + startIndex + "," + pageSize + ";";
+
+        Statement statement;
+
+        try {
+
+            Employee employee = null;
+
+            statement = connection.createStatement();
+
+            statement.execute(sql);
+
+            ResultSet resultSet = statement.getResultSet();
+
+            for(Department department : departmentDao.getDepartments()){
+                departmentMap.put(department.getId(), department);
+            }
+
+            while(resultSet.next()){
+
+                employee = new Employee();
+
+                employee.setId(resultSet.getInt(1));
+                employee.setFirstName(resultSet.getString(2));
+                employee.setLastName(resultSet.getString(3));
+                employee.setGender(resultSet.getString(4));
+                employee.setPhone(resultSet.getString(5));
+                employee.setAddress(resultSet.getString(6));
+                employee.setCompanyId(resultSet.getInt(7));
+                employee.setDepartmentId(resultSet.getInt(8));
+
+                employee.setDepartment(departmentMap.get(employee.getDepartmentId()));
+
+                employee.setCompany(company);
+
+                employees.add(employee);
+            }
+
+            departmentDao.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return employees;
     }
 
     @Override

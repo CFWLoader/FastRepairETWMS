@@ -5,6 +5,8 @@ import team.unnamed.dao.EmployeeDao;
 import team.unnamed.dao.impl.MySqlEmployeeDao;
 import team.unnamed.exception.BadUpdateQueryException;
 import team.unnamed.exception.UserNotFoundException;
+import team.unnamed.model.Company;
+import team.unnamed.model.Department;
 import team.unnamed.model.Employee;
 
 import java.sql.SQLException;
@@ -88,5 +90,37 @@ public class MySqlEmployeeDaoTest {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void testGetEmployeeByDepartment() throws SQLException {
+
+        EmployeeDao employeeDao = new MySqlEmployeeDao();
+
+        Department department = new Department();
+
+        department.setId(4);
+
+        for(Employee employee : employeeDao.getEmployeesByDepartment(department, 0, 2)){
+            System.out.println(employee);
+        }
+
+        employeeDao.close();
+    }
+
+    @Test
+    public void testGetEmployeeByCompany() throws SQLException {
+
+        EmployeeDao employeeDao = new MySqlEmployeeDao();
+
+        Company company = new Company();
+
+        company.setId(1);
+
+        for(Employee employee : employeeDao.getEmployeesByCompany(company, 0, 2)){
+            System.out.println(employee);
+        }
+
+        employeeDao.close();
     }
 }
