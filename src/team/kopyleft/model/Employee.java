@@ -11,8 +11,11 @@ public class Employee {
 
     private String lastName;
 
+    private String gender;
+
     private int companyId;
 
     private int departmentId;
+
 
 }

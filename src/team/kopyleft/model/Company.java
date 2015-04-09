@@ -7,6 +7,8 @@ public class Company {
 
     private int id;
 
+    private String companyName;
+
     private String location;
 
     public int getId() {
@@ -15,6 +17,14 @@ public class Company {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
     public String getLocation() {
