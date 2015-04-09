@@ -1,5 +1,7 @@
 package team.unnamed.dao.impl;
 
+import team.unnamed.dao.CompanyDao;
+import team.unnamed.dao.DepartmentDao;
 import team.unnamed.dao.EmployeeDao;
 import team.unnamed.exception.BadUpdateQueryException;
 import team.unnamed.exception.UserNotFoundException;
@@ -9,7 +11,10 @@ import team.unnamed.model.Employee;
 import team.unnamed.util.MySqlConnectionManager;
 
 import java.sql.*;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by cfwloader on 4/9/15.
@@ -85,8 +90,23 @@ public class MySqlEmployeeDao implements EmployeeDao {
     }
 
     @Override
-    public void removeEmployee(Employee employee) {
+    public void removeEmployee(Employee employee) throws BadUpdateQueryException {
 
+        if(employee.getId() < 0)throw new BadUpdateQueryException();
+
+        String sql = "delete from employee where id = " + employee.getId() + ";";
+
+        Statement statement;
+
+        try{
+            statement = connection.createStatement();
+
+            statement.executeUpdate(sql);
+
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -94,7 +114,7 @@ public class MySqlEmployeeDao implements EmployeeDao {
 
         if(id < 0)throw new BadUpdateQueryException();
 
-        String sql = "select * from employee where id = " + id  + " and passwd = password('" + password +"');";
+        String sql = "select * from employee as e join department d on (e.departmentid = d.id) join company c on (e.companyid = c.id) where e.id = " + id  + " and passwd = password('" + password +"');";
 
         Employee employee = null;
 
@@ -119,6 +139,16 @@ public class MySqlEmployeeDao implements EmployeeDao {
                 employee.setAddress(resultSet.getString(6));
                 employee.setCompanyId(resultSet.getInt(7));
                 employee.setDepartmentId(resultSet.getInt(8));
+
+                employee.setDepartment(new Department());
+                employee.getDepartment().setId(resultSet.getInt(10));
+                employee.getDepartment().setDepartmentType(resultSet.getString(11));
+
+                employee.setCompany(new Company());
+                employee.getCompany().setId(resultSet.getInt(12));
+                employee.getCompany().setCompanyName(resultSet.getString(13));
+                employee.getCompany().setLocation(resultSet.getString(14));
+
             }else{
                 resultSet.close();
                 statement.close();
@@ -136,7 +166,54 @@ public class MySqlEmployeeDao implements EmployeeDao {
 
     @Override
     public List<Employee> getEmployeesByDepartment(Department department, int startIndex, int pageSize) {
-        return null;
+
+        List<Employee> employees = new LinkedList<Employee>();
+
+        CompanyDao companyDao = new MySqlCompanyDao();
+
+        Map<Integer, Company> companyMap = new HashMap<Integer, Company>();
+
+        String sql = "select * from employee where departmentid = " + department.getId() + ";";
+
+        Statement statement;
+
+        try {
+
+            Employee employee = null;
+
+            statement = connection.createStatement();
+
+            statement.execute(sql);
+
+            ResultSet resultSet = statement.getResultSet();
+
+            for(Company company : companyDao.getCompanies()){
+                companyMap.put(company.getId(), company);
+            }
+
+            while(resultSet.next()){
+
+                employee = new Employee();
+
+                employee.setId(resultSet.getInt(1));
+                employee.setFirstName(resultSet.getString(2));
+                employee.setLastName(resultSet.getString(3));
+                employee.setGender(resultSet.getString(4));
+                employee.setPhone(resultSet.getString(5));
+                employee.setAddress(resultSet.getString(6));
+                employee.setCompanyId(resultSet.getInt(7));
+                employee.setDepartmentId(resultSet.getInt(8));
+
+                employee.setDepartment(department);
+
+                employee.setCompany(companyMap.get(employee.getCompanyId()));
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return employees;
     }
 
     @Override
@@ -145,7 +222,7 @@ public class MySqlEmployeeDao implements EmployeeDao {
     }
 
     @Override
-    public void close() {
-
+    public void close() throws SQLException {
+        connection.close();
     }
 }

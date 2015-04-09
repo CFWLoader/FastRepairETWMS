@@ -27,13 +27,13 @@ public class MySqlEmployeeDaoTest {
         employee.setDepartmentId(5);
         */
 
-        employee.setFirstName("Admin");
-        employee.setLastName("Admin");
-        employee.setGender("NULL");
-        employee.setPhone("NULL");
-        employee.setAddress("Nilhil");
-        employee.setCompanyId(1);
-        employee.setDepartmentId(6);
+        employee.setFirstName("Jack");
+        employee.setLastName("Chen");
+        employee.setGender("Male");
+        employee.setPhone("12255557777");
+        employee.setAddress("Master Street");
+        employee.setCompanyId(5);
+        employee.setDepartmentId(4);
 
         EmployeeDao employeeDao = new MySqlEmployeeDao();
 
@@ -52,14 +52,20 @@ public class MySqlEmployeeDaoTest {
         EmployeeDao employeeDao = new MySqlEmployeeDao();
 
         try {
-            Employee employee = employeeDao.getEmployee(2, "123456");
+            Employee employee = employeeDao.getEmployee(2, "654321");
 
             System.out.println(employee);
+
+            employee.setLastName("Matrix");
+
+            employeeDao.updateEmployee(employee, "123456");
 
             employeeDao.close();
         } catch (UserNotFoundException e) {
             e.printStackTrace();
         } catch (BadUpdateQueryException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -78,6 +84,8 @@ public class MySqlEmployeeDaoTest {
         } catch (UserNotFoundException e) {
             e.printStackTrace();
         } catch (BadUpdateQueryException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

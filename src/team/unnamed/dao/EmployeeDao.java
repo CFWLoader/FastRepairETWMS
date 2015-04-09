@@ -18,7 +18,7 @@ public interface EmployeeDao {
 
     void updateEmployee(Employee employee, String password) throws BadUpdateQueryException, SQLException;
 
-    void removeEmployee(Employee employee);
+    void removeEmployee(Employee employee) throws BadUpdateQueryException;
 
     Employee getEmployee(int id, String password) throws BadUpdateQueryException, UserNotFoundException;
 
@@ -26,5 +26,5 @@ public interface EmployeeDao {
 
     List<Employee> getEmployeesByCompany(Company company, int startIndex, int pageSize);
 
-    void close();
+    void close() throws SQLException;
 }
