@@ -275,6 +275,16 @@ public class MySqlEmployeeDao implements EmployeeDao {
 
     @Override
     public void close() throws SQLException {
-        connection.close();
+        try {
+            if(connection != null && !connection.isClosed())connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (!connection.isClosed()) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

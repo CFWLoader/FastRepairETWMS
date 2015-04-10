@@ -127,10 +127,16 @@ public class MySqlDepartmentDao implements DepartmentDao {
     @Override
     public void close() throws SQLException {
         try {
-            connection.close();
+            if(connection != null && !connection.isClosed())connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw e;
+        } finally {
+            try {
+                if (!connection.isClosed()) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw e;
+            }
         }
     }
 }

@@ -111,17 +111,18 @@ public class Employee {
 
     @Override
     public String toString() {
-        return "Employee{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", gender='" + gender + '\'' +
-                ", phone='" + phone + '\'' +
-                ", address='" + address + '\'' +
-                ", companyId=" + companyId +
-                ", departmentId=" + departmentId +
-                ", company=" + company +
-                ", department=" + department +
-                '}';
+        final StringBuilder sb = new StringBuilder("Employee{");
+        sb.append("id=").append(id);
+        sb.append(", firstName='").append(firstName).append('\'');
+        sb.append(", lastName='").append(lastName).append('\'');
+        sb.append(", gender='").append(gender).append('\'');
+        sb.append(", phone='").append(phone).append('\'');
+        sb.append(", address='").append(address).append('\'');
+        sb.append(", companyId=").append(companyId);
+        sb.append(", departmentId=").append(departmentId);
+        sb.append(", company=").append(company);
+        sb.append(", department=").append(department);
+        sb.append('}');
+        return sb.toString();
     }
 }
