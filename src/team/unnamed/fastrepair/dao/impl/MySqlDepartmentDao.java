@@ -125,6 +125,44 @@ public class MySqlDepartmentDao implements DepartmentDao {
     }
 
     @Override
+    public Department getDepartmentById(int id) throws SQLException {
+        Department department = null;
+
+        String sql = "select * from department where id = " + id + ";";
+
+        Statement statement = null;
+        ResultSet resultSet = null;
+
+        try{
+            statement = connection.createStatement();
+
+            statement.execute(sql);
+
+            resultSet = statement.getResultSet();
+
+            if (resultSet.next()){
+                department = new Department();
+                department.setId(resultSet.getInt(1));
+                department.setDepartmentType(resultSet.getString(2));
+            }
+
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally{
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+        }
+
+        return department;
+    }
+
+    @Override
     public void close() throws SQLException {
         try {
             if(connection != null && !connection.isClosed())connection.close();

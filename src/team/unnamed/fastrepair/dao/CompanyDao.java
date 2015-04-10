@@ -20,5 +20,7 @@ public interface CompanyDao {
 
     List<Company> getCompanies() throws SQLException;
 
+    Company getCompanyById(int id) throws SQLException;
+
     void close() throws SQLException;
 }

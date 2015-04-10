@@ -59,6 +59,10 @@ public class MySqlToolDao implements ToolDao {
 
         Tool tool = null;
 
+        CompanyDao companyDao = new MySqlCompanyDao();
+
+        DepartmentDao departmentDao = new MySqlDepartmentDao();
+
         try {
             statement = connection.createStatement();
 
@@ -74,8 +78,12 @@ public class MySqlToolDao implements ToolDao {
                 tool.setNumberOfAvailable(resultSet.getInt(3));
                 tool.setCompanyId(resultSet.getInt(4));
                 tool.setDepartmentId(resultSet.getInt(5));
+                tool.setCompany(companyDao.getCompanyById(tool.getCompanyId()));
+                tool.setDepartment(departmentDao.getDepartmentById(tool.getDepartmentId()));
             }
 
+            companyDao.close();
+            departmentDao.close();
             resultSet.close();
             statement.close();
 
@@ -151,7 +159,7 @@ public class MySqlToolDao implements ToolDao {
         } catch (SQLException e) {
             e.printStackTrace();
 
-            if (companyDao != null) resultSet.close();
+            if (companyDao != null) companyDao.close();
 
             if (resultSet != null && !resultSet.isClosed()) resultSet.close();
 
@@ -226,7 +234,7 @@ public class MySqlToolDao implements ToolDao {
     @Override
     public int getTotalOfTool(Department department) throws SQLException {
 
-        String sql = "select count(*) from tool where department = " + department.getId() + ";";
+        String sql = "select count(*) from tool where departmentid = " + department.getId() + ";";
 
         int count = 0;
 
@@ -237,7 +245,7 @@ public class MySqlToolDao implements ToolDao {
         try{
             statement = connection.createStatement();
 
-            statement.executeUpdate(sql);
+            statement.execute(sql);
 
             resultSet = statement.getResultSet();
 

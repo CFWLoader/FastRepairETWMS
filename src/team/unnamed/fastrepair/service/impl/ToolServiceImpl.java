@@ -1,6 +1,8 @@
 package team.unnamed.fastrepair.service.impl;
 
+import team.unnamed.fastrepair.dao.DepartmentDao;
 import team.unnamed.fastrepair.dao.ToolDao;
+import team.unnamed.fastrepair.dao.impl.MySqlDepartmentDao;
 import team.unnamed.fastrepair.dao.impl.MySqlToolDao;
 import team.unnamed.fastrepair.exception.BadRequestParameterException;
 import team.unnamed.fastrepair.model.Company;
@@ -49,35 +51,87 @@ public class ToolServiceImpl implements ToolService {
     public List<Tool> getToolsByDepartmentId(String departmentId, int pageIndex, int size) throws SQLException, BadRequestParameterException {
         if(departmentId == null || departmentId.trim().equals(""))throw new BadRequestParameterException();
 
-        Department department = new Department();
+        DepartmentDao departmentDao = new MySqlDepartmentDao();
 
-        department.setId(Integer.parseInt(departmentId.trim()));
+        Department department = departmentDao.getDepartmentById(Integer.parseInt(departmentId.trim()));
 
-        if(department.getId() == 5 || department.getId() == 6)return toolsOfSpecialist(department, pageIndex, size);
+        departmentDao.close();
+
+        if(department.getId() == 5 || department.getId() == 6)return toolsOfSpecialist(pageIndex, size);
 
         return toolDao.getToolsByDepartment(department, (pageIndex - 1) * size, size);
     }
 
-    private List<Tool> toolsOfSpecialist(Department department, int pageIndex, int size) throws SQLException {
+    private List<Tool> toolsOfSpecialist(int pageIndex, int size) throws SQLException {
 
         List<Tool> tools = new LinkedList<Tool>();
         
         int equivalentIndex = (pageIndex - 1) * size;
 
-        department.setId(1);
+        DepartmentDao departmentDao = new MySqlDepartmentDao();
+
+        Department department = departmentDao.getDepartmentById(1);
 
         int equivalentVolume = toolDao.getTotalOfTool(department);
 
-        if((equivalentIndex + 1) > equivalentVolume) {
+        if(equivalentIndex < equivalentVolume) {
             tools.addAll(toolDao.getToolsByDepartment(department, equivalentIndex, size));
+
+            if(tools.size() >= size)return tools;
         }
 
-        department.setId(2);
+        department = departmentDao.getDepartmentById(2);
 
-        department.setId(3);
+        equivalentIndex -= equivalentVolume;
 
-        department.setId(4);
+        if(equivalentIndex < 0)equivalentIndex = 0;
 
+        equivalentVolume = toolDao.getTotalOfTool(department);
+
+        if(equivalentIndex < equivalentVolume) {
+            tools.addAll(toolDao.getToolsByDepartment(department, equivalentIndex, size - tools.size()));
+
+            if(tools.size() >= size){
+                departmentDao.close();
+                return tools;
+            }
+        }
+
+        department = departmentDao.getDepartmentById(3);
+
+        equivalentIndex -= equivalentVolume;
+
+        if(equivalentIndex < 0)equivalentIndex = 0;
+
+        equivalentVolume = toolDao.getTotalOfTool(department);
+
+        if(equivalentIndex < equivalentVolume) {
+            tools.addAll(toolDao.getToolsByDepartment(department, equivalentIndex, size - tools.size()));
+
+            if(tools.size() >= size){
+                departmentDao.close();
+                return tools;
+            }
+        }
+
+        department = departmentDao.getDepartmentById(4);
+
+        equivalentIndex -= equivalentVolume;
+
+        if(equivalentIndex < 0)equivalentIndex = 0;
+
+        equivalentVolume = toolDao.getTotalOfTool(department);
+
+        if(equivalentIndex < equivalentVolume) {
+            tools.addAll(toolDao.getToolsByDepartment(department, equivalentIndex, size - tools.size()));
+
+            if(tools.size() >= size){
+                departmentDao.close();
+                return tools;
+            }
+        }
+
+        departmentDao.close();
         return tools;
     }
 

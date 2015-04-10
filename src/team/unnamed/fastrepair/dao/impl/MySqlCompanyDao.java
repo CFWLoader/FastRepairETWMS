@@ -165,6 +165,46 @@ public class MySqlCompanyDao implements CompanyDao {
     }
 
     @Override
+    public Company getCompanyById(int id) throws SQLException {
+
+        Company company = null;
+
+        String sql = "select * from company where id = " + id +";";
+
+        Statement statement = null;
+        ResultSet resultSet = null;
+
+        try{
+            statement = connection.createStatement();
+
+            statement.execute(sql);
+
+            resultSet = statement.getResultSet();
+
+            if (resultSet.next()){
+                company = new Company();
+                company.setId(resultSet.getInt(1));
+                company.setCompanyName(resultSet.getString(2));
+                company.setLocation(resultSet.getString(3));
+
+            }
+
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally{
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+        }
+
+        return company;
+    }
+
+    @Override
     public void close() throws SQLException {
         try {
             connection.close();
