@@ -38,12 +38,12 @@ public class ToolServiceImpl implements ToolService {
     }
 
     @Override
-    public void updateTool(Tool tool) {
+    public void updateTool(Tool tool) throws SQLException {
         toolDao.updateTool(tool);
     }
 
     @Override
-    public void removeTool(Tool tool) {
+    public void removeTool(Tool tool) throws SQLException {
         toolDao.removeTool(tool);
     }
 

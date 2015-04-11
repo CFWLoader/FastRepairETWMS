@@ -108,6 +108,7 @@ public class MySqlCompanyDao implements CompanyDao {
             }
 
             resultSet.close();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally{
@@ -150,6 +151,7 @@ public class MySqlCompanyDao implements CompanyDao {
             }
 
             resultSet.close();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally{
@@ -190,6 +192,7 @@ public class MySqlCompanyDao implements CompanyDao {
             }
 
             resultSet.close();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally{

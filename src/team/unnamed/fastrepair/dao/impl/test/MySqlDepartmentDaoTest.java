@@ -23,7 +23,7 @@ public class MySqlDepartmentDaoTest {
         //department.setDepartmentType("Specialist");
         //department.setDepartmentType("Admin");
         //department.setDepartmentType("Human Resource");
-        department.setDepartmentType("test department");
+        department.setDepartmentType("Tool Keeper");
 
         DepartmentDao departmentDao = new MySqlDepartmentDao();
 

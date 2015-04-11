@@ -16,9 +16,9 @@ public interface ToolDao {
 
     Tool getToolById(int id) throws SQLException;
 
-    void updateTool(Tool tool);
+    void updateTool(Tool tool) throws SQLException;
 
-    void removeTool(Tool tool);
+    void removeTool(Tool tool) throws SQLException;
 
     List<Tool> getToolsByDepartment(Department department, int startIndex, int size) throws SQLException;
 

@@ -17,9 +17,9 @@ public interface ToolService {
 
     Tool getToolById(String id) throws BadRequestParameterException, SQLException;
 
-    void updateTool(Tool tool);
+    void updateTool(Tool tool) throws SQLException;
 
-    void removeTool(Tool tool);
+    void removeTool(Tool tool) throws SQLException;
 
     List<Tool> getToolsByDepartmentId(String departmentId, int pageIndex, int size) throws SQLException, BadRequestParameterException;
 

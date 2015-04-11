@@ -101,13 +101,52 @@ public class MySqlToolDao implements ToolDao {
     }
 
     @Override
-    public void updateTool(Tool tool) {
+    public void updateTool(Tool tool) throws SQLException {
 
+        String sql = "update tool set tooltype = ?, numberofavailable = ?, companyid = ?, departmentid = ? where id = ?;";
+
+        PreparedStatement statement = null;
+
+        try{
+
+            statement.setString(1, tool.getToolType());
+            statement.setInt(2, tool.getNumberOfAvailable());
+            statement.setInt(3, tool.getCompanyId());
+            statement.setInt(4, tool.getDepartmentId());
+            statement.setInt(5, tool.getId());
+
+            statement = connection.prepareStatement(sql);
+
+            statement.executeUpdate();
+
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            if(statement != null && !statement.isClosed())statement.close();
+        }
     }
 
     @Override
-    public void removeTool(Tool tool) {
+    public void removeTool(Tool tool) throws SQLException {
 
+        String sql = "delete from tool where id = ?;";
+
+        PreparedStatement statement = null;
+
+        try{
+            statement.setInt(1, tool.getId());
+
+            statement = connection.prepareStatement(sql);
+
+            statement.executeUpdate();
+
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            if(statement != null && !statement.isClosed())statement.close();
+        }
     }
 
     @Override

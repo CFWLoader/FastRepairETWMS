@@ -109,6 +109,7 @@ public class MySqlDepartmentDao implements DepartmentDao {
             }
 
             resultSet.close();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
             throw e;
@@ -147,6 +148,7 @@ public class MySqlDepartmentDao implements DepartmentDao {
             }
 
             resultSet.close();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
             throw e;

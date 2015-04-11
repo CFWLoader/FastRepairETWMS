@@ -212,6 +212,7 @@ public class MySqlEmployeeDao implements EmployeeDao {
             }
 
             companyDao.close();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -266,6 +267,7 @@ public class MySqlEmployeeDao implements EmployeeDao {
             }
 
             departmentDao.close();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
