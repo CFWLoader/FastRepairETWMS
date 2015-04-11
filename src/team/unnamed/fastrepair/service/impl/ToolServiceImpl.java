@@ -11,6 +11,7 @@ import team.unnamed.fastrepair.model.Tool;
 import team.unnamed.fastrepair.service.ToolService;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -64,7 +65,7 @@ public class ToolServiceImpl implements ToolService {
 
     private List<Tool> toolsOfSpecialist(int pageIndex, int size) throws SQLException {
 
-        List<Tool> tools = new LinkedList<Tool>();
+        List<Tool> tools = new ArrayList<Tool>(10);
         
         int equivalentIndex = (pageIndex - 1) * size;
 
@@ -77,7 +78,10 @@ public class ToolServiceImpl implements ToolService {
         if(equivalentIndex < equivalentVolume) {
             tools.addAll(toolDao.getToolsByDepartment(department, equivalentIndex, size));
 
-            if(tools.size() >= size)return tools;
+            if(tools.size() >= size){
+                departmentDao.close();
+                return tools;
+            }
         }
 
         department = departmentDao.getDepartmentById(2);

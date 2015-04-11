@@ -165,6 +165,60 @@ public class MySqlEmployeeDao implements EmployeeDao {
     }
 
     @Override
+    public Employee getEmployeeById(int id) throws BadUpdateQueryException, UserNotFoundException {
+        if(id < 0)throw new BadUpdateQueryException();
+
+        String sql = "select * from employee as e join department d on (e.departmentid = d.id) join company c on (e.companyid = c.id) where e.id = " + id +";";
+
+        Employee employee = null;
+
+        Statement statement;
+
+        try{
+            statement = connection.createStatement();
+
+            statement.execute(sql);
+
+            ResultSet resultSet = statement.getResultSet();
+
+            if(resultSet.next()){
+
+                employee = new Employee();
+
+                employee.setId(resultSet.getInt(1));
+                employee.setFirstName(resultSet.getString(2));
+                employee.setLastName(resultSet.getString(3));
+                employee.setGender(resultSet.getString(4));
+                employee.setPhone(resultSet.getString(5));
+                employee.setAddress(resultSet.getString(6));
+                employee.setCompanyId(resultSet.getInt(7));
+                employee.setDepartmentId(resultSet.getInt(8));
+
+                employee.setDepartment(new Department());
+                employee.getDepartment().setId(resultSet.getInt(10));
+                employee.getDepartment().setDepartmentType(resultSet.getString(11));
+
+                employee.setCompany(new Company());
+                employee.getCompany().setId(resultSet.getInt(12));
+                employee.getCompany().setCompanyName(resultSet.getString(13));
+                employee.getCompany().setLocation(resultSet.getString(14));
+
+            }else{
+                resultSet.close();
+                statement.close();
+                throw new UserNotFoundException();
+            }
+
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return employee;
+    }
+
+    @Override
     public List<Employee> getEmployeesByDepartment(Department department, int startIndex, int pageSize) {
 
         List<Employee> employees = new LinkedList<Employee>();
@@ -273,6 +327,80 @@ public class MySqlEmployeeDao implements EmployeeDao {
         }
 
         return employees;
+    }
+
+    @Override
+    public int getTotalOfEmployeeByDepartment(Department department) throws SQLException {
+
+        String sql = "select count(*) from tool where departmentid = " + department.getId() + ";";
+
+        int count = 0;
+
+        Statement statement = null;
+
+        ResultSet resultSet = null;
+
+        try{
+            statement = connection.createStatement();
+
+            statement.execute(sql);
+
+            resultSet = statement.getResultSet();
+
+            if(resultSet.next()){
+                count = resultSet.getInt(1);
+            }
+
+            resultSet.close();
+            statement.close();
+
+        } catch (SQLException e) {
+
+            if (resultSet != null && !resultSet.isClosed()) resultSet.close();
+
+            if (statement != null && !statement.isClosed()) statement.close();
+
+            throw e;
+        }
+
+        return count;
+    }
+
+    @Override
+    public int getTotalOfEmployeeByCompany(Company company) throws SQLException {
+
+        String sql = "select count(*) from tool where departmentid = " + company.getId() + ";";
+
+        int count = 0;
+
+        Statement statement = null;
+
+        ResultSet resultSet = null;
+
+        try{
+            statement = connection.createStatement();
+
+            statement.execute(sql);
+
+            resultSet = statement.getResultSet();
+
+            if(resultSet.next()){
+                count = resultSet.getInt(1);
+            }
+
+            resultSet.close();
+            statement.close();
+
+        } catch (SQLException e) {
+
+            if (resultSet != null && !resultSet.isClosed()) resultSet.close();
+
+            if (statement != null && !statement.isClosed()) statement.close();
+
+            throw e;
+        }
+
+        return count;
     }
 
     @Override

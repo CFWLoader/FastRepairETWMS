@@ -23,9 +23,15 @@ public interface EmployeeService {
 
     Employee employeeLogin(String idStr, String password) throws BadUpdateQueryException, UserNotFoundException, BadRequestParameterException;
 
-    List<Employee> getEmployeesByDepartment(Department department, int startIndex, int pageSize);
+    Employee getEmployeeById(String idStr) throws BadRequestParameterException, BadUpdateQueryException, UserNotFoundException;
 
-    List<Employee> getEmployeesByCompany(Company company, int startIndex, int pageSize);
+    List<Employee> getEmployeesByDepartment(Department department, int startIndex, int pageSize) throws SQLException;
+
+    List<Employee> getEmployeesByCompany(Company company, int startIndex, int pageSize) throws SQLException;
+
+    int getTotalOfEmployeesByDepartment(Department department) throws SQLException;
+
+    int getTotalOfEmployeesByCompany(Company company) throws SQLException;
 
     void close() throws SQLException;
 }

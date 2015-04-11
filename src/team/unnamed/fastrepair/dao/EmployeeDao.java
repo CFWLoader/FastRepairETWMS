@@ -22,9 +22,15 @@ public interface EmployeeDao {
 
     Employee getEmployee(int id, String password) throws BadUpdateQueryException, UserNotFoundException;
 
+    Employee getEmployeeById(int id) throws BadUpdateQueryException, UserNotFoundException;
+
     List<Employee> getEmployeesByDepartment(Department department, int startIndex, int pageSize);
 
     List<Employee> getEmployeesByCompany(Company company, int startIndex, int pageSize);
+
+    int getTotalOfEmployeeByDepartment(Department department) throws SQLException;
+
+    int getTotalOfEmployeeByCompany(Company company) throws SQLException;
 
     void close() throws SQLException;
 }

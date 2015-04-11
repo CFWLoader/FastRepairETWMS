@@ -1,5 +1,9 @@
 package team.unnamed.fastrepair.service.impl;
 
+import team.unnamed.fastrepair.dao.CompanyDao;
+import team.unnamed.fastrepair.dao.DepartmentDao;
+import team.unnamed.fastrepair.dao.impl.MySqlCompanyDao;
+import team.unnamed.fastrepair.dao.impl.MySqlDepartmentDao;
 import team.unnamed.fastrepair.exception.BadRequestParameterException;
 import team.unnamed.fastrepair.exception.BadUpdateQueryException;
 import team.unnamed.fastrepair.exception.UserNotFoundException;
@@ -11,6 +15,8 @@ import team.unnamed.fastrepair.model.Employee;
 import team.unnamed.fastrepair.service.EmployeeService;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -41,20 +47,117 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee employeeLogin(String idStr, String password) throws BadUpdateQueryException, UserNotFoundException, BadRequestParameterException {
-        if(idStr == null || idStr.trim().equals("") || password == null || password.trim().equals("")){
+        if (idStr == null || idStr.trim().equals("") || password == null || password.trim().equals("")) {
             throw new BadRequestParameterException();
         }
         return employeeDao.getEmployee(Integer.parseInt(idStr.trim()), password.trim());
     }
 
     @Override
-    public List<Employee> getEmployeesByDepartment(Department department, int pageIndex, int pageSize) {
-        return employeeDao.getEmployeesByDepartment(department,(pageIndex - 1) * pageSize, pageSize);
+    public Employee getEmployeeById(String idStr) throws BadRequestParameterException, BadUpdateQueryException, UserNotFoundException {
+        if(idStr == null || idStr.trim().equals(""))throw new BadRequestParameterException();
+
+        return employeeDao.getEmployeeById(Integer.parseInt(idStr.trim()));
     }
 
     @Override
-    public List<Employee> getEmployeesByCompany(Company company, int pageIndex, int pageSize) {
-        return employeeDao.getEmployeesByCompany(company, (pageIndex - 1) * pageSize, pageSize);
+    public List<Employee> getEmployeesByDepartment(Department department, int pageIndex, int pageSize) throws SQLException {
+        if(department != null) {
+            return employeeDao.getEmployeesByDepartment(department, (pageIndex - 1) * pageSize, pageSize);
+        }
+
+        List<Employee> employees = new ArrayList<Employee>(10);
+
+        int equivalentIndex = (pageIndex - 1) * pageSize;
+
+        int equivalentVolume = 0;
+
+        DepartmentDao departmentDao = new MySqlDepartmentDao();
+
+        for (Department departmentIterator : departmentDao.getDepartments()){
+            equivalentVolume = employeeDao.getTotalOfEmployeeByDepartment(departmentIterator);
+
+            employees.addAll(employeeDao.getEmployeesByDepartment(departmentIterator, equivalentIndex, pageSize - employees.size()));
+
+            if(employees.size() >= pageSize)break;
+
+            equivalentIndex -= equivalentVolume;
+
+            if(equivalentIndex < 0)equivalentIndex = 0;
+        }
+
+        departmentDao.close();
+
+        return employees;
+    }
+
+    @Override
+    public List<Employee> getEmployeesByCompany(Company company, int pageIndex, int pageSize) throws SQLException {
+        if (company != null) {
+            return employeeDao.getEmployeesByCompany(company, (pageIndex - 1) * pageSize, pageSize);
+        }
+
+        List<Employee> employees = new ArrayList<Employee>(10);
+
+        int equivalentIndex = (pageIndex - 1) * pageSize;
+
+        int equivalentVolume = 0;
+
+        CompanyDao companyDao = new MySqlCompanyDao();
+
+        for(Company companyIterator : companyDao.getCompanies()){
+            equivalentVolume = employeeDao.getTotalOfEmployeeByCompany(companyIterator);
+
+            employees.addAll(employeeDao.getEmployeesByCompany(companyIterator, equivalentIndex, pageSize - employees.size()));
+
+            equivalentIndex -= equivalentVolume;
+
+            if(equivalentIndex < 0)equivalentIndex = 0;
+
+            if(employees.size() >= pageSize)break;
+        }
+
+        companyDao.close();
+
+        return employees;
+    }
+
+    @Override
+    public int getTotalOfEmployeesByDepartment(Department department) throws SQLException {
+        if(department != null){
+            return employeeDao.getTotalOfEmployeeByDepartment(department);
+        }
+
+        int total = 0;
+
+        DepartmentDao departmentDao = new MySqlDepartmentDao();
+
+        for(Department departmentIterator : departmentDao.getDepartments()){
+            total += employeeDao.getTotalOfEmployeeByDepartment(departmentIterator);
+        }
+
+        departmentDao.close();
+
+        return total;
+    }
+
+    @Override
+    public int getTotalOfEmployeesByCompany(Company company) throws SQLException {
+        if(company != null){
+            return employeeDao.getTotalOfEmployeeByCompany(company);
+        }
+
+        int total = 0;
+
+        CompanyDao companyDao = new MySqlCompanyDao();
+
+        for(Company companyIterator : companyDao.getCompanies()){
+            total += employeeDao.getTotalOfEmployeeByCompany(companyIterator);
+        }
+
+        companyDao.close();
+
+        return total;
     }
 
     @Override
