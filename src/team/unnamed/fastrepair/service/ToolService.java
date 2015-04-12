@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface ToolService {
 
-    void addTool(Tool tool);
+    int addTool(Tool tool) throws SQLException;
 
     Tool getToolById(String id) throws BadRequestParameterException, SQLException;
 
@@ -26,6 +26,8 @@ public interface ToolService {
     List<Tool> getToolsByCompanyId(String companyId, int pageIndex, int size) throws SQLException, BadRequestParameterException;
 
     int getTotalOfTool(String departmentId) throws SQLException, BadRequestParameterException;
+
+    Tool toolObjectAssembler(String idStr, String toolType, String numberOfAvailableStr, String isExpensiveStr, String companyIdStr, String departmentIdStr) throws SQLException;
 
     void close();
 

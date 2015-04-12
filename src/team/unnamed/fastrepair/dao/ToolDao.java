@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface ToolDao {
 
-    void addTool(Tool tool);
+    int addTool(Tool tool) throws SQLException;
 
     Tool getToolById(int id) throws SQLException;
 

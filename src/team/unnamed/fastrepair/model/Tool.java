@@ -7,7 +7,9 @@ public class Tool {
 
     private int id;
 
-    private String toolType;
+    private String toolName;
+
+    private boolean isExpensive;
 
     private int numberOfAvailable;
 
@@ -27,12 +29,20 @@ public class Tool {
         this.id = id;
     }
 
-    public String getToolType() {
-        return toolType;
+    public String getToolName() {
+        return toolName;
     }
 
-    public void setToolType(String toolType) {
-        this.toolType = toolType;
+    public void setToolName(String toolName) {
+        this.toolName = toolName;
+    }
+
+    public boolean isExpensive() {
+        return isExpensive;
+    }
+
+    public void setIsExpensive(boolean isExpensive) {
+        this.isExpensive = isExpensive;
     }
 
     public int getNumberOfAvailable() {
@@ -77,14 +87,16 @@ public class Tool {
 
     @Override
     public String toString() {
-        return "Tool{" +
-                "id=" + id +
-                ", toolType='" + toolType + '\'' +
-                ", numberOfAvailable=" + numberOfAvailable +
-                ", companyId=" + companyId +
-                ", departmentId=" + departmentId +
-                ", company=" + company +
-                ", department=" + department +
-                '}';
+        final StringBuilder sb = new StringBuilder("Tool{");
+        sb.append("id=").append(id);
+        sb.append(", toolName='").append(toolName).append('\'');
+        sb.append(", isExpensive=").append(isExpensive);
+        sb.append(", numberOfAvailable=").append(numberOfAvailable);
+        sb.append(", companyId=").append(companyId);
+        sb.append(", departmentId=").append(departmentId);
+        sb.append(", company=").append(company);
+        sb.append(", department=").append(department);
+        sb.append('}');
+        return sb.toString();
     }
 }

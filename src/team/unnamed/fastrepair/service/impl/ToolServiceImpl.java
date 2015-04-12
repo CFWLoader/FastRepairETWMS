@@ -27,8 +27,8 @@ public class ToolServiceImpl implements ToolService {
     }
 
     @Override
-    public void addTool(Tool tool) {
-        toolDao.addTool(tool);
+    public int addTool(Tool tool) throws SQLException {
+        return toolDao.addTool(tool);
     }
 
     @Override
@@ -161,6 +161,40 @@ public class ToolServiceImpl implements ToolService {
         if(department.getId() == 5 || department.getId() == 6)return totalOfToolOfSpecialist();
 
         return toolDao.getTotalOfTool(department);
+    }
+
+    @Override
+    public Tool toolObjectAssembler(String idStr,
+                                    String toolType,
+                                    String isExpensiveStr,
+                                    String numberOfAvailableStr,
+                                    String companyIdStr,
+                                    String departmentIdStr)
+            throws SQLException {
+
+        Tool tool = null;
+
+        if(idStr != null && !idStr.trim().equals("")) {
+
+            int id = Integer.parseInt(idStr.trim());
+
+            tool = toolDao.getToolById(id);
+
+        }else{
+            tool = new Tool();
+        }
+
+        if(toolType != null)tool.setToolName(toolType.trim());
+
+        if(isExpensiveStr != null)tool.setIsExpensive(Boolean.parseBoolean(isExpensiveStr));
+
+        if(numberOfAvailableStr != null && !numberOfAvailableStr.trim().equals(""))tool.setNumberOfAvailable(Integer.parseInt(numberOfAvailableStr.trim()));
+
+        if(companyIdStr != null && !companyIdStr.trim().equals(""))tool.setCompanyId(Integer.parseInt(companyIdStr.trim()));
+
+        if(departmentIdStr != null && !departmentIdStr.trim().equals(""))tool.setDepartmentId(Integer.parseInt(departmentIdStr.trim()));
+
+        return tool;
     }
 
     private int totalOfToolOfSpecialist() throws SQLException {

@@ -5,12 +5,14 @@ import team.unnamed.fastrepair.dao.ToolDao;
 import team.unnamed.fastrepair.dao.impl.MySqlToolDao;
 import team.unnamed.fastrepair.model.Tool;
 
+import java.sql.SQLException;
+
 /**
  * Created by cfwloader on 4/10/15.
  */
 public class MySqlToolDaoTest {
     @Test
-    public void testAddTool(){
+    public void testAddTool() throws SQLException {
         Tool tool = new Tool();
 
         /*
@@ -20,7 +22,8 @@ public class MySqlToolDaoTest {
         tool.setDepartmentId(1);
         */
 
-        tool.setToolType("Pliers");
+        tool.setToolName("Pliers");
+        tool.setIsExpensive(false);
         tool.setNumberOfAvailable(100);
         tool.setCompanyId(5);
         tool.setDepartmentId(4);

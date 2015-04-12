@@ -8,6 +8,7 @@ import team.unnamed.fastrepair.model.Department;
 import team.unnamed.fastrepair.model.Tool;
 import team.unnamed.fastrepair.util.MySqlConnectionManager;
 
+import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -26,26 +27,43 @@ public class MySqlToolDao implements ToolDao {
     }
 
     @Override
-    public void addTool(Tool tool) {
+    public int addTool(Tool tool) throws SQLException {
 
-        String sql = "insert into tool values(null, ?, ?, ?, ?);";
+        String sql = "insert into tool values(null, ?, ?, ?, ?, ?);";
 
-        PreparedStatement statement;
+        PreparedStatement statement = null;
+
+        ResultSet resultSet = null;
+
+        int id = -1;
 
         try {
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-            statement.setString(1, tool.getToolType());
-            statement.setInt(2, tool.getNumberOfAvailable());
-            statement.setInt(3, tool.getCompanyId());
-            statement.setInt(4, tool.getDepartmentId());
+            statement.setString(1, tool.getToolName());
+            statement.setBoolean(2, tool.isExpensive());
+            statement.setInt(3, tool.getNumberOfAvailable());
+            statement.setInt(4, tool.getCompanyId());
+            statement.setInt(5, tool.getDepartmentId());
 
             statement.executeUpdate();
 
+            resultSet = statement.getGeneratedKeys();
+
+            if(resultSet.next())id = resultSet.getInt(1);
+
+            resultSet.close();
+
             statement.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            if(resultSet != null && !resultSet.isClosed())resultSet.close();
+
+            if(statement != null && !statement.isClosed())statement.close();
+
+            throw e;
         }
+
+        return id;
     }
 
     @Override
@@ -74,10 +92,11 @@ public class MySqlToolDao implements ToolDao {
                 tool = new Tool();
 
                 tool.setId(resultSet.getInt(1));
-                tool.setToolType(resultSet.getString(2));
-                tool.setNumberOfAvailable(resultSet.getInt(3));
-                tool.setCompanyId(resultSet.getInt(4));
-                tool.setDepartmentId(resultSet.getInt(5));
+                tool.setToolName(resultSet.getString(2));
+                tool.setIsExpensive(resultSet.getBoolean(3));
+                tool.setNumberOfAvailable(resultSet.getInt(4));
+                tool.setCompanyId(resultSet.getInt(5));
+                tool.setDepartmentId(resultSet.getInt(6));
                 tool.setCompany(companyDao.getCompanyById(tool.getCompanyId()));
                 tool.setDepartment(departmentDao.getDepartmentById(tool.getDepartmentId()));
             }
@@ -103,19 +122,19 @@ public class MySqlToolDao implements ToolDao {
     @Override
     public void updateTool(Tool tool) throws SQLException {
 
-        String sql = "update tool set tooltype = ?, numberofavailable = ?, companyid = ?, departmentid = ? where id = ?;";
+        String sql = "update tool set toolname = ?, isexpensive = ?, numberofavailable = ?, companyid = ?, departmentid = ? where id = ?;";
 
         PreparedStatement statement = null;
 
         try{
-
-            statement.setString(1, tool.getToolType());
-            statement.setInt(2, tool.getNumberOfAvailable());
-            statement.setInt(3, tool.getCompanyId());
-            statement.setInt(4, tool.getDepartmentId());
-            statement.setInt(5, tool.getId());
-
             statement = connection.prepareStatement(sql);
+
+            statement.setString(1, tool.getToolName());
+            statement.setBoolean(2, tool.isExpensive());
+            statement.setInt(3, tool.getNumberOfAvailable());
+            statement.setInt(4, tool.getCompanyId());
+            statement.setInt(5, tool.getDepartmentId());
+            statement.setInt(6, tool.getId());
 
             statement.executeUpdate();
 
@@ -181,10 +200,11 @@ public class MySqlToolDao implements ToolDao {
                 tool = new Tool();
 
                 tool.setId(resultSet.getInt(1));
-                tool.setToolType(resultSet.getString(2));
-                tool.setNumberOfAvailable(resultSet.getInt(3));
-                tool.setCompanyId(resultSet.getInt(4));
-                tool.setDepartmentId(resultSet.getInt(5));
+                tool.setToolName(resultSet.getString(2));
+                tool.setIsExpensive(resultSet.getBoolean(3));
+                tool.setNumberOfAvailable(resultSet.getInt(4));
+                tool.setCompanyId(resultSet.getInt(5));
+                tool.setDepartmentId(resultSet.getInt(6));
                 tool.setCompany(companyMap.get(tool.getCompanyId()));
                 tool.setDepartment(department);
 
@@ -241,10 +261,11 @@ public class MySqlToolDao implements ToolDao {
                 tool = new Tool();
 
                 tool.setId(resultSet.getInt(1));
-                tool.setToolType(resultSet.getString(2));
-                tool.setNumberOfAvailable(resultSet.getInt(3));
-                tool.setCompanyId(resultSet.getInt(4));
-                tool.setDepartmentId(resultSet.getInt(5));
+                tool.setToolName(resultSet.getString(2));
+                tool.setIsExpensive(resultSet.getBoolean(3));
+                tool.setNumberOfAvailable(resultSet.getInt(4));
+                tool.setCompanyId(resultSet.getInt(5));
+                tool.setDepartmentId(resultSet.getInt(6));
                 tool.setCompany(company);
                 tool.setDepartment(departmentMap.get(tool.getDepartmentId()));
 
