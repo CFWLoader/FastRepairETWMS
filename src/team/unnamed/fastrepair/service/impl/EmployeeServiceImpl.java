@@ -31,7 +31,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public int addEmployee(Employee employee, String password) throws SQLException {
+    public int addEmployee(Employee employee, String password) throws SQLException, BadRequestParameterException {
+        if(password == null || password.trim().equals(""))throw new BadRequestParameterException();
+
         return employeeDao.addEmployee(employee, password);
     }
 

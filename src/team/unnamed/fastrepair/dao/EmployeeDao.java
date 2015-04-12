@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface EmployeeDao {
 
-    void addEmployee(Employee employee, String password) throws SQLException;
+    int addEmployee(Employee employee, String password) throws SQLException;
 
     void updateEmployee(Employee employee, String password) throws BadUpdateQueryException, SQLException;
 

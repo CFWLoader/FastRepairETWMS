@@ -10,6 +10,7 @@ import team.unnamed.fastrepair.model.Department;
 import team.unnamed.fastrepair.model.Employee;
 import team.unnamed.fastrepair.util.MySqlConnectionManager;
 
+import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -28,14 +29,18 @@ public class MySqlEmployeeDao implements EmployeeDao {
     }
 
     @Override
-    public void addEmployee(Employee employee, String password) throws SQLException {
+    public int addEmployee(Employee employee, String password) throws SQLException {
 
         String sql = "insert into employee values(null, ?, ?, ?, ?, ?, ?, ?, password(?));";
 
-        PreparedStatement statement;
+        PreparedStatement statement = null;
+
+        ResultSet resultSet = null;
+
+        int id = -1;
 
         try{
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             statement.setString(1, employee.getFirstName());
             statement.setString(2, employee.getLastName());
@@ -48,11 +53,21 @@ public class MySqlEmployeeDao implements EmployeeDao {
 
             statement.executeUpdate();
 
+            resultSet = statement.getGeneratedKeys();
+
+            if(resultSet.next())id = resultSet.getInt(1);
+
+            resultSet.close();
             statement.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            if(resultSet != null && !resultSet.isClosed())resultSet.close();
+
+            if(statement != null && !statement.isClosed())statement.close();
+
             throw e;
         }
+
+        return id;
     }
 
     @Override

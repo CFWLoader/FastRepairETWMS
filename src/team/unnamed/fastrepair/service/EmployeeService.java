@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface EmployeeService {
 
-    int addEmployee(Employee employee, String password) throws SQLException;
+    int addEmployee(Employee employee, String password) throws SQLException, BadRequestParameterException;
 
     void updateEmployee(Employee employee, String password) throws BadUpdateQueryException, SQLException;
 
