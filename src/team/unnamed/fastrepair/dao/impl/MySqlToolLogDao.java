@@ -5,8 +5,10 @@ import team.unnamed.fastrepair.model.ExpensiveToolLog;
 import team.unnamed.fastrepair.model.InexpensiveToolLog;
 import team.unnamed.fastrepair.util.MySqlConnectionManager;
 
+import java.beans.*;
 import java.net.ConnectException;
 import java.sql.*;
+import java.sql.Statement;
 import java.util.*;
 import java.util.Date;
 
@@ -98,6 +100,41 @@ public class MySqlToolLogDao implements ToolLogDao {
     }
 
     @Override
+    public int getTotalOfInexpensiveToolLogByEmployeeId(int id) throws SQLException {
+
+        int result = 0;
+
+        String sql = "select count(*) from inexpensivetoollog where employeeid = " + id + ";";
+
+        Statement statement = null;
+
+        ResultSet resultSet = null;
+
+        try{
+            statement = connection.createStatement();
+
+            statement.execute(sql);
+
+            resultSet = statement.getResultSet();
+
+            if(resultSet.next()){
+                result = resultSet.getInt(1);
+            }
+
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            if(resultSet != null && !resultSet.isClosed())resultSet.close();
+
+            if(statement != null && !statement.isClosed())statement.close();
+
+            throw e;
+        }
+
+        return result;
+    }
+
+    @Override
     public InexpensiveToolLog getInexpensiveToolLogById(int id) throws SQLException {
 
         String sql = "select * from inexpensivetoollog where id = " + id + ";";
@@ -141,7 +178,7 @@ public class MySqlToolLogDao implements ToolLogDao {
     @Override
     public List<InexpensiveToolLog> getInexpensiveToolLogsByEmployeeId(int employeeId, int startIndex, int size) throws SQLException {
 
-        String sql = "select * from inexpensivetoollog where employeeid = " + employeeId + ";";
+        String sql = "select * from inexpensivetoollog where employeeid = " + employeeId + " limit " + startIndex + ", " + size + ";";
 
         Statement statement = null;
 
@@ -210,23 +247,186 @@ public class MySqlToolLogDao implements ToolLogDao {
     }
 
     @Override
-    public void updateExpensiveToolLog(ExpensiveToolLog expensiveToolLog) {
+    public void updateExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException {
+        String sql = "update expensivetoollog set employeeid = ?, toolid = ?, quantity = ?, stat = ?, backdate = ?, where id = ?;";
 
+        PreparedStatement statement = null;
+
+        try{
+            statement = connection.prepareStatement(sql);
+
+            statement.setInt(1, expensiveToolLog.getEmployeeId());
+            statement.setInt(2, expensiveToolLog.getToolId());
+            statement.setInt(3, expensiveToolLog.getQuantity());
+            statement.setString(4, expensiveToolLog.getStatus());
+            statement.setTimestamp(5, new Timestamp(expensiveToolLog.getBackDate().getTime()));
+            statement.setInt(6, expensiveToolLog.getId());
+
+            statement.executeUpdate();
+
+            statement.close();
+        } catch (SQLException e) {
+            if(statement != null && !statement.isClosed())statement.close();
+
+            throw e;
+        }
     }
 
     @Override
-    public void removeExpensiveToolLog(ExpensiveToolLog expensiveToolLog) {
+    public void removeExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException {
+        String sql = "delete from expensivetoollog where id = " + expensiveToolLog.getId() + ";";
 
+        Statement statement = null;
+
+        try{
+            statement = connection.createStatement();
+
+            statement.executeUpdate(sql);
+
+            statement.close();
+        } catch (SQLException e) {
+            if(statement != null && !statement.isClosed())statement.close();
+
+            throw e;
+        }
     }
 
     @Override
-    public ExpensiveToolLog getExpensiveToolLogById(int id) {
-        return null;
+    public int getTotalOfExpensiveToolLogByEmployeeId(int id) throws SQLException {
+        int result = 0;
+
+        String sql = "select count(*) from expensivetoollog where employeeid = " + id + ";";
+
+        Statement statement = null;
+
+        ResultSet resultSet = null;
+
+        try{
+            statement = connection.createStatement();
+
+            statement.execute(sql);
+
+            resultSet = statement.getResultSet();
+
+            if(resultSet.next()){
+                result = resultSet.getInt(1);
+            }
+
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            if(resultSet != null && !resultSet.isClosed())resultSet.close();
+
+            if(statement != null && !statement.isClosed())statement.close();
+
+            throw e;
+        }
+
+        return result;
     }
 
     @Override
-    public List<ExpensiveToolLog> getExpensiveTooLogsByEmployeeId(int employeeId, int startIndex, int size) {
-        return null;
+    public ExpensiveToolLog getExpensiveToolLogById(int id) throws SQLException {
+
+        String sql = "select * from expensivetoollog where id = " + id + ";";
+
+        Statement statement = null;
+
+        ResultSet resultSet = null;
+
+        ExpensiveToolLog expensiveToolLog = null;
+
+        try{
+            statement = connection.createStatement();
+
+            statement.execute(sql);
+
+            resultSet = statement.getResultSet();
+
+            if(resultSet.next()){
+                expensiveToolLog = new ExpensiveToolLog();
+
+                expensiveToolLog.setId(resultSet.getInt(1));
+                expensiveToolLog.setEmployeeId(resultSet.getInt(2));
+                expensiveToolLog.setToolId(resultSet.getInt(3));
+                expensiveToolLog.setQuantity(resultSet.getInt(4));
+                expensiveToolLog.setStatus(resultSet.getString(5));
+                expensiveToolLog.setLendDate(new Date(resultSet.getTimestamp(6).getTime()));
+                expensiveToolLog.setBackDate(new Date(resultSet.getTimestamp(7).getTime()));
+            }
+
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            if(resultSet != null && !resultSet.isClosed())resultSet.close();
+
+            if(statement != null && !statement.isClosed())statement.close();
+
+            throw e;
+        }
+        return expensiveToolLog;
+    }
+
+    @Override
+    public List<ExpensiveToolLog> getExpensiveTooLogsByEmployeeId(int employeeId, int startIndex, int size) throws SQLException {
+
+        String sql = "select * from expensivetoollog where employeeid = " + employeeId + " limit " + startIndex + ", " + size + ";";
+
+        Statement statement = null;
+
+        ResultSet resultSet = null;
+
+        ExpensiveToolLog expensiveToolLog = null;
+
+        List<ExpensiveToolLog> expensiveToolLogs = new ArrayList<ExpensiveToolLog>(size);
+
+        try{
+            statement = connection.createStatement();
+
+            statement.execute(sql);
+
+            resultSet = statement.getResultSet();
+
+            while(resultSet.next()){
+                expensiveToolLog = new ExpensiveToolLog();
+
+                expensiveToolLog.setId(resultSet.getInt(1));
+                expensiveToolLog.setEmployeeId(resultSet.getInt(2));
+                expensiveToolLog.setToolId(resultSet.getInt(3));
+                expensiveToolLog.setQuantity(resultSet.getInt(4));
+                expensiveToolLog.setStatus(resultSet.getString(5));
+                expensiveToolLog.setLendDate(new Date(resultSet.getTimestamp(6).getTime()));
+                expensiveToolLog.setBackDate(new Date(resultSet.getTimestamp(7).getTime()));
+
+                expensiveToolLogs.add(expensiveToolLog);
+            }
+
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            if(resultSet != null && !resultSet.isClosed())resultSet.close();
+
+            if(statement != null && !statement.isClosed())statement.close();
+
+            throw e;
+        }
+        return expensiveToolLogs;
+    }
+
+
+    @Override
+    public boolean getAutoCommit() throws SQLException {
+        return connection.getAutoCommit();
+    }
+
+    @Override
+    public void setAutoCommit(boolean autoCommit) throws SQLException {
+        connection.setAutoCommit(autoCommit);
+    }
+
+    @Override
+    public void commit() throws SQLException {
+        connection.commit();
     }
 
     @Override

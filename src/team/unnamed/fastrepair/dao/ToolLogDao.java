@@ -17,19 +17,29 @@ public interface ToolLogDao {
 
     void removeInexpensiveToolLog(InexpensiveToolLog inexpensiveToolLog) throws SQLException;
 
+    int getTotalOfInexpensiveToolLogByEmployeeId(int id) throws SQLException;
+
     InexpensiveToolLog getInexpensiveToolLogById(int id) throws SQLException;
 
     List<InexpensiveToolLog> getInexpensiveToolLogsByEmployeeId(int employeeId, int startIndex, int size) throws SQLException;
 
     void addExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException;
 
-    void updateExpensiveToolLog(ExpensiveToolLog expensiveToolLog);
+    void updateExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException;
 
-    void removeExpensiveToolLog(ExpensiveToolLog expensiveToolLog);
+    void removeExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException;
 
-    ExpensiveToolLog getExpensiveToolLogById(int id);
+    int getTotalOfExpensiveToolLogByEmployeeId(int id) throws SQLException;
 
-    List<ExpensiveToolLog> getExpensiveTooLogsByEmployeeId(int employeeId, int startIndex, int size);
+    ExpensiveToolLog getExpensiveToolLogById(int id) throws SQLException;
+
+    List<ExpensiveToolLog> getExpensiveTooLogsByEmployeeId(int employeeId, int startIndex, int size) throws SQLException;
+
+    boolean getAutoCommit() throws SQLException;
+
+    void setAutoCommit(boolean autoCommit) throws SQLException;
+
+    void commit() throws SQLException;
 
     void close() throws SQLException;
 }

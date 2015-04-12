@@ -308,6 +308,21 @@ public class MySqlToolDao implements ToolDao {
     }
 
     @Override
+    public boolean getAutoCommit() throws SQLException {
+        return connection.getAutoCommit();
+    }
+
+    @Override
+    public void setAutoCommit(boolean autoCommit) throws SQLException {
+        connection.setAutoCommit(autoCommit);
+    }
+
+    @Override
+    public void commit() throws SQLException {
+        connection.commit();
+    }
+
+    @Override
     public void close() {
         try {
             if(connection != null && !connection.isClosed())connection.close();

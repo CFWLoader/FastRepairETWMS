@@ -26,5 +26,11 @@ public interface ToolDao {
 
     int getTotalOfTool(Department department) throws SQLException;
 
+    boolean getAutoCommit() throws SQLException;
+
+    void setAutoCommit(boolean autoCommit) throws SQLException;
+
+    void commit() throws SQLException;
+
     void close();
 }

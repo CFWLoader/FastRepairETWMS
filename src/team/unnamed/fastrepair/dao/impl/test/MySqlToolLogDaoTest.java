@@ -57,4 +57,37 @@ public class MySqlToolLogDaoTest {
 
         toolLogDao.close();
     }
+
+    @Test
+    public void testGetExpensiveToolLogById() throws SQLException {
+        ToolLogDao toolLogDao = new MySqlToolLogDao();
+
+        ExpensiveToolLog expensiveToolLog = toolLogDao.getExpensiveToolLogById(1);
+
+        System.out.println(expensiveToolLog);
+
+        toolLogDao.close();
+    }
+
+    @Test
+    public void testGetInexpensiveToolLogByEmployeeId() throws SQLException {
+        ToolLogDao toolLogDao = new MySqlToolLogDao();
+
+        for(InexpensiveToolLog inexpensiveToolLog : toolLogDao.getInexpensiveToolLogsByEmployeeId(2, 0, 10)){
+            System.out.println(inexpensiveToolLog);
+        }
+
+        toolLogDao.close();
+    }
+
+    @Test
+    public void testGetExpensiveToolLogByEmployeeId() throws SQLException {
+        ToolLogDao toolLogDao = new MySqlToolLogDao();
+
+        for(ExpensiveToolLog expensiveToolLog : toolLogDao.getExpensiveTooLogsByEmployeeId(2, 0, 10)){
+            System.out.println(expensiveToolLog);
+        }
+
+        toolLogDao.close();
+    }
 }
