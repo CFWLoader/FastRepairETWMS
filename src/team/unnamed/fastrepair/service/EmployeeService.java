@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface EmployeeService {
 
-    void addEmployee(Employee employee, String password) throws SQLException;
+    int addEmployee(Employee employee, String password) throws SQLException;
 
     void updateEmployee(Employee employee, String password) throws BadUpdateQueryException, SQLException;
 
@@ -32,6 +32,15 @@ public interface EmployeeService {
     int getTotalOfEmployeesByDepartment(Department department) throws SQLException;
 
     int getTotalOfEmployeesByCompany(Company company) throws SQLException;
+
+    Employee employeeObjectAssembler(String idStr,
+                                     String firstName,
+                                     String lastName,
+                                     String gender,
+                                     String phone,
+                                     String address,
+                                     String companyIdStr,
+                                     String departmentIdStr) throws BadUpdateQueryException, UserNotFoundException;
 
     void close() throws SQLException;
 }

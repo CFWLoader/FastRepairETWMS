@@ -31,8 +31,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void addEmployee(Employee employee, String password) throws SQLException {
-        employeeDao.addEmployee(employee, password);
+    public int addEmployee(Employee employee, String password) throws SQLException {
+        return employeeDao.addEmployee(employee, password);
     }
 
     @Override
@@ -158,6 +158,33 @@ public class EmployeeServiceImpl implements EmployeeService {
         companyDao.close();
 
         return total;
+    }
+
+    @Override
+    public Employee employeeObjectAssembler(String idStr, String firstName, String lastName, String gender, String phone, String address, String companyIdStr, String departmentIdStr) throws BadUpdateQueryException, UserNotFoundException {
+        Employee employee = null;
+
+        if(idStr != null && !idStr.trim().equals("")){
+            employee = employeeDao.getEmployeeById(Integer.parseInt(idStr.trim()));
+        }else{
+            employee = new Employee();
+        }
+
+        if(firstName != null)employee.setFirstName(firstName.trim());
+
+        if(lastName != null)employee.setLastName(lastName.trim());
+
+        if(gender != null)employee.setGender(gender.trim());
+
+        if(phone != null)employee.setPhone(phone.trim());
+
+        if(address != null)employee.setAddress(address);
+
+        if(companyIdStr != null && !companyIdStr.trim().equals(""))employee.setCompanyId(Integer.parseInt(companyIdStr.trim()));
+
+        if(departmentIdStr != null && !departmentIdStr.trim().equals(""))employee.setDepartmentId(Integer.parseInt(departmentIdStr.trim()));
+
+        return employee;
     }
 
     @Override
