@@ -13,8 +13,6 @@ public class ExpensiveToolLog {
 
     private int toolId;
 
-    private int lendId;
-
     private int quantity;
 
     private String status;
@@ -47,13 +45,6 @@ public class ExpensiveToolLog {
         this.toolId = toolId;
     }
 
-    public int getLendId() {
-        return lendId;
-    }
-
-    public void setLendId(int lendId) {
-        this.lendId = lendId;
-    }
 
     public int getQuantity() {
         return quantity;
@@ -93,7 +84,6 @@ public class ExpensiveToolLog {
         sb.append("id=").append(id);
         sb.append(", employeeId=").append(employeeId);
         sb.append(", toolId=").append(toolId);
-        sb.append(", lendId=").append(lendId);
         sb.append(", quantity=").append(quantity);
         sb.append(", status='").append(status).append('\'');
         sb.append(", lendDate=").append(lendDate);
