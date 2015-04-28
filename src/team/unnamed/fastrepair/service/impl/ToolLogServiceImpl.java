@@ -88,13 +88,53 @@ public class ToolLogServiceImpl implements ToolLogService {
     }
 
     @Override
-    public int addExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException {
+    public int addExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException, TransactionCancelledException {
+        ToolDao toolDao = new MySqlToolDao();
+
+        try {
+            Tool tool = toolDao.getToolById(expensiveToolLog.getToolId());
+
+            if(tool.getNumberOfAvailable() - expensiveToolLog.getQuantity() < 0)throw new TransactionCancelledException();
+
+            int currentNumber = tool.getNumberOfAvailable();
+
+            tool.setNumberOfAvailable(currentNumber - expensiveToolLog.getQuantity());
+
+            toolDao.updateTool(tool);
+        } catch (SQLException e) {
+            throw new TransactionCancelledException();
+        }
+
+        toolDao.close();
+
         return toolLogDao.addExpensiveToolLog(expensiveToolLog);
     }
 
     @Override
-    public void updateExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException, BadRequestParameterException {
+    public void updateExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException, BadRequestParameterException, TransactionCancelledException {
         if(expensiveToolLog.getId() < 0)throw new BadRequestParameterException();
+
+        if(expensiveToolLog.getStatus().equals("Back")){
+            ToolDao toolDao = new MySqlToolDao();
+
+            try {
+                Tool tool = toolDao.getToolById(expensiveToolLog.getToolId());
+
+                if(tool.getNumberOfAvailable() - expensiveToolLog.getQuantity() < 0)throw new TransactionCancelledException();
+
+                int currentNumber = tool.getNumberOfAvailable();
+
+                tool.setNumberOfAvailable(currentNumber + expensiveToolLog.getQuantity());
+
+                toolDao.updateTool(tool);
+
+                expensiveToolLog.setBackDate(new Date(System.currentTimeMillis()));
+            } catch (SQLException e) {
+                throw new TransactionCancelledException();
+            }
+
+            toolDao.close();
+        }
 
         toolLogDao.updateExpensiveToolLog(expensiveToolLog);
     }

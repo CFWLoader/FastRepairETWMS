@@ -1,6 +1,7 @@
 package team.unnamed.fastrepair.service;
 
 import team.unnamed.fastrepair.exception.BadRequestParameterException;
+import team.unnamed.fastrepair.exception.TransactionCancelledException;
 import team.unnamed.fastrepair.model.ExpensiveToolLog;
 import team.unnamed.fastrepair.model.InexpensiveToolLog;
 
@@ -24,9 +25,9 @@ public interface ToolLogService {
 
     List<InexpensiveToolLog> getInexpensiveToolLogsByEmployeeId(int employeeId, int pageNo, int size) throws SQLException, BadRequestParameterException;
 
-    int addExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException;
+    int addExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException, TransactionCancelledException;
 
-    void updateExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException, BadRequestParameterException;
+    void updateExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException, BadRequestParameterException, TransactionCancelledException;
 
     void removeExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException, BadRequestParameterException;
 

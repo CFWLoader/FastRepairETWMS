@@ -276,7 +276,7 @@ public class MySqlToolLogDao implements ToolLogDao {
 
     @Override
     public void updateExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException {
-        String sql = "update expensivetoollog set employeeid = ?, toolid = ?, quantity = ?, stat = ?, backdate = ?, where id = ?;";
+        String sql = "update expensivetoollog set employeeid = ?, toolid = ?, quantity = ?, stat = ?, backdate = ? where id = ?;";
 
         PreparedStatement statement = null;
 
