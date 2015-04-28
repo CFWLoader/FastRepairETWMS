@@ -24,14 +24,18 @@ public class MySqlToolLogDao implements ToolLogDao {
     }
 
     @Override
-    public void addInexpensiveToolLog(InexpensiveToolLog inexpensiveToolLog) {
+    public int addInexpensiveToolLog(InexpensiveToolLog inexpensiveToolLog) {
 
         String sql = "insert into inexpensivetoollog values(null, ?, ?, ?, ?, ?);";
 
         PreparedStatement statement;
 
+        ResultSet resultSet = null;
+
+        int id = -1;
+
         try{
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             statement.setInt(1, inexpensiveToolLog.getEmployeeId());
             statement.setInt(2, inexpensiveToolLog.getToolId());
@@ -41,10 +45,20 @@ public class MySqlToolLogDao implements ToolLogDao {
 
             statement.executeUpdate();
 
+            resultSet = statement.getGeneratedKeys();
+
+            if(resultSet.next()){
+                id = resultSet.getInt(1);
+            }
+
+            resultSet.close();
+
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return id;
     }
 
     @Override

@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface ToolLogService {
 
-    void addInexpensiveToolLog(InexpensiveToolLog inexpensiveToolLog);
+    int addInexpensiveToolLog(InexpensiveToolLog inexpensiveToolLog);
 
     void updateInexpensiveToolLog(InexpensiveToolLog inexpensiveToolLog) throws SQLException, BadRequestParameterException;
 
@@ -35,6 +35,8 @@ public interface ToolLogService {
     ExpensiveToolLog getExpensiveToolLogById(int id) throws SQLException, BadRequestParameterException;
 
     List<ExpensiveToolLog> getExpensiveTooLogsByEmployeeId(int employeeId, int pageNo, int size) throws SQLException, BadRequestParameterException;
+
+    InexpensiveToolLog inexpensiveLogAssembler(String idStr, String employeeId, String toolId, String quantityStr, String status, String logDate);
 
     void close() throws SQLException;
 }

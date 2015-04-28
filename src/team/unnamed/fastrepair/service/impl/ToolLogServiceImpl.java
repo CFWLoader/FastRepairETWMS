@@ -5,11 +5,10 @@ import team.unnamed.fastrepair.dao.impl.MySqlToolLogDao;
 import team.unnamed.fastrepair.exception.BadRequestParameterException;
 import team.unnamed.fastrepair.model.ExpensiveToolLog;
 import team.unnamed.fastrepair.model.InexpensiveToolLog;
-import team.unnamed.fastrepair.model.Tool;
 import team.unnamed.fastrepair.service.ToolLogService;
-import team.unnamed.fastrepair.service.ToolService;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,9 +23,11 @@ public class ToolLogServiceImpl implements ToolLogService {
     }
 
     @Override
-    public void addInexpensiveToolLog(InexpensiveToolLog inexpensiveToolLog){
+    public int addInexpensiveToolLog(InexpensiveToolLog inexpensiveToolLog){
         //if(inexpensiveToolLog.getId() < 0)throw new BadRequestParameterException();
-        toolLogDao.addInexpensiveToolLog(inexpensiveToolLog);
+        inexpensiveToolLog.setStatus("Waiting for deal");
+
+        return toolLogDao.addInexpensiveToolLog(inexpensiveToolLog);
     }
 
     @Override
@@ -102,6 +103,28 @@ public class ToolLogServiceImpl implements ToolLogService {
         if(employeeId < 0)throw new BadRequestParameterException();
 
         return toolLogDao.getExpensiveTooLogsByEmployeeId(employeeId, (pageNo - 1) * size, size);
+    }
+
+    @Override
+    public InexpensiveToolLog inexpensiveLogAssembler(String idStr, String employeeIdStr, String toolIdStr, String quantityStr, String status, String logDate) {
+
+        InexpensiveToolLog inexpensiveToolLog = new InexpensiveToolLog();
+
+        if(idStr != null && !idStr.trim().equals(""))inexpensiveToolLog.setId(Integer.parseInt(idStr));
+
+        if(employeeIdStr != null && !employeeIdStr.trim().equals(""))inexpensiveToolLog.setEmployeeId(Integer.parseInt(employeeIdStr));
+
+        if(toolIdStr != null && !toolIdStr.trim().equals(""))inexpensiveToolLog.setToolId(Integer.parseInt(toolIdStr));
+
+        if(quantityStr != null && !quantityStr.trim().equals(""))inexpensiveToolLog.setQuantity(Integer.parseInt(quantityStr));
+
+        if(status != null && !status.equals(""))inexpensiveToolLog.setStatus(status);
+
+        System.out.println(logDate);
+
+        if(logDate != null && !logDate.trim().equals(""))inexpensiveToolLog.setLogDate(new Date(Long.parseLong(logDate.trim())));
+
+        return inexpensiveToolLog;
     }
 
     @Override

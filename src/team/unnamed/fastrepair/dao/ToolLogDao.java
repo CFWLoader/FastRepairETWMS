@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface ToolLogDao {
 
-    void addInexpensiveToolLog(InexpensiveToolLog inexpensiveToolLog);
+    int addInexpensiveToolLog(InexpensiveToolLog inexpensiveToolLog);
 
     void updateInexpensiveToolLog(InexpensiveToolLog inexpensiveToolLog) throws SQLException;
 
