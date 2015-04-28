@@ -23,7 +23,7 @@ public interface ToolLogDao {
 
     List<InexpensiveToolLog> getInexpensiveToolLogsByEmployeeId(int employeeId, int startIndex, int size) throws SQLException;
 
-    void addExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException;
+    int addExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException;
 
     void updateExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException;
 

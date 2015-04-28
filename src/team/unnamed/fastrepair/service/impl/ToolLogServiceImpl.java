@@ -88,8 +88,8 @@ public class ToolLogServiceImpl implements ToolLogService {
     }
 
     @Override
-    public void addExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException {
-        toolLogDao.addExpensiveToolLog(expensiveToolLog);
+    public int addExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException {
+        return toolLogDao.addExpensiveToolLog(expensiveToolLog);
     }
 
     @Override
@@ -147,6 +147,30 @@ public class ToolLogServiceImpl implements ToolLogService {
         if(logDate != null && !logDate.trim().equals(""))inexpensiveToolLog.setLogDate(new Date(Long.parseLong(logDate.trim())));
 
         return inexpensiveToolLog;
+    }
+
+    @Override
+    public ExpensiveToolLog expensiveLogAssembler(String idStr, String employeeIdStr, String toolIdStr, String quantityStr, String status, String lentDate, String backDate) {
+
+        ExpensiveToolLog expensiveToolLog = new ExpensiveToolLog();
+
+        if(idStr != null && !idStr.trim().equals(""))expensiveToolLog.setId(Integer.parseInt(idStr));
+
+        if(employeeIdStr != null && !employeeIdStr.trim().equals(""))expensiveToolLog.setEmployeeId(Integer.parseInt(employeeIdStr));
+
+        if(toolIdStr != null && !toolIdStr.trim().equals(""))expensiveToolLog.setToolId(Integer.parseInt(toolIdStr));
+
+        if(quantityStr != null && !quantityStr.trim().equals(""))expensiveToolLog.setQuantity(Integer.parseInt(quantityStr));
+
+        if(status != null && !status.equals(""))expensiveToolLog.setStatus(status);
+
+        //System.out.println(logDate);
+
+        if(lentDate != null && !lentDate.trim().equals(""))expensiveToolLog.setLendDate(new Date(Long.parseLong(lentDate.trim())));
+
+        if(backDate != null && !backDate.trim().equals(""))expensiveToolLog.setBackDate(new Date(Long.parseLong(backDate.trim())));
+
+        return expensiveToolLog;
     }
 
     @Override

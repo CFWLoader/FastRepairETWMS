@@ -24,7 +24,7 @@ public interface ToolLogService {
 
     List<InexpensiveToolLog> getInexpensiveToolLogsByEmployeeId(int employeeId, int pageNo, int size) throws SQLException, BadRequestParameterException;
 
-    void addExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException;
+    int addExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException;
 
     void updateExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException, BadRequestParameterException;
 
@@ -37,6 +37,8 @@ public interface ToolLogService {
     List<ExpensiveToolLog> getExpensiveTooLogsByEmployeeId(int employeeId, int pageNo, int size) throws SQLException, BadRequestParameterException;
 
     InexpensiveToolLog inexpensiveLogAssembler(String idStr, String employeeId, String toolId, String quantityStr, String status, String logDate);
+
+    ExpensiveToolLog expensiveLogAssembler(String id, String employeeid, String toolid, String quantity, String status, String lentdate, String backdate);
 
     void close() throws SQLException;
 }

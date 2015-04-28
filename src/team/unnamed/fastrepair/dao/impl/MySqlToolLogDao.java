@@ -5,6 +5,7 @@ import team.unnamed.fastrepair.model.ExpensiveToolLog;
 import team.unnamed.fastrepair.model.InexpensiveToolLog;
 import team.unnamed.fastrepair.util.MySqlConnectionManager;
 
+import javax.swing.plaf.nimbus.State;
 import java.beans.*;
 import java.net.ConnectException;
 import java.sql.*;
@@ -234,14 +235,18 @@ public class MySqlToolLogDao implements ToolLogDao {
     }
 
     @Override
-    public void addExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException {
+    public int addExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException {
 
         String sql = "insert into expensivetoollog(employeeid, toolid, quantity, stat, lenddate) values(?, ?, ?, ?, ?);";
 
         PreparedStatement statement = null;
 
+        ResultSet resultSet = null;
+
+        int id = -1;
+
         try{
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             statement.setInt(1, expensiveToolLog.getEmployeeId());
             statement.setInt(2, expensiveToolLog.getToolId());
@@ -251,12 +256,22 @@ public class MySqlToolLogDao implements ToolLogDao {
 
             statement.executeUpdate();
 
+            resultSet = statement.getGeneratedKeys();
+
+            if(resultSet.next()){
+                id = resultSet.getInt(1);
+            }
+
+            resultSet.close();
+
             statement.close();
         } catch (SQLException e) {
             if(statement != null && !statement.isClosed())statement.close();
 
             throw e;
         }
+
+        return id;
     }
 
     @Override
