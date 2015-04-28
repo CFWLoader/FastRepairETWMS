@@ -1,6 +1,12 @@
+<%@ page import="team.unnamed.fastrepair.model.Employee" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<%@ include file="_seesionCheck.jsp"%>
+<%--@ include file="_seesionCheck.jsp"--%>
+<%
+    Employee employee = (Employee) session.getAttribute("employee");
+
+    if(employee.getDepartmentId() == 6)response.sendRedirect("/admin/index.jsp");
+%>
 
 <!doctype html>
 <html lang="en">
@@ -123,7 +129,7 @@
                     <li><a href="./">Security</a></li>
                     <li><a tabindex="-1" href="./">Payments</a></li>
                     <li class="divider"></li>
-                    <li><a tabindex="-1" href="sign-in.html">Logout</a></li>
+                    <li><a tabindex="-1" href="sign-in.jsp?action=logout">Logout</a></li>
                 </ul>
             </li>
         </ul>
@@ -149,13 +155,13 @@
             Company <i class="fa fa-collapse"></i></a></li>
         <li>
             <ul class="company-menu nav nav-list collapse">
-                <span class="visible-xs visible-sm"><a href="#">- Premium features require a license -</a></span>
+                <span class="visible-xs visible-sm"><a href="#">- Welcome to Fast Repair -</a></span>
                 <li><a href="company.jsp"><span class="fa fa-caret-right"></span> Company Information</a></li>
             </ul>
         </li>
 
         <li><a href="#" data-target=".department-menu" class="nav-header collapsed" data-toggle="collapse"><i
-                class="fa fa-fw fa-briefcase"></i> Department <span class="label label-info">+3</span></a></li>
+                class="fa fa-fw fa-legal"></i> Department<i class="fa fa-collapse"></i></a></li>
         <li>
             <ul class="department-menu nav nav-list collapse">
                 <li><a href="department.jsp"><span class="fa fa-caret-right"></span> Department Information</a></li>
