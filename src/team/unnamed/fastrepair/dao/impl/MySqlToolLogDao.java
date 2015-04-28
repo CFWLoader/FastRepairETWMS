@@ -75,7 +75,6 @@ public class MySqlToolLogDao implements ToolLogDao {
             statement.setInt(2, inexpensiveToolLog.getToolId());
             statement.setInt(3, inexpensiveToolLog.getQuantity());
             statement.setString(4, inexpensiveToolLog.getStatus());
-            statement.setInt(5, inexpensiveToolLog.getId());
 
             statement.executeUpdate();
 

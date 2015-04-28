@@ -1,10 +1,14 @@
 package team.unnamed.fastrepair.service.impl;
 
+import team.unnamed.fastrepair.dao.ToolDao;
 import team.unnamed.fastrepair.dao.ToolLogDao;
+import team.unnamed.fastrepair.dao.impl.MySqlToolDao;
 import team.unnamed.fastrepair.dao.impl.MySqlToolLogDao;
 import team.unnamed.fastrepair.exception.BadRequestParameterException;
+import team.unnamed.fastrepair.exception.TransactionCancelledException;
 import team.unnamed.fastrepair.model.ExpensiveToolLog;
 import team.unnamed.fastrepair.model.InexpensiveToolLog;
+import team.unnamed.fastrepair.model.Tool;
 import team.unnamed.fastrepair.service.ToolLogService;
 
 import java.sql.SQLException;
@@ -23,9 +27,27 @@ public class ToolLogServiceImpl implements ToolLogService {
     }
 
     @Override
-    public int addInexpensiveToolLog(InexpensiveToolLog inexpensiveToolLog){
+    public int addInexpensiveToolLog(InexpensiveToolLog inexpensiveToolLog) throws Exception {
         //if(inexpensiveToolLog.getId() < 0)throw new BadRequestParameterException();
         inexpensiveToolLog.setStatus("Waiting for deal");
+
+        ToolDao toolDao = new MySqlToolDao();
+
+        try {
+            Tool tool = toolDao.getToolById(inexpensiveToolLog.getToolId());
+
+            if(tool.getNumberOfAvailable() - inexpensiveToolLog.getQuantity() < 0)throw new TransactionCancelledException();
+
+            int currentNumber = tool.getNumberOfAvailable();
+
+            tool.setNumberOfAvailable(currentNumber - inexpensiveToolLog.getQuantity());
+
+            toolDao.updateTool(tool);
+        } catch (SQLException e) {
+            throw new TransactionCancelledException();
+        }
+
+        toolDao.close();
 
         return toolLogDao.addInexpensiveToolLog(inexpensiveToolLog);
     }
@@ -120,7 +142,7 @@ public class ToolLogServiceImpl implements ToolLogService {
 
         if(status != null && !status.equals(""))inexpensiveToolLog.setStatus(status);
 
-        System.out.println(logDate);
+        //System.out.println(logDate);
 
         if(logDate != null && !logDate.trim().equals(""))inexpensiveToolLog.setLogDate(new Date(Long.parseLong(logDate.trim())));
 

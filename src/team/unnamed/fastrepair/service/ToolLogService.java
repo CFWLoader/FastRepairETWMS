@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface ToolLogService {
 
-    int addInexpensiveToolLog(InexpensiveToolLog inexpensiveToolLog);
+    int addInexpensiveToolLog(InexpensiveToolLog inexpensiveToolLog) throws Exception;
 
     void updateInexpensiveToolLog(InexpensiveToolLog inexpensiveToolLog) throws SQLException, BadRequestParameterException;
 
