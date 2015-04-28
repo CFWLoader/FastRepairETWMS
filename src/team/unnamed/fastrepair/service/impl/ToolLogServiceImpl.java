@@ -24,9 +24,8 @@ public class ToolLogServiceImpl implements ToolLogService {
     }
 
     @Override
-    public void addInexpensiveToolLog(InexpensiveToolLog inexpensiveToolLog) throws BadRequestParameterException {
-        if(inexpensiveToolLog.getId() < 0)throw new BadRequestParameterException();
-
+    public void addInexpensiveToolLog(InexpensiveToolLog inexpensiveToolLog){
+        //if(inexpensiveToolLog.getId() < 0)throw new BadRequestParameterException();
         toolLogDao.addInexpensiveToolLog(inexpensiveToolLog);
     }
 
@@ -66,9 +65,7 @@ public class ToolLogServiceImpl implements ToolLogService {
     }
 
     @Override
-    public void addExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException, BadRequestParameterException {
-        if(expensiveToolLog.getId() < 0)throw new BadRequestParameterException();
-
+    public void addExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException {
         toolLogDao.addExpensiveToolLog(expensiveToolLog);
     }
 
