@@ -58,7 +58,7 @@ public class ToolServiceImpl implements ToolService {
 
         departmentDao.close();
 
-        if(department.getId() == 5 || department.getId() == 6)return toolsOfSpecialist(pageIndex, size);
+        if(department.getDepartmentType().equals("Specialist") || department.getDepartmentType().equals("Admin") || department.getDepartmentType().equals("Tool Keeper"))return toolsOfSpecialist(pageIndex, size);
 
         return toolDao.getToolsByDepartment(department, (pageIndex - 1) * size, size);
     }
