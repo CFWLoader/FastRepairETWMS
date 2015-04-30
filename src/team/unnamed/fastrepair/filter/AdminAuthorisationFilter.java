@@ -26,7 +26,7 @@ public class AdminAuthorisationFilter implements Filter {
 
         Employee employee = (Employee) session.getAttribute("employee");
 
-        if(employee.getDepartmentId() == 6)filterChain.doFilter(servletRequest, servletResponse);
+        if(employee.getDepartment().getDepartmentType().equals("Admin"))filterChain.doFilter(servletRequest, servletResponse);
         else ((HttpServletResponse)servletResponse).sendRedirect("/index.jsp");
     }
 

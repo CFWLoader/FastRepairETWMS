@@ -11,7 +11,7 @@ import java.io.IOException;
 /**
  * Created by cfwloader on 4/11/15.
  */
-public class ToolKeeperAuthorisationFilter implements Filter {
+public class HumanResourceAuthorisationFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -26,8 +26,8 @@ public class ToolKeeperAuthorisationFilter implements Filter {
 
         Employee employee = (Employee) session.getAttribute("employee");
 
-        if (employee.getDepartment().getDepartmentType().equals("Tool Keeper")) filterChain.doFilter(servletRequest, servletResponse);
-        else ((HttpServletResponse) servletResponse).sendRedirect("/index.jsp");
+        if(employee.getDepartment().getDepartmentType().equals("Human Resource"))filterChain.doFilter(servletRequest, servletResponse);
+        else ((HttpServletResponse)servletResponse).sendRedirect("/index.jsp");
     }
 
     @Override

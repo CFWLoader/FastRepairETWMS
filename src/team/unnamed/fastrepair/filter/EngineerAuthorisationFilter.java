@@ -26,11 +26,11 @@ public class EngineerAuthorisationFilter implements Filter {
 
         Employee employee = (Employee) session.getAttribute("employee");
 
-        if (employee.getDepartmentId() == 1 ||
-                employee.getDepartmentId() == 2 ||
-                employee.getDepartmentId() == 3 ||
-                employee.getDepartmentId() == 4 ||
-                employee.getDepartmentId() == 5) filterChain.doFilter(servletRequest, servletResponse);
+        if (employee.getDepartment().getDepartmentType().equals("Specialist") ||
+                employee.getDepartment().getDepartmentType().equals("Construction Device") ||
+                employee.getDepartment().getDepartmentType().equals("Computer") ||
+                employee.getDepartment().getDepartmentType().equals("Appliance") ||
+                employee.getDepartment().getDepartmentType().equals("Automobile")) filterChain.doFilter(servletRequest, servletResponse);
         else ((HttpServletResponse) servletResponse).sendRedirect("/index.jsp");
     }
 
