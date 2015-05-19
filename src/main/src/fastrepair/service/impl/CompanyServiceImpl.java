@@ -1,59 +1,50 @@
 package fastrepair.service.impl;
 
 import fastrepair.dao.CompanyDao;
-import fastrepair.dao.impl.MySqlCompanyDao;
-import fastrepair.exception.BadRequestParameterException;
 import fastrepair.model.Company;
 import fastrepair.service.CompanyService;
+import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
  * Created by cfwloader on 4/11/15.
  */
+@Service
 public class CompanyServiceImpl implements CompanyService {
 
+    @Resource
     private CompanyDao companyDao;
 
-    public CompanyServiceImpl() {
-        companyDao = new MySqlCompanyDao();
-    }
-
     @Override
-    public void addCompany(Company company) throws SQLException {
+    public void addCompany(Company company) {
         companyDao.addCompany(company);
     }
 
     @Override
-    public void removeCompany(Company company) throws SQLException {
-        companyDao.removeCompany(company);
+    public void removeCompany(Company company) {
+
     }
 
     @Override
-    public void updateCompany(Company company) throws SQLException {
-        companyDao.updateCompany(company);
+    public void updateCompany(Company company) {
+
     }
 
     @Override
-    public Company getCompanyByCompanyName(String companyName) throws SQLException {
+    public List<Company> getCompanyByCompanyName(String companyName) {
         return companyDao.getCompanyByCompanyName(companyName);
     }
 
     @Override
-    public List<Company> getCompanies() throws SQLException {
+    public List<Company> getCompanies() {
         return companyDao.getCompanies();
     }
 
     @Override
-    public Company getCompanyById(String idStr) throws SQLException, BadRequestParameterException {
-        if(idStr == null || idStr.trim().equals(""))throw new BadRequestParameterException();
-
-        return companyDao.getCompanyById(Integer.parseInt(idStr));
+    public Company getCompanyById(Long id) {
+        return companyDao.getCompanyById(id);
     }
 
-    @Override
-    public void close() throws SQLException {
-        companyDao.close();
-    }
 }

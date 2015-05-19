@@ -1,9 +1,7 @@
 package fastrepair.service;
 
-import fastrepair.exception.BadRequestParameterException;
 import fastrepair.model.Company;
 
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -11,17 +9,16 @@ import java.util.List;
  */
 public interface CompanyService {
 
-    void addCompany(Company company) throws SQLException;
+    void addCompany(Company company);
 
-    void removeCompany(Company company) throws SQLException;
+    void removeCompany(Company company);
 
-    void updateCompany(Company company) throws SQLException;
+    void updateCompany(Company company);
 
-    Company getCompanyByCompanyName(String companyName) throws SQLException;
+    List<Company> getCompanyByCompanyName(String companyName);
 
-    List<Company> getCompanies() throws SQLException;
+    List<Company> getCompanies();
 
-    Company getCompanyById(String idStr) throws SQLException, BadRequestParameterException;
+    Company getCompanyById(Long id);
 
-    void close() throws SQLException;
 }

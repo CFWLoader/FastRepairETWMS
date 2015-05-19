@@ -10,17 +10,16 @@ import java.util.List;
  */
 public interface CompanyDao {
 
-    void addCompany(Company company) throws SQLException;
+    void addCompany(Company company);
 
-    void removeCompany(Company company) throws SQLException;
+    void removeCompany(Company company);
 
-    void updateCompany(Company company) throws SQLException;
+    void updateCompany(Company company);
 
-    Company getCompanyByCompanyName(String companyName) throws SQLException;
+    List<Company> getCompanyByCompanyName(String companyName);
 
-    List<Company> getCompanies() throws SQLException;
+    List<Company> getCompanies();
 
-    Company getCompanyById(int id) throws SQLException;
+    Company getCompanyById(Long id);
 
-    void close() throws SQLException;
 }

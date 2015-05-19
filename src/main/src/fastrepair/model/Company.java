@@ -1,21 +1,28 @@
 package fastrepair.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 /**
  * Created by cfwloader on 4/6/15.
  */
+@Entity
 public class Company {
 
-    private int id;
+    private Long id;
 
     private String companyName;
 
     private String location;
 
-    public int getId() {
+    @Id
+    @GeneratedValue
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

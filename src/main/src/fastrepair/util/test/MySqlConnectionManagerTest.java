@@ -1,7 +1,7 @@
 package fastrepair.util.test;
 
 import org.junit.Test;
-import team.unnamed.fastrepair.util.MySqlConnectionManager;
+import fastrepair.util.MySqlConnectionManager;
 
 import java.sql.Connection;
 import java.sql.SQLException;

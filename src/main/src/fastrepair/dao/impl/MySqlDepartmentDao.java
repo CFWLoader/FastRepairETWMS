@@ -3,7 +3,12 @@ package fastrepair.dao.impl;
 import fastrepair.dao.DepartmentDao;
 import fastrepair.model.Department;
 import fastrepair.util.MySqlConnectionManager;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,172 +16,39 @@ import java.util.List;
 /**
  * Created by cfwloader on 4/9/15.
  */
+@Component
+@Transactional
 public class MySqlDepartmentDao implements DepartmentDao {
 
-    private Connection connection;
-
-    public MySqlDepartmentDao() {
-        connection = MySqlConnectionManager.getDefaultConnection();
-    }
+    @Resource
+    private SessionFactory sessionFactory;
 
     @Override
     public void addDepartment(Department department) throws SQLException {
 
-        String sql = "insert into department values(null, ?);";
+        Session session = sessionFactory.getCurrentSession();
 
-        PreparedStatement statement;
+        session.save(department);
 
-        try{
-            statement = connection.prepareStatement(sql);
-
-            statement.setString(1, department.getDepartmentType());
-
-            statement.executeUpdate();
-
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
-        }
     }
 
     @Override
     public void updateDepartment(Department department) throws SQLException {
 
-        String sql = "update department set departmenttype = ? where id = ?;";
-
-        PreparedStatement statement;
-
-        try{
-            statement = connection.prepareStatement(sql);
-
-            statement.setString(1, department.getDepartmentType());
-            statement.setInt(2, department.getId());
-
-            statement.executeUpdate();
-
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
-        }
     }
 
     @Override
     public void removeDepartment(Department department) throws SQLException {
 
-        String sql = "delete from department where id = ?;";
-
-        PreparedStatement statement;
-
-        try{
-            statement = connection.prepareStatement(sql);
-
-            statement.setInt(1, department.getId());
-
-            statement.executeUpdate();
-
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
-        }
     }
 
     @Override
     public List<Department> getDepartments() throws SQLException {
-        List<Department> departmentSet = new LinkedList<Department>();
-        Department department = null;
-
-        String sql = "select * from department;";
-
-        Statement statement = null;
-        ResultSet resultSet = null;
-
-        try{
-            statement = connection.createStatement();
-
-            statement.execute(sql);
-
-            resultSet = statement.getResultSet();
-
-            while (resultSet.next()){
-                department = new Department();
-                department.setId(resultSet.getInt(1));
-                department.setDepartmentType(resultSet.getString(2));
-
-                departmentSet.add(department);
-            }
-
-            resultSet.close();
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
-        } finally{
-            if (resultSet != null) {
-                resultSet.close();
-            }
-            if (statement != null) {
-                statement.close();
-            }
-        }
-
-        return departmentSet;
+        return null;
     }
 
     @Override
     public Department getDepartmentById(int id) throws SQLException {
-        Department department = null;
-
-        String sql = "select * from department where id = " + id + ";";
-
-        Statement statement = null;
-        ResultSet resultSet = null;
-
-        try{
-            statement = connection.createStatement();
-
-            statement.execute(sql);
-
-            resultSet = statement.getResultSet();
-
-            if (resultSet.next()){
-                department = new Department();
-                department.setId(resultSet.getInt(1));
-                department.setDepartmentType(resultSet.getString(2));
-            }
-
-            resultSet.close();
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
-        } finally{
-            if (resultSet != null) {
-                resultSet.close();
-            }
-            if (statement != null) {
-                statement.close();
-            }
-        }
-
-        return department;
-    }
-
-    @Override
-    public void close() throws SQLException {
-        try {
-            if(connection != null && !connection.isClosed())connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (!connection.isClosed()) connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                throw e;
-            }
-        }
+        return null;
     }
 }

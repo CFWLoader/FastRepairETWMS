@@ -20,5 +20,4 @@ public interface DepartmentDao {
 
     Department getDepartmentById(int id) throws SQLException;
 
-    void close() throws SQLException;
 }

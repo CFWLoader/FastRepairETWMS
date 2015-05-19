@@ -2,218 +2,60 @@ package fastrepair.dao.impl;
 
 import fastrepair.dao.CompanyDao;
 import fastrepair.model.Company;
-import fastrepair.util.MySqlConnectionManager;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.*;
-import java.util.LinkedList;
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
  * Created by cfwloader on 4/9/15.
  */
+@Component
+@Transactional
 public class MySqlCompanyDao implements CompanyDao {
 
-    private Connection connection;
+    @Resource
+    private SessionFactory sessionFactory;
 
-    public MySqlCompanyDao() {
-        this.connection = MySqlConnectionManager.getDefaultConnection();
+    @Override
+    public void addCompany(Company company) {
+        sessionFactory.getCurrentSession().save(company);
     }
 
     @Override
-    public void addCompany(Company company) throws SQLException {
+    public void removeCompany(Company company) {
+        sessionFactory.getCurrentSession().delete(company);
+    }
 
-        String sql = "insert into company values(null,?,?);";
+    @Override
+    public void updateCompany(Company company) {
+        sessionFactory.getCurrentSession().update(company);
+    }
 
-        PreparedStatement statement;
+    @Override
+    public List<Company> getCompanyByCompanyName(String companyName) {
 
-        try {
-            statement = connection.prepareStatement(sql);
+        Session session = sessionFactory.getCurrentSession();
 
-            statement.setString(1, company.getCompanyName());
-            statement.setString(2, company.getLocation());
-
-            statement.executeUpdate();
-
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
-        }
-
+        return session.createQuery("From Company c where c.companyName like :name ").setParameter("name", "%" + companyName + "%").list();
 
     }
 
     @Override
-    public void removeCompany(Company company) throws SQLException {
-
-        String sql = "delete from company where id = " + company.getId() + ";";
-
-        try {
-            Statement statement = connection.createStatement();
-
-            statement.executeUpdate(sql);
-
-            statement.close();
-        } catch(SQLException e) {
-            e.printStackTrace();
-            throw e;
-        }
+    public List<Company> getCompanies() {
+        return sessionFactory.getCurrentSession().createQuery("From " + Company.class.getSimpleName()).list();
     }
 
     @Override
-    public void updateCompany(Company company) throws SQLException {
+    public Company getCompanyById(Long id) {
 
-        String sql = "update company set companyname = ?, location = ? where id = ?;";
-
-        try{
-            PreparedStatement statement = connection.prepareStatement(sql);
-
-            statement.setString(1, company.getCompanyName());
-            statement.setString(2, company.getLocation());
-            statement.setInt(3, company.getId());
-
-            statement.executeUpdate();
-
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
-        }
-    }
-
-    @Override
-    public Company getCompanyByCompanyName(String companyName) throws SQLException {
-
-        Company company = null;
-
-        String sql = "select * from company where companyname = ?;";
-
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-
-        try{
-            statement = connection.prepareStatement(sql);
-
-            statement.setString(1, companyName);
-
-            statement.execute();
-
-            resultSet = statement.getResultSet();
-
-            if(resultSet.next()){
-                company = new Company();
-                company.setId(resultSet.getInt(1));
-                company.setCompanyName(resultSet.getString(2));
-                company.setLocation(resultSet.getString(3));
-            }
-
-            resultSet.close();
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally{
-            if (resultSet != null) {
-                resultSet.close();
-            }
-            if (statement != null) {
-                statement.close();
-            }
+        if(id != null){
+            return (Company) sessionFactory.getCurrentSession().get(Company.class, id);
         }
 
-        return company;
-    }
-
-    @Override
-    public List<Company> getCompanies() throws SQLException {
-
-        List<Company> companySet = new LinkedList<Company>();
-        Company company = null;
-
-        String sql = "select * from company;";
-
-        Statement statement = null;
-        ResultSet resultSet = null;
-
-        try{
-            statement = connection.createStatement();
-
-            statement.execute(sql);
-
-            resultSet = statement.getResultSet();
-
-            while (resultSet.next()){
-                company = new Company();
-                company.setId(resultSet.getInt(1));
-                company.setCompanyName(resultSet.getString(2));
-                company.setLocation(resultSet.getString(3));
-
-                companySet.add(company);
-            }
-
-            resultSet.close();
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally{
-            if (resultSet != null) {
-                resultSet.close();
-            }
-            if (statement != null) {
-                statement.close();
-            }
-        }
-
-        return companySet;
-    }
-
-    @Override
-    public Company getCompanyById(int id) throws SQLException {
-
-        Company company = null;
-
-        String sql = "select * from company where id = " + id +";";
-
-        Statement statement = null;
-        ResultSet resultSet = null;
-
-        try{
-            statement = connection.createStatement();
-
-            statement.execute(sql);
-
-            resultSet = statement.getResultSet();
-
-            if (resultSet.next()){
-                company = new Company();
-                company.setId(resultSet.getInt(1));
-                company.setCompanyName(resultSet.getString(2));
-                company.setLocation(resultSet.getString(3));
-
-            }
-
-            resultSet.close();
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally{
-            if (resultSet != null) {
-                resultSet.close();
-            }
-            if (statement != null) {
-                statement.close();
-            }
-        }
-
-        return company;
-    }
-
-    @Override
-    public void close() throws SQLException {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
-        }
+        return null;
     }
 }
