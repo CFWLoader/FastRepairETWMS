@@ -5,7 +5,14 @@
 <%
     Employee employee = (Employee) session.getAttribute("employee");
 
-    if(employee.getDepartmentId() == 6)response.sendRedirect("/admin/index.jsp");
+    if(employee.getDepartment().getDepartmentType().equals("Admin"))response.sendRedirect("/admin/index.jsp");
+    else if(employee.getDepartment().getDepartmentType().equals("Specialist") ||
+            employee.getDepartment().getDepartmentType().equals("Construction Device") ||
+            employee.getDepartment().getDepartmentType().equals("Computer") ||
+            employee.getDepartment().getDepartmentType().equals("Appliance") ||
+            employee.getDepartment().getDepartmentType().equals("Automobile"))response.sendRedirect("/engineer/index.jsp");
+    else if(employee.getDepartment().getDepartmentType().equals("Tool Keeper"))response.sendRedirect("/toolkeeper/index.jsp");
+    else if(employee.getDepartment().getDepartmentType().equals("Human Resource"))response.sendRedirect("/humanresource/index.jsp");
 %>
 
 <!doctype html>

@@ -16,5 +16,4 @@ hs_err_pid*
 *.iml
 
 # Sepecific files
-web/
-documents/
+out/

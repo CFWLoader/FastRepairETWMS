@@ -19,6 +19,26 @@
     </filter-mapping>
 
     <filter>
+        <filter-name>engineerFilter</filter-name>
+        <filter-class>team.unnamed.fastrepair.filter.EngineerAuthorisationFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>engineerFilter</filter-name>
+        <url-pattern>/engineer/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>toolKeeperFilter</filter-name>
+        <filter-class>team.unnamed.fastrepair.filter.ToolKeeperAuthorisationFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>toolKeeperFilter</filter-name>
+        <url-pattern>/toolkeeper/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
         <filter-name>adminFilter</filter-name>
         <filter-class>team.unnamed.fastrepair.filter.AdminAuthorisationFilter</filter-class>
     </filter>
@@ -26,6 +46,16 @@
     <filter-mapping>
         <filter-name>adminFilter</filter-name>
         <url-pattern>/admin/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>humanResourceFilter</filter-name>
+        <filter-class>team.unnamed.fastrepair.filter.HumanResourceAuthorisationFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>humanResourceFilter</filter-name>
+        <url-pattern>/humanresource/*</url-pattern>
     </filter-mapping>
 
     <welcome-file-list>
