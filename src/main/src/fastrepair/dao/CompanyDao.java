@@ -8,18 +8,8 @@ import java.util.List;
 /**
  * Created by cfwloader on 4/8/15.
  */
-public interface CompanyDao {
-
-    void addCompany(Company company);
-
-    void removeCompany(Company company);
-
-    void updateCompany(Company company);
+public interface CompanyDao extends TemplateDao<Company>{
 
     List<Company> getCompanyByCompanyName(String companyName);
-
-    List<Company> getCompanies();
-
-    Company getCompanyById(Long id);
 
 }

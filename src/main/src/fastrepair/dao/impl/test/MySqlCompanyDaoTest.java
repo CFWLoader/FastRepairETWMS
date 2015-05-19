@@ -29,11 +29,11 @@ public class MySqlCompanyDaoTest {
 
         Company company = new Company();
 
-        company.setCompanyName("Fast Repair Ultimate");
+        company.setCompanyName("Wait for delete");
 
-        company.setLocation("Future Street");
+        company.setLocation("Deleting");
 
-        companyDao.addCompany(company);
+        companyDao.addEntity(company);
     }
 
 }

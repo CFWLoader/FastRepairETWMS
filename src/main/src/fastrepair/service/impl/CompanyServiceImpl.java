@@ -19,17 +19,17 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public void addCompany(Company company) {
-        companyDao.addCompany(company);
+        companyDao.addEntity(company);
     }
 
     @Override
-    public void removeCompany(Company company) {
-
+    public void deleteCompany(Company company) {
+        companyDao.deleteEntity(company);
     }
 
     @Override
     public void updateCompany(Company company) {
-
+        companyDao.updateEntity(company);
     }
 
     @Override
@@ -39,12 +39,12 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public List<Company> getCompanies() {
-        return companyDao.getCompanies();
+        return companyDao.getEntities();
     }
 
     @Override
     public Company getCompanyById(Long id) {
-        return companyDao.getCompanyById(id);
+        return companyDao.getEntityById(id);
     }
 
 }

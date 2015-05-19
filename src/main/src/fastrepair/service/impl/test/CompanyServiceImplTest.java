@@ -20,9 +20,9 @@ public class CompanyServiceImplTest {
 
         Company company = new Company();
 
-        company.setCompanyName("Fan Shen Gundam Company");
+        company.setCompanyName("Unnamed Universe Company");
 
-        company.setLocation("Moon");
+        company.setLocation("Unknown");
 
         companyService.addCompany(company);
 
@@ -33,7 +33,7 @@ public class CompanyServiceImplTest {
 
         CompanyService companyService = (CompanyService) context.getBean("companyServiceImpl");
 
-        Company company = companyService.getCompanyById(2L);
+        Company company = companyService.getCompanyById(3L);
 
         System.out.println(company);
     }
@@ -58,5 +58,30 @@ public class CompanyServiceImplTest {
             System.out.println(company);
         }
 
+    }
+
+    @Test
+    public void testUpdateCompany(){
+
+        CompanyService companyService = (CompanyService) context.getBean("companyServiceImpl");
+
+        Company company = companyService.getCompanyByCompanyName("delete").get(0);
+
+        company.setLocation("New deleting.");
+
+        companyService.updateCompany(company);
+
+    }
+
+    @Test
+    public void testDeleteCompany(){
+
+        CompanyService companyService = (CompanyService) context.getBean("companyServiceImpl");
+
+        Company company = companyService.getCompanyByCompanyName("delete").get(0);
+
+        company.setLocation("New deleting.");
+
+        companyService.deleteCompany(company);
     }
 }

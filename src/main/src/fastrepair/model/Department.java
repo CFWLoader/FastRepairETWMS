@@ -1,5 +1,9 @@
 package fastrepair.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 /**
  * Created by cfwloader on 4/6/15.
  */
@@ -33,7 +37,7 @@ public enum Department {
 };
 */
 
-
+@Entity
 public class Department {
 
     private int id;
@@ -42,6 +46,8 @@ public class Department {
 
     private String departmentType;
 
+    @Id
+    @GeneratedValue
     public int getId() {
         return id;
     }
