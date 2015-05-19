@@ -17,3 +17,7 @@ hs_err_pid*
 
 # Sepecific files
 out/
+target/
+.idea/
+documents/
+sql/
