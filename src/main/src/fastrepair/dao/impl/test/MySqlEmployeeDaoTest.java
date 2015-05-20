@@ -44,4 +44,26 @@ public class MySqlEmployeeDaoTest {
 
         employeeDao.addEntity(employee);
     }
+
+    @Test
+    public void testUpdateEmployee(){
+
+        EmployeeDao employeeDao = (EmployeeDao) context.getBean("mySqlEmployeeDao");
+
+        Employee employee = employeeDao.getEntityById(1L);
+
+        employee.setPassword("123456");
+
+        employeeDao.updateEntity(employee);
+    }
+
+    @Test
+    public void testGetEmployeeById(){
+
+        EmployeeDao employeeDao = (EmployeeDao) context.getBean("mySqlEmployeeDao");
+
+        Employee employee = employeeDao.getEntityById(1L);
+
+        System.out.println(employee);
+    }
 }

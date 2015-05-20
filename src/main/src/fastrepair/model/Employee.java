@@ -27,6 +27,8 @@ public class Employee {
 
     private Department department;
 
+    private String password;
+
     @Id
     @GeneratedValue
     public Long getId() {
@@ -95,6 +97,14 @@ public class Employee {
         this.department = department;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
@@ -106,7 +116,7 @@ public class Employee {
                 ", address='" + address + '\'' +
                 ", company=" + company +
                 ", department=" + department +
+                ", password='" + password + '\'' +
                 '}';
     }
-
 }

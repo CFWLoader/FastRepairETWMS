@@ -1,4 +1,4 @@
-package fastrepair.dao;
+package fastrepair.service;
 
 import fastrepair.model.Company;
 import fastrepair.model.Department;
@@ -9,9 +9,17 @@ import java.util.List;
 /**
  * Created by cfwloader on 4/8/15.
  */
-public interface EmployeeDao extends TemplateDao<Employee>{
+public interface EmployeeService {
 
-    Employee login(Long id, String password);
+    Long addEmployee(Employee employee);
+
+    void updateEmployee(Employee employee);
+
+    void deleteEmployee(Employee employee);
+
+    Employee employeeLogin(Long id, String password);
+
+    Employee getEmployeeById(Long id);
 
     List<Employee> getEmployeesByDepartment(Department department, int startIndex, int pageSize);
 
@@ -20,4 +28,5 @@ public interface EmployeeDao extends TemplateDao<Employee>{
     int getTotalOfEmployeesByDepartment(Department department);
 
     int getTotalOfEmployeesByCompany(Company company);
+
 }
