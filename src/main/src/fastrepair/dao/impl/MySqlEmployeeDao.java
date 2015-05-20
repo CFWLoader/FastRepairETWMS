@@ -42,20 +42,49 @@ public class MySqlEmployeeDao extends TemplateDaoImpl<Employee> implements Emplo
         query.setMaxResults(pageSize);
 
         return (List<Employee>) query.list();
+
     }
 
     @Override
     public List<Employee> getEmployeesByCompany(Company company, int startIndex, int pageSize) {
-        return null;
+
+        Session session = this.getSession();
+
+        //Directly pass object to the hql. Magical!!
+        Query query = session.createQuery("From Employee e where e.company = :dId")
+                .setParameter("dId", company);
+
+        //Equivalent to "limit" clause of sql;
+        query.setFirstResult(startIndex);
+        query.setMaxResults(pageSize);
+
+        return (List<Employee>) query.list();
     }
 
     @Override
     public int getTotalOfEmployeesByDepartment(Department department) {
-        return 0;
+
+        Session session = this.getSession();
+
+        //Directly pass object to the hql. Magical!!
+        Query query = session.createQuery("Select count(*) From Employee e where e.department = :dId")
+                .setParameter("dId", department);
+
+
+        return ((Long) query.uniqueResult()).intValue();
+
     }
 
     @Override
     public int getTotalOfEmployeesByCompany(Company company) {
-        return 0;
+
+        Session session = this.getSession();
+
+        //Directly pass object to the hql. Magical!!
+        Query query = session.createQuery("Select count(*) From Employee e where e.company = :dId")
+                .setParameter("dId", company);
+
+
+        return ((Long) query.uniqueResult()).intValue();
     }
 }

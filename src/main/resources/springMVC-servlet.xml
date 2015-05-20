@@ -19,14 +19,14 @@
 
     <!-- 配置视图模型，添加前后追 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/jsp/"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
         <property name="suffix" value=".jsp"/>
         <!-- 配置JSTL视图 -->
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
     </bean>
 
     <!-- 允许访问静态资源 -->
-    <!--<mvc:resources location="/css/" mapping="/css/**"/>-->
-    <!--<mvc:resources location="/js/" mapping="/js/**"/>-->
-    <!--<mvc:resources location="/fonts/" mapping="/fonts/**"/>-->
+    <mvc:resources location="/resource/lib/" mapping="/resource/lib/**"/>
+    <mvc:resources location="/resource/images/" mapping="/resource/images/**"/>
+    <mvc:resources location="/resource/stylesheets/" mapping="/resource/stylesheets/**"/>
 </beans>
