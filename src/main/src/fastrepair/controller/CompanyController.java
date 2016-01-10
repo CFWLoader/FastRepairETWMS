@@ -2,6 +2,7 @@ package fastrepair.controller;
 
 import fastrepair.model.Company;
 import fastrepair.service.CompanyService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,10 +19,10 @@ import java.util.List;
 @RequestMapping("/admin")
 public class CompanyController {
 
-    @Resource
+    @Autowired
     private CompanyService companyService;
 
-    @RequestMapping("companies")
+    @RequestMapping("/companies")
     public String listCompanies(ModelMap modelMap){
 
         List<Company> companies = companyService.getCompanies();
