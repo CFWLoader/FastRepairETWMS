@@ -2,7 +2,7 @@ package fastrepair.controller;
 
 import fastrepair.model.Company;
 import fastrepair.service.CompanyService;
-import org.springframework.beans.factory.annotation.Autowired;
+import fastrepair.service.impl.CompanyServiceImpl;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/admin")
 public class CompanyController {
 
-    @Autowired
+    @Resource
     private CompanyService companyService;
 
     @RequestMapping("/companies")

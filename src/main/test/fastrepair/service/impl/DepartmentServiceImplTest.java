@@ -1,4 +1,4 @@
-package fastrepair.service.impl.test;
+package fastrepair.service.impl;
 
 import fastrepair.model.Department;
 import fastrepair.service.DepartmentService;

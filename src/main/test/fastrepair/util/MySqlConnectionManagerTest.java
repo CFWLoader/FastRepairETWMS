@@ -1,4 +1,4 @@
-package fastrepair.util.test;
+package fastrepair.util;
 
 import org.junit.Test;
 import fastrepair.util.MySqlConnectionManager;

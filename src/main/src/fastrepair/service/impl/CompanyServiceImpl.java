@@ -3,6 +3,7 @@ package fastrepair.service.impl;
 import fastrepair.dao.CompanyDao;
 import fastrepair.model.Company;
 import fastrepair.service.CompanyService;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
