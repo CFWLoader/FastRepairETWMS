@@ -12,7 +12,7 @@
         http://www.springframework.org/schema/mvc/spring-mvc.xsd
         ">
     <!-- 配置自动装填 -->
-    <context:component-scan base-package="fastrepair.controller"/>
+    <context:component-scan base-package="pers.evan.fastrepair.controller"/>
 
     <!-- 配置ConversionService -->
     <mvc:annotation-driven/>

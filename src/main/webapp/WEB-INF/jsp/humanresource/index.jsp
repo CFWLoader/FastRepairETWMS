@@ -1,19 +1,9 @@
 <%@ page import="pers.evan.fastrepair.model.Employee" %>
-<%@ page import="pers.evan.fastrepair.util.AppContext" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<%@ include file="_seesionCheck.jsp"%>
+<%--@ include file="_seesionCheck.jsp"--%>
 <%
-    //Employee employee = (Employee) session.getAttribute("employee");
-
-    if(employee.getDepartment().getDepartmentType().equals("Admin"))response.sendRedirect(AppContext.getBaseUrl() + "/admin/index");
-    else if(employee.getDepartment().getDepartmentType().equals("Specialist") ||
-            employee.getDepartment().getDepartmentType().equals("Construction Device") ||
-            employee.getDepartment().getDepartmentType().equals("Computer") ||
-            employee.getDepartment().getDepartmentType().equals("Appliance") ||
-            employee.getDepartment().getDepartmentType().equals("Automobile"))response.sendRedirect(AppContext.getBaseUrl() + "/engineer/index");
-    else if(employee.getDepartment().getDepartmentType().equals("Tool Keeper"))response.sendRedirect(AppContext.getBaseUrl() + "/toolkeeper/index");
-    else if(employee.getDepartment().getDepartmentType().equals("Human Resource"))response.sendRedirect(AppContext.getBaseUrl() + "/humanresource/index");
+    Employee employee = (Employee) session.getAttribute("employee");
 %>
 
 <!doctype html>
@@ -27,12 +17,12 @@
     <meta name="author" content="">
 
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="<%=AppContext.getBaseUrl()%>/resource/lib/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="<%=AppContext.getBaseUrl()%>/resource/lib/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="../lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../lib/font-awesome/css/font-awesome.css">
 
-    <script src="<%=AppContext.getBaseUrl()%>/resource/lib/jquery-1.11.1.min.js" type="text/javascript"></script>
+    <script src="../lib/jquery-1.11.1.min.js" type="text/javascript"></script>
 
-    <script src="<%=AppContext.getBaseUrl()%>/resource/lib/jQuery-Knob/js/jquery.knob.js" type="text/javascript"></script>
+    <script src="../lib/jQuery-Knob/js/jquery.knob.js" type="text/javascript"></script>
     <script type="text/javascript">
         $(function () {
             $(".knob").knob();
@@ -40,8 +30,8 @@
     </script>
 
 
-    <link rel="stylesheet" type="text/css" href="<%=AppContext.getBaseUrl()%>/resource/stylesheets/theme.css">
-    <link rel="stylesheet" type="text/css" href="<%=AppContext.getBaseUrl()%>/resource/stylesheets/premium.css">
+    <link rel="stylesheet" type="text/css" href="../stylesheets/theme.css">
+    <link rel="stylesheet" type="text/css" href="../stylesheets/premium.css">
 
 </head>
 <body class=" theme-blue">
@@ -117,7 +107,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="" href="<%=AppContext.getBaseUrl()%>/home/index"><span class="navbar-brand"><span class="fa fa-paper-plane"></span> Fast Repair</span></a>
+        <a class="" href="index.jsp"><span class="navbar-brand"><span class="fa fa-paper-plane"></span> Fast Repair</span></a>
     </div>
 
     <div class="navbar-collapse collapse" style="height: 1px;">
@@ -137,7 +127,7 @@
                     <li><a href="./">Security</a></li>
                     <li><a tabindex="-1" href="./">Payments</a></li>
                     <li class="divider"></li>
-                    <li><a tabindex="-1" href="sign-in.jsp?action=logout">Logout</a></li>
+                    <li><a tabindex="-1" href="/sign-in.jsp?action=logout">Logout</a></li>
                 </ul>
             </li>
         </ul>
@@ -173,18 +163,16 @@
         <li>
             <ul class="department-menu nav nav-list collapse">
                 <li><a href="department.jsp"><span class="fa fa-caret-right"></span> Department Information</a></li>
-                <li><a href="reset-password.jsp"><span class="fa fa-caret-right"></span> Reset Password</a></li>
             </ul>
         </li>
 
-        <li><a href="#" data-target=".tool-menu" class="nav-header collapsed" data-toggle="collapse"><i
-                class="fa fa-fw fa-legal"></i> Tool Management<i class="fa fa-collapse"></i></a></li>
+        <li><a href="#" data-target=".employee-menu" class="nav-header collapsed" data-toggle="collapse"><i
+                class="fa fa-fw fa-legal"></i> Employee Management<i class="fa fa-collapse"></i></a></li>
         <li>
-            <ul class="tool-menu nav nav-list collapse">
-                <li><a href="tools.jsp"><span class="fa fa-caret-right"></span> Tool List</a></li>
-                <li><a href="tool.jsp"><span class="fa fa-caret-right"></span> Tool Profile</a>
+            <ul class="employee-menu nav nav-list collapse">
+                <li><a href="employees.jsp"><span class="fa fa-caret-right"></span> Employee List</a></li>
+                <li><a href="employee.jsp"><span class="fa fa-caret-right"></span> Employee Profile</a>
                 </li>
-                <li><a href="toollogs.jsp"><span class="fa fa-caret-right"></span> Log of your tools</a></li>
             </ul>
         </li>
 
@@ -209,7 +197,7 @@
 
     <h1 class="page-title">Dashboard</h1>
     <ul class="breadcrumb">
-        <li><a href="<%=AppContext.getBaseUrl()%>/home/index">Home</a></li>
+        <li><a href="index.html">Home</a></li>
         <li class="active">Dashboard</li>
     </ul>
 
@@ -438,7 +426,7 @@
 </div>
 
 
-<script src="lib/bootstrap/js/bootstrap.js"></script>
+<script src="../lib/bootstrap/js/bootstrap.js"></script>
 <script type="text/javascript">
     $("[rel=tooltip]").tooltip();
     $(function () {
