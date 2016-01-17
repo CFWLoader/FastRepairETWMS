@@ -37,6 +37,7 @@
         <!-- 加载外部hibernate配置文件 -->
         <property name="configLocation" value="classpath:hibernate.cfg.xml"/>
     </bean>
+
     <!-- 声明式事务管理 -->
     <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
