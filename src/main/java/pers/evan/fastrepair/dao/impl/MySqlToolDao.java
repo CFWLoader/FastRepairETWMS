@@ -52,9 +52,9 @@ public class MySqlToolDao extends TemplateDaoImpl<Tool> implements ToolDao {
 
         criteria.setProjection(Projections.count("id"));
 
-        Integer result = (Integer) criteria.uniqueResult();
+        Long result = (Long)criteria.uniqueResult();
 
-        return result;
+        return result.intValue();
     }
 
     /*

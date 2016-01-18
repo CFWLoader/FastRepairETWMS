@@ -1,10 +1,10 @@
 package pers.evan.fastrepair.dao.impl;
 
 import org.junit.Test;
-import team.unnamed.fastrepair.dao.ToolLogDao;
-import team.unnamed.fastrepair.dao.impl.MySqlToolLogDao;
-import team.unnamed.fastrepair.model.ExpensiveToolLog;
-import team.unnamed.fastrepair.model.InexpensiveToolLog;
+import pers.evan.fastrepair.dao.ToolLogDao;
+import pers.evan.fastrepair.dao.impl.MySqlToolLogDao;
+import pers.evan.fastrepair.model.ExpensiveToolLog;
+import pers.evan.fastrepair.model.InexpensiveToolLog;
 
 import java.sql.SQLException;
 import java.util.Date;
@@ -19,26 +19,24 @@ public class MySqlToolLogDaoTest {
 
         InexpensiveToolLog inexpensiveToolLog = new InexpensiveToolLog();
 
-        inexpensiveToolLog.setEmployeeId(2);
-        inexpensiveToolLog.setToolId(2);
+        //inexpensiveToolLog.setEmployeeId(2);
+        //inexpensiveToolLog.setToolId(2);
         inexpensiveToolLog.setQuantity(10);
         inexpensiveToolLog.setStatus("Lent");
         inexpensiveToolLog.setLogDate(new Date(System.currentTimeMillis()));
 
-        toolLogDao.addInexpensiveToolLog(inexpensiveToolLog);
+        //toolLogDao.addInexpensiveToolLog(inexpensiveToolLog);
 
-        toolLogDao.close();
+        //toolLogDao.close();
     }
 
     @Test
     public void testGetInexpensiveToolLogById() throws SQLException {
         ToolLogDao toolLogDao = new MySqlToolLogDao();
 
-        InexpensiveToolLog inexpensiveToolLog = toolLogDao.getInexpensiveToolLogById(1);
+        InexpensiveToolLog inexpensiveToolLog = (InexpensiveToolLog) toolLogDao.getEntityById(1);
 
         System.out.println(inexpensiveToolLog);
-
-        toolLogDao.close();
     }
 
     @Test
@@ -47,47 +45,48 @@ public class MySqlToolLogDaoTest {
 
         ExpensiveToolLog expensiveToolLog = new ExpensiveToolLog();
 
-        expensiveToolLog.setEmployeeId(2);
-        expensiveToolLog.setToolId(1);
+        //expensiveToolLog.setEmployeeId(2);
+        //expensiveToolLog.setToolId(1);
         expensiveToolLog.setQuantity(20);
         expensiveToolLog.setStatus("Wait for deal");
         expensiveToolLog.setLendDate(new Date(System.currentTimeMillis()));
 
-        toolLogDao.addExpensiveToolLog(expensiveToolLog);
+        toolLogDao.addEntity(expensiveToolLog);
 
-        toolLogDao.close();
     }
 
     @Test
     public void testGetExpensiveToolLogById() throws SQLException {
         ToolLogDao toolLogDao = new MySqlToolLogDao();
 
-        ExpensiveToolLog expensiveToolLog = toolLogDao.getExpensiveToolLogById(1);
+        ExpensiveToolLog expensiveToolLog = (ExpensiveToolLog) toolLogDao.getEntityById(1);
 
         System.out.println(expensiveToolLog);
 
-        toolLogDao.close();
     }
 
     @Test
     public void testGetInexpensiveToolLogByEmployeeId() throws SQLException {
         ToolLogDao toolLogDao = new MySqlToolLogDao();
 
+        /*
         for(InexpensiveToolLog inexpensiveToolLog : toolLogDao.getInexpensiveToolLogsByEmployeeId(2, 0, 10)){
             System.out.println(inexpensiveToolLog);
         }
+        */
 
-        toolLogDao.close();
     }
 
     @Test
     public void testGetExpensiveToolLogByEmployeeId() throws SQLException {
         ToolLogDao toolLogDao = new MySqlToolLogDao();
 
+        /*
         for(ExpensiveToolLog expensiveToolLog : toolLogDao.getExpensiveTooLogsByEmployeeId(2, 0, 10)){
             System.out.println(expensiveToolLog);
         }
 
         toolLogDao.close();
+        */
     }
 }

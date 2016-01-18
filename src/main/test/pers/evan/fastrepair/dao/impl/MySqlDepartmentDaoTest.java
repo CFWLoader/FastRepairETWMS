@@ -1,9 +1,8 @@
 package pers.evan.fastrepair.dao.impl;
 
 import org.junit.Test;
-import team.unnamed.fastrepair.dao.DepartmentDao;
-import team.unnamed.fastrepair.dao.impl.MySqlDepartmentDao;
-import team.unnamed.fastrepair.model.Department;
+import pers.evan.fastrepair.dao.DepartmentDao;
+import pers.evan.fastrepair.model.Department;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -27,9 +26,8 @@ public class MySqlDepartmentDaoTest {
 
         DepartmentDao departmentDao = new MySqlDepartmentDao();
 
-        departmentDao.addDepartment(department);
+        departmentDao.addEntity(department);
 
-        departmentDao.close();
     }
 
     @Test
@@ -37,40 +35,30 @@ public class MySqlDepartmentDaoTest {
 
         DepartmentDao departmentDao = new MySqlDepartmentDao();
 
-        try {
-            List<Department> departments = departmentDao.getDepartments();
+        List<Department> departments = departmentDao.getEntities();
 
-            for(Department department : departments){
-                System.out.println(department);
-                if(department.getDepartmentType().equals("test department")){
-                    department.setDepartmentType("test");
-                    departmentDao.updateDepartment(department);
-                }
+        for (Department department : departments) {
+            System.out.println(department);
+            if (department.getDepartmentType().equals("test department")) {
+                department.setDepartmentType("test");
+                departmentDao.updateEntity(department);
             }
-
-            departmentDao.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
+
     }
 
     @Test
-    public void testRemoveDepartment(){
+    public void testRemoveDepartment() {
         DepartmentDao departmentDao = new MySqlDepartmentDao();
 
-        try {
-            List<Department> departments = departmentDao.getDepartments();
+        List<Department> departments = departmentDao.getEntities();
 
-            for(Department department : departments){
-                System.out.println(department);
-                if(department.getDepartmentType().equals("test")){
-                    departmentDao.removeDepartment(department);
-                }
+        for (Department department : departments) {
+            System.out.println(department);
+            if (department.getDepartmentType().equals("test")) {
+                departmentDao.deleteEntity(department);
             }
-
-            departmentDao.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
+
     }
 }

@@ -21,9 +21,9 @@ public interface ToolService {
 
     void removeTool(Tool tool);
 
-    List<Tool> getToolsByDepartmentId(Department department, int pageIndex, int size) throws BadRequestParameterException;
+    List<Tool> getToolsByDepartment(Department department, int pageIndex, int size) throws BadRequestParameterException;
 
-    List<Tool> getToolsByCompanyId(Company company, int pageIndex, int size) throws BadRequestParameterException;
+    List<Tool> getToolsByCompany(Company company, int pageIndex, int size) throws BadRequestParameterException;
 
     int getTotalOfTool(Department department) throws BadRequestParameterException;
 

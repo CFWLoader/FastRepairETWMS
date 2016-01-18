@@ -1,5 +1,6 @@
 package pers.evan.fastrepair.service.impl;
 
+import pers.evan.fastrepair.exception.UserNotFoundException;
 import pers.evan.fastrepair.model.Department;
 import pers.evan.fastrepair.model.Employee;
 import pers.evan.fastrepair.service.DepartmentService;
@@ -22,7 +23,12 @@ public class EmployeeServiceImplTest {
 
         EmployeeService employeeService = (EmployeeService) context.getBean("employeeServiceImpl");
 
-        Employee employee = employeeService.employeeLogin(1L, "123456");
+        Employee employee = null;
+        try {
+            employee = employeeService.employeeLogin("admin", "123456");
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+        }
 
         System.out.println(employee);
     }

@@ -60,4 +60,11 @@ public class HomePageController {
         return "index";
     }
 
+    @RequestMapping("/logout")
+    String logout(HttpSession session)
+    {
+        session.setAttribute("employee", null);
+
+        return "sign-in";
+    }
 }

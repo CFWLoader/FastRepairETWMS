@@ -1,35 +1,29 @@
-<%@ page import="pers.evan.fastrepair.model.Tool" %>
-<%@ page import="java.util.List" %>
-<%@ page import="pers.evan.fastrepair.service.ToolService" %>
-<%@ page import="pers.evan.fastrepair.service.impl.ToolServiceImpl" %>
 <%@ page import="pers.evan.fastrepair.model.Employee" %>
+<%@ page import="pers.evan.fastrepair.model.Tool" %>
+<%@ page import="pers.evan.fastrepair.util.AppContext" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%--@ include file="_seesionCheck.jsp" --%>
 
 <%
     Employee employee = (Employee) session.getAttribute("employee");
 
-    ToolService toolService = new ToolServiceImpl();
+    //final int PAGE_SIZE = 10;
+    //String pageNoStr = request.getParameter("pageNo");
+    //int pageNo = 1;
+    //if (pageNoStr != null && pageNoStr.trim() != "") pageNo = Integer.parseInt(pageNoStr);
 
-    final int PAGE_SIZE = 10;
-    String pageNoStr = request.getParameter("pageNo");
-    int pageNo = 1;
-    if (pageNoStr != null && pageNoStr.trim() != "") pageNo = Integer.parseInt(pageNoStr);
+    //int totalRecords = toolService.getTotalOfTool(String.valueOf(employee.getDepartment().getId()));
+    //int totalPages = (totalRecords + PAGE_SIZE - 1) / PAGE_SIZE;
 
-
-    int totalRecords = toolService.getTotalOfTool(String.valueOf(employee.getDepartment().getId()));
-    int totalPages = (totalRecords + PAGE_SIZE - 1) / PAGE_SIZE;
-
-    if (pageNo > totalPages && totalPages > 0) pageNo = totalPages;
+    //if (pageNo > totalPages && totalPages > 0) pageNo = totalPages;
 
     /*
     List<Category> categories = categoryService.getCategories(pageNo, PAGE_SIZE);
     categoryService.close();
     */
-    List<Tool> tools = toolService.getToolsByDepartmentId(String.valueOf(employee.getDepartment().getId()), pageNo, PAGE_SIZE);
-
-    toolService.close();
+    //List<Tool> tools = toolService.getToolsByDepartmentId(String.valueOf(employee.getDepartment().getId()), pageNo, PAGE_SIZE);
 %>
 
 <!doctype html>
@@ -43,14 +37,14 @@
     <meta name="author" content="">
 
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="../lib/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="../lib/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="<%=AppContext.getBaseUrl()%>/resource/lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="<%=AppContext.getBaseUrl()%>/resource/lib/font-awesome/css/font-awesome.css">
 
-    <script src="../lib/jquery-1.11.1.min.js" type="text/javascript"></script>
+    <script src="<%=AppContext.getBaseUrl()%>/resource/lib/jquery-1.11.1.min.js" type="text/javascript"></script>
 
 
-    <link rel="stylesheet" type="text/css" href="../stylesheets/theme.css">
-    <link rel="stylesheet" type="text/css" href="../stylesheets/premium.css">
+    <link rel="stylesheet" type="text/css" href="<%=AppContext.getBaseUrl()%>/resource/stylesheets/theme.css">
+    <link rel="stylesheet" type="text/css" href="<%=AppContext.getBaseUrl()%>/resource/stylesheets/premium.css">
 
 </head>
 <body class=" theme-blue">
@@ -115,7 +109,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="" href="index.jsp"><span class="navbar-brand"><span
+        <a class="" href="<%=AppContext.getBaseUrl()%>/admin/index"><span class="navbar-brand"><span
                 class="fa fa-paper-plane"></span> Fast Repair</span></a></div>
 
     <div class="navbar-collapse collapse" style="height: 1px;">
@@ -135,14 +129,13 @@
                     <li><a href="./">Security</a></li>
                     <li><a tabindex="-1" href="./">Payments</a></li>
                     <li class="divider"></li>
-                    <li><a tabindex="-1" href="/sign-in.jsp?action=logout">Logout</a></li>
+                    <li><a tabindex="-1" href="<%=AppContext.getBaseUrl()%>/home/logout">Logout</a></li>
                 </ul>
             </li>
         </ul>
 
     </div>
 </div>
-
 
 <div class="sidebar-nav">
     <ul>
@@ -162,7 +155,7 @@
         <li>
             <ul class="company-menu nav nav-list collapse">
                 <span class="visible-xs visible-sm"><a href="#">- Welcome to Fast Repair -</a></span>
-                <li><a href="company.jsp"><span class="fa fa-caret-right"></span> Company Information</a></li>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/company"><span class="fa fa-caret-right"></span> Company Information</a></li>
             </ul>
         </li>
 
@@ -170,8 +163,8 @@
                 class="fa fa-fw fa-legal"></i> Department<i class="fa fa-collapse"></i></a></li>
         <li>
             <ul class="department-menu nav nav-list collapse">
-                <li><a href="department.jsp"><span class="fa fa-caret-right"></span> Department Information</a></li>
-                <li><a href="reset-password.jsp"><span class="fa fa-caret-right"></span> Reset Password</a></li>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/department"><span class="fa fa-caret-right"></span> Department Information</a></li>
+                <li><a href="<%=AppContext.getBaseUrl()%>/home/reset-password"><span class="fa fa-caret-right"></span> Reset Password</a></li>
             </ul>
         </li>
 
@@ -179,15 +172,15 @@
                 class="fa fa-fw fa-legal"></i> Tool Management<i class="fa fa-collapse"></i></a></li>
         <li>
             <ul class="tool-menu nav nav-list collapse">
-                <li><a href="tools.jsp"><span class="fa fa-caret-right"></span> Tool List</a></li>
-                <li><a href="tool.jsp"><span class="fa fa-caret-right"></span> Tool Profile</a>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/tools?pageIndex=0&pageSize=10"><span class="fa fa-caret-right"></span> Tool List</a></li>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/tool"><span class="fa fa-caret-right"></span> Tool Profile</a>
                 </li>
-                <li><a href="inexpensivetoollogs.jsp"><span class="fa fa-caret-right"></span> Inexpensive tool logs</a>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/inexpensivetoollogs"><span class="fa fa-caret-right"></span> Inexpensive tool logs</a>
                 </li>
-                <li><a href="expensivetoollogs.jsp"><span class="fa fa-caret-right"></span> Expensive tool logs</a></li>
-                <li><a href="inexpensivetoollog.jsp"><span class="fa fa-caret-right"></span> Inexpensive tool log</a>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/expensivetoollogs"><span class="fa fa-caret-right"></span> Expensive tool logs</a></li>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/inexpensivetoollog"><span class="fa fa-caret-right"></span> Inexpensive tool log</a>
                 </li>
-                <li><a href="expensivetoollog.jsp"><span class="fa fa-caret-right"></span> Expensive tool logs</a></li>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/expensivetoollog"><span class="fa fa-caret-right"></span> Expensive tool logs</a></li>
             </ul>
         </li>
 
@@ -195,8 +188,8 @@
                 class="fa fa-fw fa-legal"></i> Employee Management<i class="fa fa-collapse"></i></a></li>
         <li>
             <ul class="employee-menu nav nav-list collapse">
-                <li><a href="employees.jsp"><span class="fa fa-caret-right"></span> Employee List</a></li>
-                <li><a href="employee.jsp"><span class="fa fa-caret-right"></span> Employee Profile</a>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/employees"><span class="fa fa-caret-right"></span> Employee List</a></li>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/employee"><span class="fa fa-caret-right"></span> Employee Profile</a>
                 </li>
             </ul>
         </li>
@@ -209,7 +202,6 @@
                 -->
     </ul>
 </div>
-
 
 <div class="content">
     <div class="header">
@@ -244,47 +236,46 @@
             </tr>
             </thead>
             <tbody>
-            <%
-                for (Tool tool : tools) {
-            %>
+            <c:forEach var="tool" items="${tools}">
             <tr>
-                <td><%=tool.getId()%>
+                <td>${tool.id}
                 </td>
-                <td><%=tool.getToolName()%>
+                <td>${tool.toolName()}
                 </td>
-                <td><%=tool.isExpensive()%>
+                <td>${tool.isExpensive}
                 </td>
-                <td><%=tool.getNumberOfAvailable()%>
+                <td>${tool.numberOfAvailable()}
                 </td>
-                <td><%=tool.getCompany().getCompanyName()%>
+                <td>${tool.company.companyName()}
                 </td>
-                <td><%=tool.getDepartment().getDepartmentType()%>
+                <td>${tool.department.departmentType()}
                 </td>
                 <td>
-                    <a href="tool.jsp?action=peektool&id=<%=tool.getId()%>"><i class="fa fa-pencil"></i></a>
+                    <a href="<%=AppContext.getBaseUrl()%>/admin/tool?action=peektool&id=${tool.id()}"><i class="fa fa-pencil"></i></a>
                     <!--
                     <a href="#myModal" role="button" data-toggle="modal"><i class="fa fa-trash-o"></i></a>
                     -->
-                    <a href="<%=tool.isExpensive() ? "expensivetoollog.jsp?action=buildlog&id=" + tool.getId() : "inexpensivetoollog.jsp?action=buildlog&id=" + tool.getId()%>" role="button" data-toggle="modal"><i class="fa fa-check-circle"></i></a>
-                </td>
+                    <c:choose>
+                        <c:when test="${tool.isExpensive}">
+                            <a href="<%=AppContext.getBaseUrl()%>/admin/expensivetoollog?action=buildlog&id=${tool.id}" role="button" data-toggle="modal"><i class="fa fa-check-circle"></i></a>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="<%=AppContext.getBaseUrl()%>/admin/inexpensivetoollog?action=buildlog&id=${tool.id}" role="button" data-toggle="modal"><i class="fa fa-check-circle"></i></a>
+                        </c:otherwise>
+                    </c:choose>
+                    </td>
             </tr>
-            <%
-                }
-            %>
+            </c:forEach>
             </tbody>
         </table>
 
         <ul class="pagination">
-            <li><a href="tools.jsp?pageNo=1">&laquo;</a></li>
-            <%
-                for (int i = 1; i <= totalPages; ++i) {
-            %>
-            <li><a href="tools.jsp?pageNo=<%=i%>"><%=i%>
+            <li><a href="<%=AppContext.getBaseUrl()%>/admin/tools?pageIndex=1&pageSize=10">&laquo;</a></li>
+            <c:forEach begin="1" end="${totalPages}" var="i" step="1">
+            <li><a href="<%=AppContext.getBaseUrl()%>/admin/tools?pageIndex=${i}&pageSize=10">${i}
             </a></li>
-            <%
-                }
-            %>
-            <li><a href="tools.jsp?pageNo=<%=totalPages%>">&raquo;</a></li>
+            </c:forEach>
+            <li><a href="<%=AppContext.getBaseUrl()%>/admin/tools?pageIndex=${totalPages}&pageSize=10">&raquo;</a></li>
         </ul>
 
         <div class="modal small fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -321,7 +312,7 @@
 </div>
 
 
-<script src="../lib/bootstrap/js/bootstrap.js"></script>
+<script src="<%=AppContext.getBaseUrl()%>/resource/lib/bootstrap/js/bootstrap.js"></script>
 <script type="text/javascript">
     $("[rel=tooltip]").tooltip();
     $(function () {

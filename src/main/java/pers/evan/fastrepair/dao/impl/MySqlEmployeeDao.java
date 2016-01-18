@@ -4,13 +4,11 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
 import pers.evan.fastrepair.dao.EmployeeDao;
 import pers.evan.fastrepair.model.Company;
 import pers.evan.fastrepair.model.Department;
 import pers.evan.fastrepair.model.Employee;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

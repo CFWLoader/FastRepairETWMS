@@ -19,6 +19,6 @@ public interface CompanyService {
 
     List<Company> getCompanies();
 
-    Company getCompanyById(Long id);
+    Company getCompanyById(long id);
 
 }

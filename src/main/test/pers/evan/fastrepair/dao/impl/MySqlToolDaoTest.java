@@ -30,8 +30,7 @@ public class MySqlToolDaoTest {
 
         ToolDao toolDao = new MySqlToolDao();
 
-        toolDao.addTool(tool);
+        toolDao.addEntity(tool);
 
-        toolDao.close();
     }
 }

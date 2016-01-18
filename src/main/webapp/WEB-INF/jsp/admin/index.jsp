@@ -1,4 +1,5 @@
 <%@ page import="pers.evan.fastrepair.model.Employee" %>
+<%@ page import="pers.evan.fastrepair.util.AppContext" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%--@ include file="_seesionCheck.jsp"--%>
@@ -17,12 +18,12 @@
     <meta name="author" content="">
 
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="../lib/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="../lib/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="<%=AppContext.getBaseUrl()%>/resource/lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="<%=AppContext.getBaseUrl()%>/resource/lib/font-awesome/css/font-awesome.css">
 
-    <script src="../lib/jquery-1.11.1.min.js" type="text/javascript"></script>
+    <script src="<%=AppContext.getBaseUrl()%>/resource/lib/jquery-1.11.1.min.js" type="text/javascript"></script>
 
-    <script src="../lib/jQuery-Knob/js/jquery.knob.js" type="text/javascript"></script>
+    <script src="<%=AppContext.getBaseUrl()%>/resource/lib/jQuery-Knob/js/jquery.knob.js" type="text/javascript"></script>
     <script type="text/javascript">
         $(function () {
             $(".knob").knob();
@@ -30,8 +31,8 @@
     </script>
 
 
-    <link rel="stylesheet" type="text/css" href="../stylesheets/theme.css">
-    <link rel="stylesheet" type="text/css" href="../stylesheets/premium.css">
+    <link rel="stylesheet" type="text/css" href="<%=AppContext.getBaseUrl()%>/resource/stylesheets/theme.css">
+    <link rel="stylesheet" type="text/css" href="<%=AppContext.getBaseUrl()%>/resource/stylesheets/premium.css">
 
 </head>
 <body class=" theme-blue">
@@ -107,7 +108,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="" href="index.jsp"><span class="navbar-brand"><span class="fa fa-paper-plane"></span> Fast Repair</span></a>
+        <a class="" href="<%=AppContext.getBaseUrl()%>/admin/index"><span class="navbar-brand"><span class="fa fa-paper-plane"></span> Fast Repair</span></a>
     </div>
 
     <div class="navbar-collapse collapse" style="height: 1px;">
@@ -127,7 +128,7 @@
                     <li><a href="./">Security</a></li>
                     <li><a tabindex="-1" href="./">Payments</a></li>
                     <li class="divider"></li>
-                    <li><a tabindex="-1" href="/sign-in.jsp?action=logout">Logout</a></li>
+                    <li><a tabindex="-1" href="<%=AppContext.getBaseUrl()%>/home/logout">Logout</a></li>
                 </ul>
             </li>
         </ul>
@@ -142,7 +143,7 @@
                 class="fa fa-fw fa-dashboard"></i> Dashboard<i class="fa fa-collapse"></i></a></li>
         <li>
             <ul class="dashboard-menu nav nav-list collapse in">
-                <li><a href="index.jsp"><span class="fa fa-caret-right"></span> Main</a></li>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/index"><span class="fa fa-caret-right"></span> Main</a></li>
             </ul>
         </li>
 
@@ -154,7 +155,7 @@
         <li>
             <ul class="company-menu nav nav-list collapse">
                 <span class="visible-xs visible-sm"><a href="#">- Welcome to Fast Repair -</a></span>
-                <li><a href="company.jsp"><span class="fa fa-caret-right"></span> Company Information</a></li>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/company"><span class="fa fa-caret-right"></span> Company Information</a></li>
             </ul>
         </li>
 
@@ -162,8 +163,8 @@
                 class="fa fa-fw fa-legal"></i> Department<i class="fa fa-collapse"></i></a></li>
         <li>
             <ul class="department-menu nav nav-list collapse">
-                <li><a href="department.jsp"><span class="fa fa-caret-right"></span> Department Information</a></li>
-                <li><a href="reset-password.jsp"><span class="fa fa-caret-right"></span> Reset Password</a></li>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/department"><span class="fa fa-caret-right"></span> Department Information</a></li>
+                <li><a href="<%=AppContext.getBaseUrl()%>/home/reset-password"><span class="fa fa-caret-right"></span> Reset Password</a></li>
             </ul>
         </li>
 
@@ -171,15 +172,15 @@
                 class="fa fa-fw fa-legal"></i> Tool Management<i class="fa fa-collapse"></i></a></li>
         <li>
             <ul class="tool-menu nav nav-list collapse">
-                <li><a href="tools.jsp"><span class="fa fa-caret-right"></span> Tool List</a></li>
-                <li><a href="tool.jsp"><span class="fa fa-caret-right"></span> Tool Profile</a>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/tools?pageIndex=0&pageSize=10"><span class="fa fa-caret-right"></span> Tool List</a></li>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/tool"><span class="fa fa-caret-right"></span> Tool Profile</a>
                 </li>
-                <li><a href="inexpensivetoollogs.jsp"><span class="fa fa-caret-right"></span> Inexpensive tool logs</a>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/inexpensivetoollogs?pageIndex=0&pageSize=10"><span class="fa fa-caret-right"></span> Inexpensive tool logs</a>
                 </li>
-                <li><a href="expensivetoollogs.jsp"><span class="fa fa-caret-right"></span> Expensive tool logs</a></li>
-                <li><a href="inexpensivetoollog.jsp"><span class="fa fa-caret-right"></span> Inexpensive tool log</a>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/expensivetoollogs?pageIndex=0&pageSize=10"><span class="fa fa-caret-right"></span> Expensive tool logs</a></li>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/inexpensivetoollog"><span class="fa fa-caret-right"></span> Inexpensive tool log</a>
                 </li>
-                <li><a href="expensivetoollog.jsp"><span class="fa fa-caret-right"></span> Expensive tool logs</a></li>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/expensivetoollog"><span class="fa fa-caret-right"></span> Expensive tool logs</a></li>
             </ul>
         </li>
 
@@ -187,8 +188,8 @@
                 class="fa fa-fw fa-legal"></i> Employee Management<i class="fa fa-collapse"></i></a></li>
         <li>
             <ul class="employee-menu nav nav-list collapse">
-                <li><a href="employees.jsp"><span class="fa fa-caret-right"></span> Employee List</a></li>
-                <li><a href="employee.jsp"><span class="fa fa-caret-right"></span> Employee Profile</a>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/employees"><span class="fa fa-caret-right"></span> Employee List</a></li>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/employee"><span class="fa fa-caret-right"></span> Employee Profile</a>
                 </li>
             </ul>
         </li>
@@ -214,7 +215,7 @@
 
     <h1 class="page-title">Dashboard</h1>
     <ul class="breadcrumb">
-        <li><a href="index.html">Home</a></li>
+        <li><a href="<%=AppContext.getBaseUrl()%>/admin/index">Home</a></li>
         <li class="active">Dashboard</li>
     </ul>
 
@@ -443,7 +444,7 @@
 </div>
 
 
-<script src="../lib/bootstrap/js/bootstrap.js"></script>
+<script src="<%=AppContext.getBaseUrl()%>/resource/lib/bootstrap/js/bootstrap.js"></script>
 <script type="text/javascript">
     $("[rel=tooltip]").tooltip();
     $(function () {

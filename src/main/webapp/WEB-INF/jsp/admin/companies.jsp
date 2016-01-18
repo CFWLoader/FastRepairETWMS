@@ -1,4 +1,10 @@
+<%@ page import="pers.evan.fastrepair.util.AppContext" %>
+<%@ page import="pers.evan.fastrepair.model.Employee" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%
+    Employee employee = (Employee) session.getAttribute("employee");
+%>
 
 <!doctype html>
 <html lang="en">
@@ -75,7 +81,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="" href="index.jsp"><span class="navbar-brand"><span
+        <a class="" href="<%=AppContext.getBaseUrl()%>/admin/index"><span class="navbar-brand"><span
                 class="fa fa-paper-plane"></span> Fast Repair</span></a></div>
 
     <div class="navbar-collapse collapse" style="height: 1px;">
@@ -83,26 +89,25 @@
             <li class="dropdown hidden-xs">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <span class="glyphicon glyphicon-user padding-right-small"
-                          style="position:relative;top: 3px;"></span> Unknown
+                          style="position:relative;top: 3px;"></span> <%=employee.getFirstName() + " " + employee.getLastName()%>
                     <i class="fa fa-caret-down"></i>
                 </a>
 
                 <ul class="dropdown-menu">
-                    <li><a href="">My Account</a></li>
+                    <li><a href="./">My Account</a></li>
                     <li class="divider"></li>
                     <li class="dropdown-header">Admin Panel</li>
-                    <li><a href="">Users</a></li>
-                    <li><a href="">Security</a></li>
-                    <li><a tabindex="-1" href="">Payments</a></li>
+                    <li><a href="./">Users</a></li>
+                    <li><a href="./">Security</a></li>
+                    <li><a tabindex="-1" href="./">Payments</a></li>
                     <li class="divider"></li>
-                    <li><a tabindex="-1" href="/sign-in.jsp?action=logout">Logout</a></li>
+                    <li><a tabindex="-1" href="<%=AppContext.getBaseUrl()%>/home/logout">Logout</a></li>
                 </ul>
             </li>
         </ul>
 
     </div>
 </div>
-
 
 <div class="sidebar-nav">
     <ul>
@@ -122,8 +127,7 @@
         <li>
             <ul class="company-menu nav nav-list collapse">
                 <span class="visible-xs visible-sm"><a href="#">- Welcome to Fast Repair -</a></span>
-                <li><a href="companies.jsp"><span class="fa fa-caret-right"></span> Company List</a></li>
-                <li><a href="company.jsp"><span class="fa fa-caret-right"></span> Company Information</a></li>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/company"><span class="fa fa-caret-right"></span> Company Information</a></li>
             </ul>
         </li>
 
@@ -131,7 +135,8 @@
                 class="fa fa-fw fa-legal"></i> Department<i class="fa fa-collapse"></i></a></li>
         <li>
             <ul class="department-menu nav nav-list collapse">
-                <li><a href="department.jsp"><span class="fa fa-caret-right"></span> Department Information</a></li>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/department"><span class="fa fa-caret-right"></span> Department Information</a></li>
+                <li><a href="<%=AppContext.getBaseUrl()%>/home/reset-password"><span class="fa fa-caret-right"></span> Reset Password</a></li>
             </ul>
         </li>
 
@@ -139,15 +144,15 @@
                 class="fa fa-fw fa-legal"></i> Tool Management<i class="fa fa-collapse"></i></a></li>
         <li>
             <ul class="tool-menu nav nav-list collapse">
-                <li><a href="tools.jsp"><span class="fa fa-caret-right"></span> Tool List</a></li>
-                <li><a href="tool.jsp"><span class="fa fa-caret-right"></span> Tool Profile</a>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/tools"><span class="fa fa-caret-right"></span> Tool List</a></li>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/tool"><span class="fa fa-caret-right"></span> Tool Profile</a>
                 </li>
-                <li><a href="inexpensivetoollogs.jsp"><span class="fa fa-caret-right"></span> Inexpensive tool logs</a>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/inexpensivetoollogs"><span class="fa fa-caret-right"></span> Inexpensive tool logs</a>
                 </li>
-                <li><a href="expensivetoollogs.jsp"><span class="fa fa-caret-right"></span> Expensive tool logs</a></li>
-                <li><a href="inexpensivetoollog.jsp"><span class="fa fa-caret-right"></span> Inexpensive tool log</a>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/expensivetoollogs"><span class="fa fa-caret-right"></span> Expensive tool logs</a></li>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/inexpensivetoollog"><span class="fa fa-caret-right"></span> Inexpensive tool log</a>
                 </li>
-                <li><a href="expensivetoollog.jsp"><span class="fa fa-caret-right"></span> Expensive tool logs</a></li>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/expensivetoollog"><span class="fa fa-caret-right"></span> Expensive tool logs</a></li>
             </ul>
         </li>
 
@@ -155,8 +160,8 @@
                 class="fa fa-fw fa-legal"></i> Employee Management<i class="fa fa-collapse"></i></a></li>
         <li>
             <ul class="employee-menu nav nav-list collapse">
-                <li><a href="employees.jsp"><span class="fa fa-caret-right"></span> Employee List</a></li>
-                <li><a href="employee.jsp"><span class="fa fa-caret-right"></span> Employee Profile</a>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/employees"><span class="fa fa-caret-right"></span> Employee List</a></li>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/employee"><span class="fa fa-caret-right"></span> Employee Profile</a>
                 </li>
             </ul>
         </li>
@@ -169,7 +174,6 @@
                 -->
     </ul>
 </div>
-
 
 <div class="content">
     <div class="header">

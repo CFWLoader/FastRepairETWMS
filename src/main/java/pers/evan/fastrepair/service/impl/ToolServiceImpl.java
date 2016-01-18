@@ -51,7 +51,7 @@ public class ToolServiceImpl implements ToolService {
     }
 
     @Override
-    public List<Tool> getToolsByDepartmentId(Department department, int pageIndex, int size) throws BadRequestParameterException {
+    public List<Tool> getToolsByDepartment(Department department, int pageIndex, int size) throws BadRequestParameterException {
         if(department == null)throw new BadRequestParameterException();
 
         if(department.getDepartmentType().equals("Specialist") || department.getDepartmentType().equals("Admin") || department.getDepartmentType().equals("Tool Keeper"))return toolsOfSpecialist(pageIndex, size);
@@ -151,7 +151,7 @@ public class ToolServiceImpl implements ToolService {
     }
 
     @Override
-    public List<Tool> getToolsByCompanyId(Company company, int pageIndex, int size) throws BadRequestParameterException {
+    public List<Tool> getToolsByCompany(Company company, int pageIndex, int size) throws BadRequestParameterException {
 
         if(company == null)throw new BadRequestParameterException();
 

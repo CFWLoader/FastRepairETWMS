@@ -43,7 +43,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Department getDepartmentById(Long id) {
+    public Department getDepartmentById(long id) {
         return departmentDao.getEntityById(id);
     }
 }
