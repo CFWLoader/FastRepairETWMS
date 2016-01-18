@@ -20,6 +20,8 @@ public interface EmployeeService {
 
     Employee employeeLogin(String username, String password) throws UserNotFoundException;
 
+    Employee getEmployeeByUsername(String username) throws UserNotFoundException;
+
     Employee getEmployeeById(long id);
 
     List<Employee> getEmployeesByDepartment(Department department, int startIndex, int pageSize);

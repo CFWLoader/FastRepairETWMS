@@ -17,6 +17,8 @@ public interface DepartmentService {
 
     List<Department> getDepartments();
 
+    List<Department> getDepartmentsByName(String name);
+
     Department getDepartmentById(Long id);
 
 }

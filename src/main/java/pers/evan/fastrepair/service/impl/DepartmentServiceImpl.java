@@ -38,6 +38,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    public List<Department> getDepartmentsByName(String name) {
+        return departmentDao.getDepartmentsByName(name);
+    }
+
+    @Override
     public Department getDepartmentById(Long id) {
         return departmentDao.getEntityById(id);
     }

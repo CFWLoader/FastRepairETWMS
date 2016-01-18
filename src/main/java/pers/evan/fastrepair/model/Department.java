@@ -3,6 +3,7 @@ package pers.evan.fastrepair.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  * Created by cfwloader on 4/6/15.
@@ -48,6 +49,9 @@ public class Department {
 
     private String departmentType;
 
+    @ManyToOne
+    private Company company;
+
     public long getId() {
         return id;
     }
@@ -72,6 +76,14 @@ public class Department {
 
     public void setDepartmentType(String departmentType) {
         this.departmentType = departmentType;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
     @Override

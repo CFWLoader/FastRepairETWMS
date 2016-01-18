@@ -62,6 +62,19 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public Employee getEmployeeByUsername(String username) throws UserNotFoundException {
+
+        Employee employee = employeeDao.getEmployeeByUsername(username);
+
+        if (employee == null)
+        {
+            throw new UserNotFoundException();
+        }
+
+        return employee;
+    }
+
+    @Override
     public Employee getEmployeeById(long id) {
 
         return employeeDao.getEntityById(id);
