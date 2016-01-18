@@ -21,7 +21,7 @@ public interface TemplateDao<T> {
 
     List<T> getEntities();
 
-    T getEntityById(Long id);
+    T getEntityById(long id);
 
     Session getSession();
 

@@ -1,8 +1,8 @@
 package pers.evan.fastrepair.dao;
 
-import team.unnamed.fastrepair.model.Company;
-import team.unnamed.fastrepair.model.Department;
-import team.unnamed.fastrepair.model.Tool;
+import pers.evan.fastrepair.model.Company;
+import pers.evan.fastrepair.model.Department;
+import pers.evan.fastrepair.model.Tool;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -10,27 +10,14 @@ import java.util.List;
 /**
  * Created by cfwloader on 4/8/15.
  */
-public interface ToolDao {
+public interface ToolDao extends TemplateDao<Tool> {
 
-    int addTool(Tool tool) throws SQLException;
+    Tool getToolById(long id);
 
-    Tool getToolById(int id) throws SQLException;
+    List<Tool> getToolsByDepartment(Department department, int startIndex, int size);
 
-    void updateTool(Tool tool) throws SQLException;
+    List<Tool> getToolsByCompany(Company company, int startIndex, int size);
 
-    void removeTool(Tool tool) throws SQLException;
+    int getTotalOfTool(Department department);
 
-    List<Tool> getToolsByDepartment(Department department, int startIndex, int size) throws SQLException;
-
-    List<Tool> getToolsByCompany(Company company, int startIndex, int size) throws SQLException;
-
-    int getTotalOfTool(Department department) throws SQLException;
-
-    boolean getAutoCommit() throws SQLException;
-
-    void setAutoCommit(boolean autoCommit) throws SQLException;
-
-    void commit() throws SQLException;
-
-    void close();
 }

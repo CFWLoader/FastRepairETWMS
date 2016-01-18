@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface EmployeeDao extends TemplateDao<Employee>{
 
-    Employee login(Long id, String password);
+    Employee getEmployeeByUsername(String username);
 
     List<Employee> getEmployeesByDepartment(Department department, int startIndex, int pageSize);
 

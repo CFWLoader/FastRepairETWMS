@@ -9,11 +9,12 @@ import java.util.Date;
  * Created by cfwloader on 4/10/15.
  */
 @Entity
-public class InexpensiveToolLog {
+public class InexpensiveToolLog extends ToolLog {
 
+    /*
     @Id
     @GeneratedValue
-    private int id;
+    private long id;
 
     private int employeeId;
 
@@ -22,14 +23,24 @@ public class InexpensiveToolLog {
     private int quantity;
 
     private String status;
+    */
 
     private Date logDate;
 
-    public int getId() {
+    public Date getLogDate() {
+        return logDate;
+    }
+
+    public void setLogDate(Date logDate) {
+        this.logDate = logDate;
+    }
+
+    /*
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -85,4 +96,5 @@ public class InexpensiveToolLog {
         sb.append('}');
         return sb.toString();
     }
+    */
 }

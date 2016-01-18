@@ -1,7 +1,9 @@
 package pers.evan.fastrepair.dao;
 
-import team.unnamed.fastrepair.model.ExpensiveToolLog;
-import team.unnamed.fastrepair.model.InexpensiveToolLog;
+import pers.evan.fastrepair.model.Employee;
+import pers.evan.fastrepair.model.ExpensiveToolLog;
+import pers.evan.fastrepair.model.InexpensiveToolLog;
+import pers.evan.fastrepair.model.ToolLog;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -9,37 +11,43 @@ import java.util.List;
 /**
  * Created by cfwloader on 4/8/15.
  */
-public interface ToolLogDao {
+public interface ToolLogDao extends TemplateDao<ToolLog>{
 
+    /*
     int addInexpensiveToolLog(InexpensiveToolLog inexpensiveToolLog);
 
-    void updateInexpensiveToolLog(InexpensiveToolLog inexpensiveToolLog) throws SQLException;
+    void updateInexpensiveToolLog(InexpensiveToolLog inexpensiveToolLog);
 
-    void removeInexpensiveToolLog(InexpensiveToolLog inexpensiveToolLog) throws SQLException;
+    void removeInexpensiveToolLog(InexpensiveToolLog inexpensiveToolLog);
+    */
 
-    int getTotalOfInexpensiveToolLogByEmployeeId(int id) throws SQLException;
+    int getTotalOfInexpensiveToolLogByEmployee(Employee employee);
 
-    InexpensiveToolLog getInexpensiveToolLogById(int id) throws SQLException;
+    //InexpensiveToolLog getInexpensiveToolLogBy(Employee employee);
 
-    List<InexpensiveToolLog> getInexpensiveToolLogsByEmployeeId(int employeeId, int startIndex, int size) throws SQLException;
+    List<InexpensiveToolLog> getInexpensiveToolLogsByEmployee(Employee employee, int startIndex, int size);
 
-    int addExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException;
+    /*
+    int addExpensiveToolLog(ExpensiveToolLog expensiveToolLog);
 
-    void updateExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException;
+    void updateExpensiveToolLog(ExpensiveToolLog expensiveToolLog);
 
-    void removeExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException;
+    void removeExpensiveToolLog(ExpensiveToolLog expensiveToolLog);
+    */
 
-    int getTotalOfExpensiveToolLogByEmployeeId(int id) throws SQLException;
+    int getTotalOfExpensiveToolLogByEmployee(Employee employee);
 
-    ExpensiveToolLog getExpensiveToolLogById(int id) throws SQLException;
+    //ExpensiveToolLog getExpensiveToolLogBy(Employee employee);
 
-    List<ExpensiveToolLog> getExpensiveTooLogsByEmployeeId(int employeeId, int startIndex, int size) throws SQLException;
+    List<ExpensiveToolLog> getExpensiveTooLogsByEmployee(Employee employee, int startIndex, int size);
 
-    boolean getAutoCommit() throws SQLException;
+    /*
+    boolean getAutoCommit();
 
-    void setAutoCommit(boolean autoCommit) throws SQLException;
+    void setAutoCommit(boolean autoCommit);
 
-    void commit() throws SQLException;
+    void commit();
 
-    void close() throws SQLException;
+    void close();
+    */
 }

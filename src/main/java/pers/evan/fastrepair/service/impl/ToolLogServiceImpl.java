@@ -1,16 +1,19 @@
 package pers.evan.fastrepair.service.impl;
 
-import team.unnamed.fastrepair.dao.ToolDao;
-import team.unnamed.fastrepair.dao.ToolLogDao;
-import team.unnamed.fastrepair.dao.impl.MySqlToolDao;
-import team.unnamed.fastrepair.dao.impl.MySqlToolLogDao;
-import team.unnamed.fastrepair.exception.BadRequestParameterException;
-import team.unnamed.fastrepair.exception.TransactionCancelledException;
-import team.unnamed.fastrepair.model.ExpensiveToolLog;
-import team.unnamed.fastrepair.model.InexpensiveToolLog;
-import team.unnamed.fastrepair.model.Tool;
-import team.unnamed.fastrepair.service.ToolLogService;
+import org.springframework.stereotype.Service;
+import pers.evan.fastrepair.dao.ToolDao;
+import pers.evan.fastrepair.dao.ToolLogDao;
+import pers.evan.fastrepair.dao.impl.MySqlToolDao;
+import pers.evan.fastrepair.dao.impl.MySqlToolLogDao;
+import pers.evan.fastrepair.exception.BadRequestParameterException;
+import pers.evan.fastrepair.exception.TransactionCancelledException;
+import pers.evan.fastrepair.model.Employee;
+import pers.evan.fastrepair.model.ExpensiveToolLog;
+import pers.evan.fastrepair.model.InexpensiveToolLog;
+import pers.evan.fastrepair.model.Tool;
+import pers.evan.fastrepair.service.ToolLogService;
 
+import javax.annotation.Resource;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -18,203 +21,198 @@ import java.util.List;
 /**
  * Created by cfwloader on 4/12/15.
  */
+@Service
 public class ToolLogServiceImpl implements ToolLogService {
 
+    @Resource
     private ToolLogDao toolLogDao;
 
-    public ToolLogServiceImpl() {
-        toolLogDao = new MySqlToolLogDao();
-    }
+    @Resource
+    private ToolDao toolDao;
 
     @Override
     public int addInexpensiveToolLog(InexpensiveToolLog inexpensiveToolLog) throws Exception {
         //if(inexpensiveToolLog.getId() < 0)throw new BadRequestParameterException();
         inexpensiveToolLog.setStatus("Waiting for deal");
 
-        ToolDao toolDao = new MySqlToolDao();
+        Tool tool = toolDao.getToolById(inexpensiveToolLog.getId());
 
-        try {
-            Tool tool = toolDao.getToolById(inexpensiveToolLog.getToolId());
-
-            if(tool.getNumberOfAvailable() - inexpensiveToolLog.getQuantity() < 0)throw new TransactionCancelledException();
-
-            int currentNumber = tool.getNumberOfAvailable();
-
-            tool.setNumberOfAvailable(currentNumber - inexpensiveToolLog.getQuantity());
-
-            toolDao.updateTool(tool);
-        } catch (SQLException e) {
+        if (tool.getNumberOfAvailable() - inexpensiveToolLog.getQuantity() < 0)
             throw new TransactionCancelledException();
-        }
 
-        toolDao.close();
+        int currentNumber = tool.getNumberOfAvailable();
 
-        return toolLogDao.addInexpensiveToolLog(inexpensiveToolLog);
+        tool.setNumberOfAvailable(currentNumber - inexpensiveToolLog.getQuantity());
+
+        toolDao.updateEntity(tool);
+
+        toolLogDao.addEntity(inexpensiveToolLog);
+
+        return 0;
     }
 
     @Override
-    public void updateInexpensiveToolLog(InexpensiveToolLog inexpensiveToolLog) throws SQLException, BadRequestParameterException {
-        if(inexpensiveToolLog.getId() < 0)throw new BadRequestParameterException();
+    public void updateInexpensiveToolLog(InexpensiveToolLog inexpensiveToolLog) throws BadRequestParameterException {
+        if (inexpensiveToolLog.getId() < 0) throw new BadRequestParameterException();
 
-        toolLogDao.updateInexpensiveToolLog(inexpensiveToolLog);
+        toolLogDao.updateEntity(inexpensiveToolLog);
     }
 
     @Override
-    public void removeInexpensiveToolLog(InexpensiveToolLog inexpensiveToolLog) throws SQLException, BadRequestParameterException {
-        if(inexpensiveToolLog.getId() < 0)throw new BadRequestParameterException();
+    public void removeInexpensiveToolLog(InexpensiveToolLog inexpensiveToolLog) throws BadRequestParameterException {
+        if (inexpensiveToolLog.getId() < 0) throw new BadRequestParameterException();
 
-        toolLogDao.removeInexpensiveToolLog(inexpensiveToolLog);
+        toolLogDao.deleteEntity(inexpensiveToolLog);
     }
 
     @Override
-    public int getTotalOfInexpensiveToolLogByEmployeeId(int id) throws SQLException, BadRequestParameterException {
-        if(id < 0)throw new BadRequestParameterException();
+    public int getTotalOfInexpensiveToolLogByEmployee(Employee employee) throws BadRequestParameterException {
+        if (employee == null) throw new BadRequestParameterException();
 
-        return toolLogDao.getTotalOfInexpensiveToolLogByEmployeeId(id);
+        return toolLogDao.getTotalOfInexpensiveToolLogByEmployee(employee);
     }
 
     @Override
-    public InexpensiveToolLog getInexpensiveToolLogById(int id) throws SQLException, BadRequestParameterException {
-        if(id < 0)throw new BadRequestParameterException();
+    public InexpensiveToolLog getInexpensiveToolLogById(long id) throws BadRequestParameterException {
+        if (id < 0) throw new BadRequestParameterException();
 
-        return toolLogDao.getInexpensiveToolLogById(id);
+        return (InexpensiveToolLog) toolLogDao.getEntityById(id);
     }
 
     @Override
-    public List<InexpensiveToolLog> getInexpensiveToolLogsByEmployeeId(int employeeId, int pageNo, int size) throws SQLException, BadRequestParameterException {
-        if(employeeId < 0)throw new BadRequestParameterException();
+    public List<InexpensiveToolLog> getInexpensiveToolLogsByEmployee(Employee employee, int pageNo, int size) throws BadRequestParameterException {
+        if (employee == null) throw new BadRequestParameterException();
 
-        return toolLogDao.getInexpensiveToolLogsByEmployeeId(employeeId, (pageNo - 1) * size, size);
+        return toolLogDao.getInexpensiveToolLogsByEmployee(employee, (pageNo - 1) * size, size);
     }
 
     @Override
-    public int addExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException, TransactionCancelledException {
-        ToolDao toolDao = new MySqlToolDao();
+    public int addExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws TransactionCancelledException {
 
-        try {
-            Tool tool = toolDao.getToolById(expensiveToolLog.getToolId());
+        Tool tool = toolDao.getToolById(expensiveToolLog.getId());
 
-            if(tool.getNumberOfAvailable() - expensiveToolLog.getQuantity() < 0)throw new TransactionCancelledException();
-
-            int currentNumber = tool.getNumberOfAvailable();
-
-            tool.setNumberOfAvailable(currentNumber - expensiveToolLog.getQuantity());
-
-            toolDao.updateTool(tool);
-        } catch (SQLException e) {
+        if (tool.getNumberOfAvailable() - expensiveToolLog.getQuantity() < 0)
             throw new TransactionCancelledException();
-        }
 
-        toolDao.close();
+        int currentNumber = tool.getNumberOfAvailable();
 
-        return toolLogDao.addExpensiveToolLog(expensiveToolLog);
+        tool.setNumberOfAvailable(currentNumber - expensiveToolLog.getQuantity());
+
+        toolDao.updateEntity(tool);
+
+        toolLogDao.addEntity(expensiveToolLog);
+
+        return 0;
     }
 
     @Override
-    public void updateExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException, BadRequestParameterException, TransactionCancelledException {
-        if(expensiveToolLog.getId() < 0)throw new BadRequestParameterException();
+    public void updateExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws BadRequestParameterException, TransactionCancelledException {
 
-        if(expensiveToolLog.getStatus().equals("Back")){
-            ToolDao toolDao = new MySqlToolDao();
+        if (expensiveToolLog.getId() < 0) throw new BadRequestParameterException();
 
-            try {
-                Tool tool = toolDao.getToolById(expensiveToolLog.getToolId());
+        if (expensiveToolLog.getStatus().equals("Back")) {
 
-                if(tool.getNumberOfAvailable() - expensiveToolLog.getQuantity() < 0)throw new TransactionCancelledException();
+            Tool tool = toolDao.getToolById(expensiveToolLog.getId());
 
-                int currentNumber = tool.getNumberOfAvailable();
-
-                tool.setNumberOfAvailable(currentNumber + expensiveToolLog.getQuantity());
-
-                toolDao.updateTool(tool);
-
-                expensiveToolLog.setBackDate(new Date(System.currentTimeMillis()));
-            } catch (SQLException e) {
+            if (tool.getNumberOfAvailable() - expensiveToolLog.getQuantity() < 0)
                 throw new TransactionCancelledException();
-            }
 
-            toolDao.close();
+            int currentNumber = tool.getNumberOfAvailable();
+
+            tool.setNumberOfAvailable(currentNumber + expensiveToolLog.getQuantity());
+
+            toolDao.updateEntity(tool);
+
+            expensiveToolLog.setBackDate(new Date(System.currentTimeMillis()));
+
+
+            toolLogDao.updateEntity(expensiveToolLog);
+
         }
 
-        toolLogDao.updateExpensiveToolLog(expensiveToolLog);
     }
 
     @Override
-    public void removeExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws SQLException, BadRequestParameterException {
-        if(expensiveToolLog.getId() < 0)throw new BadRequestParameterException();
+    public void removeExpensiveToolLog(ExpensiveToolLog expensiveToolLog) throws BadRequestParameterException
+    {
+        if (expensiveToolLog == null) throw new BadRequestParameterException();
 
-        toolLogDao.removeExpensiveToolLog(expensiveToolLog);
+        toolLogDao.deleteEntity(expensiveToolLog);
     }
 
     @Override
-    public int getTotalOfExpensiveToolLogByEmployeeId(int id) throws SQLException, BadRequestParameterException {
-        if(id < 0)throw new BadRequestParameterException();
+    public int getTotalOfExpensiveToolLogByEmployee(Employee employee) throws BadRequestParameterException {
+        if (employee == null) throw new BadRequestParameterException();
 
-        return toolLogDao.getTotalOfExpensiveToolLogByEmployeeId(id);
+        return toolLogDao.getTotalOfExpensiveToolLogByEmployee(employee);
     }
 
     @Override
-    public ExpensiveToolLog getExpensiveToolLogById(int id) throws SQLException, BadRequestParameterException {
-        if(id < 0)throw new BadRequestParameterException();
+    public ExpensiveToolLog getExpensiveToolLogById(long id) throws BadRequestParameterException {
+        if (id < 0) throw new BadRequestParameterException();
 
-        return toolLogDao.getExpensiveToolLogById(id);
+        return (ExpensiveToolLog) toolLogDao.getEntityById(id);
     }
 
     @Override
-    public List<ExpensiveToolLog> getExpensiveTooLogsByEmployeeId(int employeeId, int pageNo, int size) throws SQLException, BadRequestParameterException {
-        if(employeeId < 0)throw new BadRequestParameterException();
+    public List<ExpensiveToolLog> getExpensiveTooLogsByEmployee(Employee employee, int pageNo, int size) throws
+            BadRequestParameterException {
+        if (employee == null) throw new BadRequestParameterException();
 
-        return toolLogDao.getExpensiveTooLogsByEmployeeId(employeeId, (pageNo - 1) * size, size);
+        return toolLogDao.getExpensiveTooLogsByEmployee(employee, (pageNo - 1) * size, size);
     }
 
     @Override
-    public InexpensiveToolLog inexpensiveLogAssembler(String idStr, String employeeIdStr, String toolIdStr, String quantityStr, String status, String logDate) {
+    public InexpensiveToolLog inexpensiveLogAssembler(String idStr, Employee employee, Tool tool, String
+            quantityStr, String status, String logDate) {
 
         InexpensiveToolLog inexpensiveToolLog = new InexpensiveToolLog();
 
-        if(idStr != null && !idStr.trim().equals(""))inexpensiveToolLog.setId(Integer.parseInt(idStr));
+        if (idStr != null && !idStr.trim().equals("")) inexpensiveToolLog.setId(Integer.parseInt(idStr));
 
-        if(employeeIdStr != null && !employeeIdStr.trim().equals(""))inexpensiveToolLog.setEmployeeId(Integer.parseInt(employeeIdStr));
+        inexpensiveToolLog.setEmployee(employee);
 
-        if(toolIdStr != null && !toolIdStr.trim().equals(""))inexpensiveToolLog.setToolId(Integer.parseInt(toolIdStr));
+        inexpensiveToolLog.setTool(tool);
 
-        if(quantityStr != null && !quantityStr.trim().equals(""))inexpensiveToolLog.setQuantity(Integer.parseInt(quantityStr));
+        if (quantityStr != null && !quantityStr.trim().equals(""))
+            inexpensiveToolLog.setQuantity(Integer.parseInt(quantityStr));
 
-        if(status != null && !status.equals(""))inexpensiveToolLog.setStatus(status);
+        if (status != null && !status.equals("")) inexpensiveToolLog.setStatus(status);
 
         //System.out.println(logDate);
 
-        if(logDate != null && !logDate.trim().equals(""))inexpensiveToolLog.setLogDate(new Date(Long.parseLong(logDate.trim())));
+        if (logDate != null && !logDate.trim().equals(""))
+            inexpensiveToolLog.setLogDate(new Date(Long.parseLong(logDate.trim())));
 
         return inexpensiveToolLog;
     }
 
     @Override
-    public ExpensiveToolLog expensiveLogAssembler(String idStr, String employeeIdStr, String toolIdStr, String quantityStr, String status, String lentDate, String backDate) {
+    public ExpensiveToolLog expensiveLogAssembler(String idStr, Employee employee, Tool tool, String
+            quantityStr, String status, String lentDate, String backDate) {
 
         ExpensiveToolLog expensiveToolLog = new ExpensiveToolLog();
 
-        if(idStr != null && !idStr.trim().equals(""))expensiveToolLog.setId(Integer.parseInt(idStr));
+        if (idStr != null && !idStr.trim().equals("")) expensiveToolLog.setId(Integer.parseInt(idStr));
 
-        if(employeeIdStr != null && !employeeIdStr.trim().equals(""))expensiveToolLog.setEmployeeId(Integer.parseInt(employeeIdStr));
+        expensiveToolLog.setEmployee(employee);
 
-        if(toolIdStr != null && !toolIdStr.trim().equals(""))expensiveToolLog.setToolId(Integer.parseInt(toolIdStr));
+        expensiveToolLog.setTool(tool);
 
-        if(quantityStr != null && !quantityStr.trim().equals(""))expensiveToolLog.setQuantity(Integer.parseInt(quantityStr));
+        if (quantityStr != null && !quantityStr.trim().equals(""))
+            expensiveToolLog.setQuantity(Integer.parseInt(quantityStr));
 
-        if(status != null && !status.equals(""))expensiveToolLog.setStatus(status);
+        if (status != null && !status.equals("")) expensiveToolLog.setStatus(status);
 
         //System.out.println(logDate);
 
-        if(lentDate != null && !lentDate.trim().equals(""))expensiveToolLog.setLendDate(new Date(Long.parseLong(lentDate.trim())));
+        if (lentDate != null && !lentDate.trim().equals(""))
+            expensiveToolLog.setLendDate(new Date(Long.parseLong(lentDate.trim())));
 
-        if(backDate != null && !backDate.trim().equals(""))expensiveToolLog.setBackDate(new Date(Long.parseLong(backDate.trim())));
+        if (backDate != null && !backDate.trim().equals(""))
+            expensiveToolLog.setBackDate(new Date(Long.parseLong(backDate.trim())));
 
         return expensiveToolLog;
     }
 
-    @Override
-    public void close() throws SQLException {
-        toolLogDao.close();
-    }
 }

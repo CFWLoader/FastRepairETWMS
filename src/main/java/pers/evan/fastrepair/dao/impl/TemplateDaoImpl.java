@@ -1,11 +1,10 @@
 package pers.evan.fastrepair.dao.impl;
 
+import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.orm.hibernate4.HibernateTemplate;
-import pers.evan.fastrepair.dao.TemplateDao;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
+import pers.evan.fastrepair.dao.TemplateDao;
 
 import javax.annotation.Resource;
 import java.lang.reflect.ParameterizedType;
@@ -64,12 +63,8 @@ public class TemplateDaoImpl<T> implements TemplateDao<T> {
     }
 
     @Override
-    public T getEntityById(Long id) {
-        if(id != null){
-            return (T) hibernateTemplate.get(clazz, id);
-        } else {
-            return null;
-        }
+    public T getEntityById(long id) {
+        return (T) hibernateTemplate.get(clazz, id);
     }
 
     @Override

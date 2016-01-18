@@ -1,76 +1,86 @@
 package pers.evan.fastrepair.service.impl;
 
-import team.unnamed.fastrepair.dao.DepartmentDao;
-import team.unnamed.fastrepair.dao.ToolDao;
-import team.unnamed.fastrepair.dao.impl.MySqlDepartmentDao;
-import team.unnamed.fastrepair.dao.impl.MySqlToolDao;
-import team.unnamed.fastrepair.exception.BadRequestParameterException;
-import team.unnamed.fastrepair.model.Company;
-import team.unnamed.fastrepair.model.Department;
-import team.unnamed.fastrepair.model.Tool;
-import team.unnamed.fastrepair.service.ToolService;
+import org.springframework.stereotype.Service;
+import pers.evan.fastrepair.dao.DepartmentDao;
+import pers.evan.fastrepair.dao.ToolDao;
+import pers.evan.fastrepair.exception.BadRequestParameterException;
+import pers.evan.fastrepair.model.Company;
+import pers.evan.fastrepair.model.Department;
+import pers.evan.fastrepair.model.Tool;
+import pers.evan.fastrepair.service.ToolService;
 
-import java.sql.SQLException;
+import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
  * Created by cfwloader on 4/10/15.
  */
+@Service
 public class ToolServiceImpl implements ToolService {
 
+    @Resource
     private ToolDao toolDao;
 
-    public ToolServiceImpl() {
-        toolDao = new MySqlToolDao();
+    @Resource
+    private DepartmentDao departmentDao;
+
+    @Override
+    public int addTool(Tool tool) {
+
+        toolDao.addEntity(tool);
+
+        return 0;
     }
 
     @Override
-    public int addTool(Tool tool) throws SQLException {
-        return toolDao.addTool(tool);
-    }
-
-    @Override
-    public Tool getToolById(String id) throws BadRequestParameterException, SQLException {
+    public Tool getToolById(String id) throws BadRequestParameterException {
         if(id == null || id.trim().equals(""))throw new BadRequestParameterException();
 
-        return toolDao.getToolById(Integer.parseInt(id.trim()));
+        return toolDao.getToolById(Long.parseLong(id.trim()));
     }
 
     @Override
-    public void updateTool(Tool tool) throws SQLException {
-        toolDao.updateTool(tool);
+    public void updateTool(Tool tool) {
+        toolDao.updateEntity(tool);
     }
 
     @Override
-    public void removeTool(Tool tool) throws SQLException {
-        toolDao.removeTool(tool);
+    public void removeTool(Tool tool) {
+        toolDao.deleteEntity(tool);
     }
 
     @Override
-    public List<Tool> getToolsByDepartmentId(String departmentId, int pageIndex, int size) throws SQLException, BadRequestParameterException {
-        if(departmentId == null || departmentId.trim().equals(""))throw new BadRequestParameterException();
-
-        DepartmentDao departmentDao = new MySqlDepartmentDao();
-
-        Department department = departmentDao.getDepartmentById(Integer.parseInt(departmentId.trim()));
-
-        departmentDao.close();
+    public List<Tool> getToolsByDepartmentId(Department department, int pageIndex, int size) throws BadRequestParameterException {
+        if(department == null)throw new BadRequestParameterException();
 
         if(department.getDepartmentType().equals("Specialist") || department.getDepartmentType().equals("Admin") || department.getDepartmentType().equals("Tool Keeper"))return toolsOfSpecialist(pageIndex, size);
 
         return toolDao.getToolsByDepartment(department, (pageIndex - 1) * size, size);
     }
 
-    private List<Tool> toolsOfSpecialist(int pageIndex, int size) throws SQLException {
+    private List<Tool> toolsOfSpecialist(int pageIndex, int size){
 
         List<Tool> tools = new ArrayList<Tool>(10);
         
         int equivalentIndex = (pageIndex - 1) * size;
 
-        DepartmentDao departmentDao = new MySqlDepartmentDao();
+        int equivalentVolume = 0;
 
+        for(Department department : departmentDao.getEntities())
+        {
+            equivalentVolume = toolDao.getTotalOfTool(department);
+
+            if(equivalentIndex < equivalentVolume) {
+                tools.addAll(toolDao.getToolsByDepartment(department, equivalentIndex, size));
+
+                if(tools.size() >= size){
+                    return tools;
+                }
+            }
+        }
+
+        /*
         Department department = departmentDao.getDepartmentById(1);
 
         int equivalentVolume = toolDao.getTotalOfTool(department);
@@ -79,7 +89,7 @@ public class ToolServiceImpl implements ToolService {
             tools.addAll(toolDao.getToolsByDepartment(department, equivalentIndex, size));
 
             if(tools.size() >= size){
-                departmentDao.close();
+                //departmentDao.close();
                 return tools;
             }
         }
@@ -96,7 +106,7 @@ public class ToolServiceImpl implements ToolService {
             tools.addAll(toolDao.getToolsByDepartment(department, equivalentIndex, size - tools.size()));
 
             if(tools.size() >= size){
-                departmentDao.close();
+                //departmentDao.close();
                 return tools;
             }
         }
@@ -113,7 +123,7 @@ public class ToolServiceImpl implements ToolService {
             tools.addAll(toolDao.getToolsByDepartment(department, equivalentIndex, size - tools.size()));
 
             if(tools.size() >= size){
-                departmentDao.close();
+                //departmentDao.close();
                 return tools;
             }
         }
@@ -130,35 +140,29 @@ public class ToolServiceImpl implements ToolService {
             tools.addAll(toolDao.getToolsByDepartment(department, equivalentIndex, size - tools.size()));
 
             if(tools.size() >= size){
-                departmentDao.close();
+                //departmentDao.close();
                 return tools;
             }
         }
+        */
 
-        departmentDao.close();
+        //departmentDao.close();
         return tools;
     }
 
     @Override
-    public List<Tool> getToolsByCompanyId(String companyId, int pageIndex, int size) throws SQLException, BadRequestParameterException {
-        if(companyId == null || companyId.trim().equals(""))throw new BadRequestParameterException();
+    public List<Tool> getToolsByCompanyId(Company company, int pageIndex, int size) throws BadRequestParameterException {
 
-        Company company = new Company();
-
-        company.setId(Integer.parseInt(companyId.trim()));
+        if(company == null)throw new BadRequestParameterException();
 
         return toolDao.getToolsByCompany(company, (pageIndex - 1) + size, size);
     }
 
     @Override
-    public int getTotalOfTool(String departmentId) throws SQLException, BadRequestParameterException {
-        if(departmentId == null || departmentId.trim().equals(""))throw new BadRequestParameterException();
+    public int getTotalOfTool(Department department) throws BadRequestParameterException {
+        if(department == null)throw new BadRequestParameterException();
 
-        Department department = new Department();
-
-        department.setId(Integer.parseInt(departmentId.trim()));
-
-        if(department.getId() == 5 || department.getId() == 6)return totalOfToolOfSpecialist();
+        if(department.getDepartmentType().equals("Specialist") || department.getDepartmentType().equals("Admin"))return totalOfToolOfSpecialist();
 
         return toolDao.getTotalOfTool(department);
     }
@@ -168,9 +172,8 @@ public class ToolServiceImpl implements ToolService {
                                     String toolType,
                                     String isExpensiveStr,
                                     String numberOfAvailableStr,
-                                    String companyIdStr,
-                                    String departmentIdStr)
-            throws SQLException {
+                                    Company company,
+                                    Department department) {
 
         Tool tool = null;
 
@@ -190,17 +193,23 @@ public class ToolServiceImpl implements ToolService {
 
         if(numberOfAvailableStr != null && !numberOfAvailableStr.trim().equals(""))tool.setNumberOfAvailable(Integer.parseInt(numberOfAvailableStr.trim()));
 
-        if(companyIdStr != null && !companyIdStr.trim().equals(""))tool.setCompanyId(Integer.parseInt(companyIdStr.trim()));
+        if(company != null)tool.setCompany(company);
 
-        if(departmentIdStr != null && !departmentIdStr.trim().equals(""))tool.setDepartmentId(Integer.parseInt(departmentIdStr.trim()));
+        if(department != null)tool.setDepartment(department);
 
         return tool;
     }
 
-    private int totalOfToolOfSpecialist() throws SQLException {
+    private int totalOfToolOfSpecialist(){
 
         int total = 0;
 
+        for(Department department : departmentDao.getEntities())
+        {
+            total += toolDao.getTotalOfTool(department);
+        }
+
+        /*
         Department department = new Department();
 
         department.setId(1);
@@ -218,12 +227,9 @@ public class ToolServiceImpl implements ToolService {
         department.setId(4);
 
         total += toolDao.getTotalOfTool(department);
+        */
 
         return total;
     }
 
-    @Override
-    public void close() {
-        toolDao.close();
-    }
 }

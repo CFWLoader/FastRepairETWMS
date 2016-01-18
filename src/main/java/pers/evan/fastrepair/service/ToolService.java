@@ -1,9 +1,9 @@
 package pers.evan.fastrepair.service;
 
-import team.unnamed.fastrepair.exception.BadRequestParameterException;
-import team.unnamed.fastrepair.model.Company;
-import team.unnamed.fastrepair.model.Department;
-import team.unnamed.fastrepair.model.Tool;
+import pers.evan.fastrepair.exception.BadRequestParameterException;
+import pers.evan.fastrepair.model.Company;
+import pers.evan.fastrepair.model.Department;
+import pers.evan.fastrepair.model.Tool;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -13,22 +13,20 @@ import java.util.List;
  */
 public interface ToolService {
 
-    int addTool(Tool tool) throws SQLException;
+    int addTool(Tool tool);
 
-    Tool getToolById(String id) throws BadRequestParameterException, SQLException;
+    Tool getToolById(String id) throws BadRequestParameterException;
 
-    void updateTool(Tool tool) throws SQLException;
+    void updateTool(Tool tool);
 
-    void removeTool(Tool tool) throws SQLException;
+    void removeTool(Tool tool);
 
-    List<Tool> getToolsByDepartmentId(String departmentId, int pageIndex, int size) throws SQLException, BadRequestParameterException;
+    List<Tool> getToolsByDepartmentId(Department department, int pageIndex, int size) throws BadRequestParameterException;
 
-    List<Tool> getToolsByCompanyId(String companyId, int pageIndex, int size) throws SQLException, BadRequestParameterException;
+    List<Tool> getToolsByCompanyId(Company company, int pageIndex, int size) throws BadRequestParameterException;
 
-    int getTotalOfTool(String departmentId) throws SQLException, BadRequestParameterException;
+    int getTotalOfTool(Department department) throws BadRequestParameterException;
 
-    Tool toolObjectAssembler(String idStr, String toolType, String numberOfAvailableStr, String isExpensiveStr, String companyIdStr, String departmentIdStr) throws SQLException;
-
-    void close();
+    Tool toolObjectAssembler(String idStr, String toolType, String numberOfAvailableStr, String isExpensiveStr, Company company, Department department);
 
 }

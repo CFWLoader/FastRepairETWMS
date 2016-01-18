@@ -1,5 +1,6 @@
 package pers.evan.fastrepair.service;
 
+import pers.evan.fastrepair.exception.UserNotFoundException;
 import pers.evan.fastrepair.model.Company;
 import pers.evan.fastrepair.model.Department;
 import pers.evan.fastrepair.model.Employee;
@@ -11,15 +12,15 @@ import java.util.List;
  */
 public interface EmployeeService {
 
-    Long addEmployee(Employee employee);
+    long addEmployee(Employee employee);
 
     void updateEmployee(Employee employee);
 
     void deleteEmployee(Employee employee);
 
-    Employee employeeLogin(String idStr, String password);
+    Employee employeeLogin(String username, String password) throws UserNotFoundException;
 
-    Employee getEmployeeById(Long id);
+    Employee getEmployeeById(long id);
 
     List<Employee> getEmployeesByDepartment(Department department, int startIndex, int pageSize);
 

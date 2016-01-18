@@ -13,7 +13,7 @@ public class Tool {
 
     @Id
     @GeneratedValue
-    private int id;
+    private long id;
 
     private String toolName;
 
@@ -31,11 +31,11 @@ public class Tool {
     @ManyToOne
     private Department department;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

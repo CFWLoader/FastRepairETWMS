@@ -3,6 +3,7 @@ package pers.evan.fastrepair.controller;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pers.evan.fastrepair.exception.UserNotFoundException;
 import pers.evan.fastrepair.model.Employee;
 import pers.evan.fastrepair.service.EmployeeService;
 
@@ -43,7 +44,13 @@ public class HomePageController {
     {
         if (username != null && password != null)
         {
-            Employee employee = employeeService.employeeLogin(username, password);
+            Employee employee;
+
+            try {
+                employee = employeeService.employeeLogin(username, password);
+            } catch (UserNotFoundException e) {
+                return "index";
+            }
 
             if(employee != null)
             {

@@ -1,31 +1,63 @@
 package pers.evan.fastrepair.dao.impl;
 
-import team.unnamed.fastrepair.dao.CompanyDao;
-import team.unnamed.fastrepair.dao.DepartmentDao;
-import team.unnamed.fastrepair.dao.ToolDao;
-import team.unnamed.fastrepair.model.Company;
-import team.unnamed.fastrepair.model.Department;
-import team.unnamed.fastrepair.model.Tool;
-import team.unnamed.fastrepair.util.MySqlConnectionManager;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
+import pers.evan.fastrepair.dao.ToolDao;
+import pers.evan.fastrepair.model.Company;
+import pers.evan.fastrepair.model.Department;
+import pers.evan.fastrepair.model.Tool;
 
-import javax.swing.plaf.nimbus.State;
-import java.sql.*;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by cfwloader on 4/10/15.
  */
-public class MySqlToolDao implements ToolDao {
+@Repository
+public class MySqlToolDao extends TemplateDaoImpl<Tool> implements ToolDao {
 
-    private Connection connection;
-
-    public MySqlToolDao() {
-        this.connection = MySqlConnectionManager.getDefaultConnection();
+    @Override
+    public Tool getToolById(long id) {
+        return (Tool) hibernateTemplate.get("id", id);
     }
 
+    @Override
+    public List<Tool> getToolsByDepartment(Department department, int startIndex, int size) {
+
+        DetachedCriteria criteria = DetachedCriteria.forClass(clazz);
+
+        criteria.add(Restrictions.eq("department", department));
+
+        return (List<Tool>) hibernateTemplate.findByCriteria(criteria, startIndex, size);
+    }
+
+    @Override
+    public List<Tool> getToolsByCompany(Company company, int startIndex, int size) {
+
+        DetachedCriteria criteria = DetachedCriteria.forClass(clazz);
+
+        criteria.add(Restrictions.eq("company", company));
+
+        return (List<Tool>) hibernateTemplate.findByCriteria(criteria, startIndex, size);
+    }
+
+    @Override
+    public int getTotalOfTool(Department department) {
+
+        Criteria criteria = this.getSession().createCriteria(clazz);
+
+        criteria.add(Restrictions.eq("department", department));
+
+        criteria.setProjection(Projections.count("id"));
+
+        Integer result = (Integer) criteria.uniqueResult();
+
+        return result;
+    }
+
+    /*
     @Override
     public int addTool(Tool tool) throws SQLException {
 
@@ -357,4 +389,5 @@ public class MySqlToolDao implements ToolDao {
             }
         }
     }
+    */
 }

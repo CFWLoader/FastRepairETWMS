@@ -9,11 +9,12 @@ import java.util.Date;
  * Created by cfwloader on 4/10/15.
  */
 @Entity
-public class ExpensiveToolLog {
+public class ExpensiveToolLog extends ToolLog {
 
+    /*
     @Id
     @GeneratedValue
-    private int id;
+    private long id;
 
     private int employeeId;
 
@@ -22,16 +23,18 @@ public class ExpensiveToolLog {
     private int quantity;
 
     private String status;
+    */
 
     private Date lendDate;
 
     private Date backDate;
 
-    public int getId() {
+    /*
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -67,6 +70,7 @@ public class ExpensiveToolLog {
     public void setStatus(String status) {
         this.status = status;
     }
+    */
 
     public Date getLendDate() {
         return lendDate;
@@ -84,17 +88,4 @@ public class ExpensiveToolLog {
         this.backDate = backDate;
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("ExpensiveToolLog{");
-        sb.append("id=").append(id);
-        sb.append(", employeeId=").append(employeeId);
-        sb.append(", toolId=").append(toolId);
-        sb.append(", quantity=").append(quantity);
-        sb.append(", status='").append(status).append('\'');
-        sb.append(", lendDate=").append(lendDate);
-        sb.append(", backDate=").append(backDate);
-        sb.append('}');
-        return sb.toString();
-    }
 }

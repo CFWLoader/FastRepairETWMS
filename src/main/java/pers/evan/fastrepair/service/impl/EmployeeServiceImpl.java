@@ -1,6 +1,7 @@
 package pers.evan.fastrepair.service.impl;
 
 import pers.evan.fastrepair.dao.EmployeeDao;
+import pers.evan.fastrepair.exception.UserNotFoundException;
 import pers.evan.fastrepair.model.Company;
 import pers.evan.fastrepair.model.Department;
 import pers.evan.fastrepair.model.Employee;
@@ -20,7 +21,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeDao employeeDao;
 
     @Override
-    public Long addEmployee(Employee employee) {
+    public long addEmployee(Employee employee) {
 
         employeeDao.addEntity(employee);
 
@@ -43,15 +44,25 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee employeeLogin(String idStr, String password) {
+    public Employee employeeLogin(String username, String password) throws UserNotFoundException {
 
-        Long id = Long.valueOf(idStr);
+        Employee employee = employeeDao.getEmployeeByUsername(username);
 
-        return (Employee) employeeDao.login(id, password);
+        if (employee == null)
+        {
+            throw new UserNotFoundException();
+        }
+
+        if(!employee.getPassword().equals(password.trim()))
+        {
+            return null;
+        }
+
+        return employee;
     }
 
     @Override
-    public Employee getEmployeeById(Long id) {
+    public Employee getEmployeeById(long id) {
 
         return employeeDao.getEntityById(id);
 
@@ -64,16 +75,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<Employee> getEmployeesByCompany(Company company, int startIndex, int pageSize) {
-        return null;
+        return employeeDao.getEmployeesByCompany(company, startIndex, pageSize);
     }
 
     @Override
     public int getTotalOfEmployeesByDepartment(Department department) {
-        return 0;
+        return employeeDao.getTotalOfEmployeesByDepartment(department);
     }
 
     @Override
     public int getTotalOfEmployeesByCompany(Company company) {
-        return 0;
+        return employeeDao.getTotalOfEmployeesByCompany(company);
     }
 }

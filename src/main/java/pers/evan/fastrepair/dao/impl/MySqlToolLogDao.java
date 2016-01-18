@@ -1,9 +1,16 @@
 package pers.evan.fastrepair.dao.impl;
 
-import team.unnamed.fastrepair.dao.ToolLogDao;
-import team.unnamed.fastrepair.model.ExpensiveToolLog;
-import team.unnamed.fastrepair.model.InexpensiveToolLog;
-import team.unnamed.fastrepair.util.MySqlConnectionManager;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
+import pers.evan.fastrepair.dao.ToolLogDao;
+import pers.evan.fastrepair.model.Employee;
+import pers.evan.fastrepair.model.ExpensiveToolLog;
+import pers.evan.fastrepair.model.InexpensiveToolLog;
+import pers.evan.fastrepair.model.ToolLog;
+import pers.evan.fastrepair.util.MySqlConnectionManager;
 
 import javax.swing.plaf.nimbus.State;
 import java.beans.*;
@@ -16,13 +23,65 @@ import java.util.Date;
 /**
  * Created by cfwloader on 4/12/15.
  */
-public class MySqlToolLogDao implements ToolLogDao {
+@Repository
+public class MySqlToolLogDao extends TemplateDaoImpl<ToolLog> implements ToolLogDao {
+
+    @Override
+    public int getTotalOfInexpensiveToolLogByEmployee(Employee employee) {
+
+        Criteria criteria = this.getSession().createCriteria(InexpensiveToolLog.class);
+
+        criteria.add(Restrictions.eq("employee", employee));
+
+        criteria.setProjection(Projections.count("id"));
+
+        Integer result = (Integer) criteria.uniqueResult();
+
+        return result;
+    }
+
+    @Override
+    public List<InexpensiveToolLog> getInexpensiveToolLogsByEmployee(Employee employee, int startIndex, int size) {
+
+        DetachedCriteria criteria = DetachedCriteria.forClass(InexpensiveToolLog.class);
+
+        criteria.add(Restrictions.eq("employee", employee));
+
+        return (List<InexpensiveToolLog>) hibernateTemplate.findByCriteria(criteria, startIndex, size);
+    }
+
+    @Override
+    public int getTotalOfExpensiveToolLogByEmployee(Employee employee) {
+
+        Criteria criteria = this.getSession().createCriteria(ExpensiveToolLog.class);
+
+        criteria.add(Restrictions.eq("employee", employee));
+
+        criteria.setProjection(Projections.count("id"));
+
+        Integer result = (Integer) criteria.uniqueResult();
+
+        return result;
+    }
+
+    @Override
+    public List<ExpensiveToolLog> getExpensiveTooLogsByEmployee(Employee employee, int startIndex, int size) {
+
+        DetachedCriteria criteria = DetachedCriteria.forClass(ExpensiveToolLog.class);
+
+        criteria.add(Restrictions.eq("employee", employee));
+
+        return (List<ExpensiveToolLog>) hibernateTemplate.findByCriteria(criteria, startIndex, size);
+    }
+
+    /*
 
     private Connection connection;
 
     public MySqlToolLogDao() {
         connection = MySqlConnectionManager.getDefaultConnection();
     }
+
 
     @Override
     public int addInexpensiveToolLog(InexpensiveToolLog inexpensiveToolLog) {
@@ -465,4 +524,5 @@ public class MySqlToolLogDao implements ToolLogDao {
             if(connection != null && !connection.isClosed())connection.close();
         }
     }
+    */
 }
