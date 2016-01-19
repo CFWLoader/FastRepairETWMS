@@ -1,6 +1,3 @@
-<%@ page import="pers.evan.fastrepair.model.Employee" %>
-<%@ page import="pers.evan.fastrepair.model.Tool" %>
-<%@ page import="pers.evan.fastrepair.util.AppContext" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -102,23 +99,23 @@
             <tr>
                 <td>${tool.id}
                 </td>
-                <td>${tool.toolName()}
+                <td>${tool.toolName}
                 </td>
-                <td>${tool.isExpensive}
+                <td>${tool.isExpensive()}
                 </td>
-                <td>${tool.numberOfAvailable()}
+                <td>${tool.numberOfAvailable}
                 </td>
-                <td>${tool.company.companyName()}
+                <td>${tool.company.companyName}
                 </td>
-                <td>${tool.department.departmentType()}
+                <td>${tool.department.departmentType}
                 </td>
                 <td>
-                    <a href="<%=AppContext.getBaseUrl()%>/admin/tool?action=peektool&id=${tool.id()}"><i class="fa fa-pencil"></i></a>
+                    <a href="<%=AppContext.getBaseUrl()%>/admin/tool?action=peektool&id=${tool.id}"><i class="fa fa-pencil"></i></a>
                     <!--
                     <a href="#myModal" role="button" data-toggle="modal"><i class="fa fa-trash-o"></i></a>
                     -->
                     <c:choose>
-                        <c:when test="${tool.isExpensive}">
+                        <c:when test="${tool.isExpensive()}">
                             <a href="<%=AppContext.getBaseUrl()%>/admin/expensivetoollog?action=buildlog&id=${tool.id}" role="button" data-toggle="modal"><i class="fa fa-check-circle"></i></a>
                         </c:when>
                         <c:otherwise>
@@ -173,8 +170,6 @@
     </div>
 </div>
 
-
-<script src="<%=AppContext.getBaseUrl()%>/resource/lib/bootstrap/js/bootstrap.js"></script>
 <script type="text/javascript">
     $("[rel=tooltip]").tooltip();
     $(function () {

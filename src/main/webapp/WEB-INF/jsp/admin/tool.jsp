@@ -1,5 +1,3 @@
-<%@ page import="pers.evan.fastrepair.model.Company" %>
-<%@ page import="pers.evan.fastrepair.model.Department" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -176,53 +174,59 @@
                             </div>
                             <div class="form-group">
                                 <label>Is Expensive Tool</label>
-                                <select name="isexpensive" id="expensiveselection" class="form-control">
-                                    <option value="true" <%= tool.isExpensive() ? "selected=\"selected\"" : ""%>>True</option>
-                                    <option value="false" <%= !tool.isExpensive() ? "selected=\"selected\"" : ""%>>False</option>
+                                <select name="isExpensive" id="expensiveselection" class="form-control">
+                                    <option value="true" <c:if test="${tool.isExpensive()}">selected="selected"</c:if>>True</option>
+                                    <option value="false" <c:if test="${!tool.isExpensive()}">selected="selected"</c:if>>False</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label>Number of available</label>
-                                <input type="text" name="numberofavailable" value="${tool.numberOfAvailable()}" class="form-control">
+                                <input type="text" name="numberOfAvailable" value="${tool.numberOfAvailable}" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label>Company</label>
-                                <input type="text" value="<%=tool.getCompany().getCompanyName()%>" disabled="disabled" class="form-control">
+                                <input type="text" value="${tool.company.companyName}" readonly="readonly" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label>Company location</label>
-                                <input type="text" value="<%=tool.getCompany().getLocation()%>" disabled="disabled" class="form-control">
+                                <input type="text" value="${tool.company.location}" readonly="readonly" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label>Department</label>
-                                <input type="text" value="<%=tool.getDepartment().getDepartmentType()%>" disabled="disabled"
+                                <input type="text" value="${tool.department.departmentType}" readonly="readonly"
                                        class="form-control">
                             </div>
 
                             <div class="form-group">
                                 <label>Change Company</label>
-                                <select name="companyselection" id="companyselection" class="form-control">
-                                    <%
+                                <select name="companySelection" id="companySelection" class="form-control">
+                                    <c:forEach var="company" items="${companies}">
+                                        <option value="${company.id}"
+                                                <c:if test="${tool.company.id == company.id}">
+                                                    selected="selected"
+                                                </c:if>
+                                                >${company.companyName}</option>
+                                    </c:forEach>
+                                    <%--
                                         for(Company company : companyList){
                                     %>
                                     <option value="<%=company.getId()%>" <%= company.getId() == tool.getCompanyId() ? "selected=\"selected\"" : ""%>><%=company.getCompanyName()%></option>
                                     <%
                                         }
-                                    %>
+                                    --%>
                                 </select>
                             </div>
 
                             <div class="form-group">
                                 <label>Change Department</label>
-                                <select name="departmentselection" id="departmentselection" class="form-control">
-                                    <%
-                                        for(Department department : departments){
-                                            if(department.getId() != 1 && department.getId() != 2 && department.getId() != 3 && department.getId() != 4)continue;
-                                    %>
-                                    <option value="<%=department.getId()%>" <%= department.getId() == tool.getDepartmentId() ? "selected=\"selected\"" : ""%>><%=department.getDepartmentType()%></option>
-                                    <%
-                                        }
-                                    %>
+                                <select name="departmentSelection" id="departmentSelection" class="form-control">
+                                    <c:forEach var="department" items="${departments}">
+                                        <option value="${department.id}"
+                                                <c:if test="${tool.department.id == department.id}">
+                                                    selected="selected"
+                                                </c:if>
+                                                >${department.departmentType}</option>
+                                    </c:forEach>
                                 </select>
                             </div>
                         </form>
@@ -251,7 +255,7 @@
                 </div>
 
                 <div class="btn-toolbar list-toolbar">
-                    <button class="btn btn-primary" onclick="submitForm(document.forms['toolinfo'])"><i class="fa fa-save"></i> Save</button>
+                    <button class="btn btn-primary" onclick="submitForm(document.forms['toolInfo'])"><i class="fa fa-save"></i> Save</button>
                     <a href="#myModal" data-toggle="modal" class="btn btn-danger">Delete</a>
                 </div>
             </div>
@@ -292,8 +296,6 @@
     </div>
 </div>
 
-
-<script src="../lib/bootstrap/js/bootstrap.js"></script>
 <script type="text/javascript">
     $("[rel=tooltip]").tooltip();
     $(function () {

@@ -28,9 +28,9 @@ public class ToolServiceImpl implements ToolService {
     @Override
     public int addTool(Tool tool) {
 
-        toolDao.addEntity(tool);
+        Long primaryKey = (Long) toolDao.addEntity(tool);
 
-        return 0;
+        return primaryKey.intValue();
     }
 
     @Override

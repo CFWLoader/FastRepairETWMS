@@ -76,9 +76,31 @@ public class BasicDataInitialServlet extends DispatcherServlet {
         {
             department = new Department();
 
-            department.setDepartmentType("Admin");
+            department.setDepartmentType("Construction Device");
 
-            department.setCompany(company);
+            departmentService.addDepartment(department);
+
+            department = new Department();
+
+            department.setDepartmentType("Automobile");
+
+            departmentService.addDepartment(department);
+
+            department = new Department();
+
+            department.setDepartmentType("Appliance");
+
+            departmentService.addDepartment(department);
+
+            department = new Department();
+
+            department.setDepartmentType("Computer");
+
+            departmentService.addDepartment(department);
+
+            department = new Department();
+
+            department.setDepartmentType("Admin");
 
             departmentService.addDepartment(department);
         }

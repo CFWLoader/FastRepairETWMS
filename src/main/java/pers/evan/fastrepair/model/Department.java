@@ -49,8 +49,10 @@ public class Department {
 
     private String departmentType;
 
+    /*
     @ManyToOne
     private Company company;
+    */
 
     public long getId() {
         return id;
@@ -78,6 +80,7 @@ public class Department {
         this.departmentType = departmentType;
     }
 
+    /*
     public Company getCompany() {
         return company;
     }
@@ -85,6 +88,7 @@ public class Department {
     public void setCompany(Company company) {
         this.company = company;
     }
+    */
 
     @Override
     public String toString() {

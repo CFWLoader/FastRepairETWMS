@@ -129,4 +129,32 @@ public class AdminController {
 
         return "admin/tool";
     }
+
+    @RequestMapping("doAddTool")
+    public String addTool(String toolName, String isExpensive, int numberOfAvailable,
+                          int companySelection, int departmentSelection, Map<String, Object> models)
+    {
+
+        Tool tool = new Tool();
+        tool.setId(-1);
+        tool.setToolName(toolName);
+        tool.setIsExpensive(Boolean.valueOf(isExpensive));
+        tool.setNumberOfAvailable(numberOfAvailable);
+
+        tool.setCompany(companyService.getCompanyById(companySelection));
+
+        tool.setDepartment(departmentService.getDepartmentById(departmentSelection));
+
+        tool.setId(toolService.addTool(tool));
+
+        models.put("tool", tool);
+
+        models.put("target", AppContext.getBaseUrl() + "/admin/modifyTool");
+
+        models.put("companies", companyService.getCompanies());
+
+        models.put("departments", departmentService.getEngineerDepartments());
+
+        return "admin/tool";
+    }
 }

@@ -36,9 +36,9 @@ public class TemplateDaoImpl<T> implements TemplateDao<T> {
     }
 
     @Override
-    public void addEntity(T entity) {
+    public Object addEntity(T entity) {
         //sessionFactory.getCurrentSession().save(entity);
-        hibernateTemplate.save(entity);
+        return hibernateTemplate.save(entity);
     }
 
     @Override

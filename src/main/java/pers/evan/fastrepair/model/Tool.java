@@ -51,6 +51,12 @@ public class Tool {
         return isExpensive;
     }
 
+    /*
+    public boolean getIsExpensive() {
+        return isExpensive;
+    }
+    */
+
     public void setIsExpensive(boolean isExpensive) {
         this.isExpensive = isExpensive;
     }

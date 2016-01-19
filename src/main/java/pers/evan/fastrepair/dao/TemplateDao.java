@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface TemplateDao<T> {
 
-    void addEntity(T entity);
+    Object addEntity(T entity);
 
     void deleteEntity(T entity);
 

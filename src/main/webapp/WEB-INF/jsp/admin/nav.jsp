@@ -11,6 +11,13 @@
 
 <%
     Employee employee = (Employee) session.getAttribute("employee");
+
+    if(employee == null)
+    {
+        response.sendRedirect(AppContext.getBaseUrl() + "/home/sign-in");
+
+        return;
+    }
 %>
 
 <html>
@@ -155,5 +162,8 @@
                 -->
     </ul>
 </div>
+
+<script src="<%=AppContext.getBaseUrl()%>/resource/lib/bootstrap/js/bootstrap.js"></script>
+
 </body>
 </html>
