@@ -1,15 +1,13 @@
-<%@ page import="pers.evan.fastrepair.model.Employee" %>
-<%@ page import="pers.evan.fastrepair.util.AppContext" %>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%--@ include file="_seesionCheck.jsp"--%>
-<%
-    Employee employee = (Employee) session.getAttribute("employee");
-%>
+<%@ include file="nav.jsp"%>
 
 <!doctype html>
 <html lang="en">
 <head>
+    <!--
     <meta charset="utf-8">
     <title>Fast Repair Employee,Tool and Warehouse Management System</title>
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
@@ -18,7 +16,7 @@
     <meta name="author" content="">
 
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="<%=AppContext.getBaseUrl()%>/resource/lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="<%--=AppContext.getBaseUrl()%>/resource/lib/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="<%=AppContext.getBaseUrl()%>/resource/lib/font-awesome/css/font-awesome.css">
 
     <script src="<%=AppContext.getBaseUrl()%>/resource/lib/jquery-1.11.1.min.js" type="text/javascript"></script>
@@ -32,8 +30,8 @@
 
 
     <link rel="stylesheet" type="text/css" href="<%=AppContext.getBaseUrl()%>/resource/stylesheets/theme.css">
-    <link rel="stylesheet" type="text/css" href="<%=AppContext.getBaseUrl()%>/resource/stylesheets/premium.css">
-
+    <link rel="stylesheet" type="text/css" href="<%=AppContext.getBaseUrl()--%>/resource/stylesheets/premium.css">
+    -->
 </head>
 <body class=" theme-blue">
 
@@ -100,6 +98,7 @@
 
 <!--<![endif]-->
 
+<!--
 <div class="navbar navbar-default" role="navigation">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
@@ -108,7 +107,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="" href="<%=AppContext.getBaseUrl()%>/admin/index"><span class="navbar-brand"><span class="fa fa-paper-plane"></span> Fast Repair</span></a>
+        <a class="" href="<%--=AppContext.getBaseUrl()--%>/admin/index"><span class="navbar-brand"><span class="fa fa-paper-plane"></span> Fast Repair</span></a>
     </div>
 
     <div class="navbar-collapse collapse" style="height: 1px;">
@@ -116,7 +115,7 @@
             <li class="dropdown hidden-xs">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <span class="glyphicon glyphicon-user padding-right-small"
-                          style="position:relative;top: 3px;"></span> <%=employee.getFirstName() + " " + employee.getLastName()%>
+                          style="position:relative;top: 3px;"></span> <%--=employee.getFirstName() + " " + employee.getLastName()%>
                     <i class="fa fa-caret-down"></i>
                 </a>
 
@@ -189,20 +188,20 @@
         <li>
             <ul class="employee-menu nav nav-list collapse">
                 <li><a href="<%=AppContext.getBaseUrl()%>/admin/employees"><span class="fa fa-caret-right"></span> Employee List</a></li>
-                <li><a href="<%=AppContext.getBaseUrl()%>/admin/employee"><span class="fa fa-caret-right"></span> Employee Profile</a>
+                <li><a href="<%=AppContext.getBaseUrl()--%>/admin/employee"><span class="fa fa-caret-right"></span> Employee Profile</a>
                 </li>
             </ul>
         </li>
 
-        <!--
+        <!-
         <li><a href="help.html" class="nav-header"><i class="fa fa-fw fa-question-circle"></i> Help</a></li>
         <li><a href="faq.html" class="nav-header"><i class="fa fa-fw fa-comment"></i> Faq</a></li>
         <li><a href="http://portnine.com/bootstrap-themes/aircraft" class="nav-header" target="blank"><i
                 class="fa fa-fw fa-heart"></i> Get Premium</a></li>
-                -->
+                ->
     </ul>
 </div>
-
+-->
 <div class="content">
 <div class="header">
     <div class="stats">

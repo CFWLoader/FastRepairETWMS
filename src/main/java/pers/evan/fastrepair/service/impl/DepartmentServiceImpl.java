@@ -6,6 +6,7 @@ import pers.evan.fastrepair.service.DepartmentService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -35,6 +36,23 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public List<Department> getDepartments() {
         return departmentDao.getEntities();
+    }
+
+    @Override
+    public List<Department> getEngineerDepartments() {
+        //construction-device, automobile, appliance, computer
+
+        List<Department> departments = new LinkedList<>();
+
+        departments.addAll(departmentDao.getDepartmentsByName("Construction Device"));
+
+        departments.addAll(departmentDao.getDepartmentsByName("Automobile"));
+
+        departments.addAll(departmentDao.getDepartmentsByName("Appliance"));
+
+        departments.addAll(departmentDao.getDepartmentsByName("Computer"));
+
+        return departments;
     }
 
     @Override

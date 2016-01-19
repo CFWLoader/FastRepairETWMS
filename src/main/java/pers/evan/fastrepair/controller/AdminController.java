@@ -4,8 +4,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import pers.evan.fastrepair.exception.BadRequestParameterException;
+import pers.evan.fastrepair.model.Company;
 import pers.evan.fastrepair.model.Department;
 import pers.evan.fastrepair.model.Employee;
+import pers.evan.fastrepair.model.Tool;
+import pers.evan.fastrepair.service.CompanyService;
+import pers.evan.fastrepair.service.DepartmentService;
 import pers.evan.fastrepair.service.ToolService;
 import pers.evan.fastrepair.util.AppContext;
 
@@ -22,6 +26,12 @@ public class AdminController {
 
     @Resource
     private ToolService toolService;
+
+    @Resource
+    private CompanyService companyService;
+
+    @Resource
+    private DepartmentService departmentService;
 
     @RequestMapping("/index")
     public String indexPage() {
@@ -89,5 +99,34 @@ public class AdminController {
         }
 
         return "admin/tools";
+    }
+
+    @RequestMapping("addTool")
+    public String toolPage(Map<String, Object> models)
+    {
+
+        Tool tool = new Tool();
+        tool.setId(-1);
+        tool.setToolName("");
+        tool.setIsExpensive(false);
+        tool.setNumberOfAvailable(0);
+
+        tool.setCompany(new Company());
+        tool.getCompany().setCompanyName("");
+        tool.getCompany().setLocation("");
+
+        tool.setDepartment(new Department());
+        tool.getDepartment().setId(0);
+        tool.getDepartment().setDepartmentType("");
+
+        models.put("tool", tool);
+
+        models.put("target", AppContext.getBaseUrl() + "/admin/doAddTool");
+
+        models.put("companies", companyService.getCompanies());
+
+        models.put("departments", departmentService.getEngineerDepartments());
+
+        return "admin/tool";
     }
 }
