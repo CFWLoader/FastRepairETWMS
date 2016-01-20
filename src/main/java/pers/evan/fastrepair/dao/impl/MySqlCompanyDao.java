@@ -29,4 +29,14 @@ public class MySqlCompanyDao extends TemplateDaoImpl<Company> implements Company
 
     }
 
+    @Override
+    public List<Company> getCompanies(int startIndex, int pageSize) {
+
+        DetachedCriteria criteria = DetachedCriteria.forClass(clazz);
+
+        //return session.createQuery("From Company c where c.companyName like :name ").setParameter("name", "%" + companyName + "%").list();
+
+        return (List<Company>) hibernateTemplate.findByCriteria(criteria, startIndex, pageSize);
+    }
+
 }

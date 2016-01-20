@@ -43,6 +43,17 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
+    public List<Company> getCompanies(int startIndex, int pageSize) {
+
+        if(startIndex < 1)
+        {
+            startIndex = 1;
+        }
+
+        return companyDao.getCompanies(startIndex - 1, pageSize);
+    }
+
+    @Override
     public Company getCompanyById(long id) {
         return companyDao.getEntityById(id);
     }

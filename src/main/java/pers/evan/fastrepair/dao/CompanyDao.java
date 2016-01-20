@@ -11,4 +11,5 @@ public interface CompanyDao extends TemplateDao<Company>{
 
     List<Company> getCompanyByCompanyName(String companyName);
 
+    List<Company> getCompanies(int startIndex, int pageSize);
 }

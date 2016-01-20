@@ -19,6 +19,8 @@ public interface CompanyService {
 
     List<Company> getCompanies();
 
+    List<Company> getCompanies(int startIndex, int pageSize);
+
     Company getCompanyById(long id);
 
 }

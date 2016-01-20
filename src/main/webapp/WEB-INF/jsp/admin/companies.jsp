@@ -1,5 +1,4 @@
-<%@ page import="pers.evan.fastrepair.util.AppContext" %>
-<%@ page import="pers.evan.fastrepair.model.Employee" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ include file="nav.jsp"%>
@@ -66,10 +65,10 @@
 <div class="content">
     <div class="header">
 
-        <h1 class="page-title">Employees</h1>
+        <h1 class="page-title">Companies</h1>
         <ul class="breadcrumb">
-            <li><a href="index.jsp">Home</a></li>
-            <li class="active">Employees</li>
+            <li><a href="<%=AppContext.getBaseUrl()%>/admin/index">Home</a></li>
+            <li class="active">Companies</li>
         </ul>
 
     </div>
@@ -104,7 +103,7 @@
                 <td>${company.location}
                 </td>
                 <td>
-                    <a href="company.jsp?action=peekemployee&id=${company.id}"><i class="fa fa-pencil"></i></a>
+                    <a href="<%=AppContext.getBaseUrl()%>/admin/company?id=${company.id}"><i class="fa fa-pencil"></i></a>
                     <a href="#myModal" role="button" data-toggle="modal"><i class="fa fa-trash-o"></i></a>
                 </td>
             </tr>
@@ -113,10 +112,12 @@
         </table>
 
         <ul class="pagination">
-            <li><a href="employees.jsp?pageNo=1">&laquo;</a></li>
-            <li><a href="employees.jsp?pageNo=1">1
-            </a></li>
-            <li><a href="employees.jsp?pageNo=1">&raquo;</a></li>
+            <li><a href="<%=AppContext.getBaseUrl()%>/admin/companies?pageIndex=1&pageSize=10">&laquo;</a></li>
+            <c:forEach begin="1" end="${totalPages}" var="i" step="1">
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/tools?pageIndex=${i}&pageSize=10">${i}
+                </a></li>
+            </c:forEach>
+            <li><a href="<%=AppContext.getBaseUrl()%>/admin/tools?pageIndex=${totalPages}&pageSize=10">&raquo;</a></li>
         </ul>
 
         <div class="modal small fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"

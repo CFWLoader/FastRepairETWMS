@@ -1,6 +1,7 @@
 package pers.evan.fastrepair.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import pers.evan.fastrepair.exception.BadRequestParameterException;
@@ -15,6 +16,7 @@ import pers.evan.fastrepair.util.AppContext;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -48,12 +50,67 @@ public class AdminController {
         return "admin/employee";
     }
 
-    @RequestMapping("/company")
-    public String companyPage(HttpSession session) {
+    @RequestMapping("/companies")
+    public String companiesPage(HttpSession session, ModelMap models, int pageIndex, int pageSize){
+
+        /*
+        List<Company> companies = companyService.getCompanies();
+
+        models.put("companyList", companies);
+        */
+
         Employee employee = (Employee) session.getAttribute("employee");
 
         if (employee == null) {
             return "redirect:" + AppContext.getBaseUrl() + "/home/sign-in";
+        }
+
+        try {
+
+            List<Company> companies = companyService.getCompanies();
+
+            models.put("companyList", companies);
+
+            models.put("pageIndex", pageIndex);
+
+            models.put("pageSize", pageSize);
+
+            int sum = toolService.getTotalOfTool(employee.getDepartment());
+
+            models.put("totalRecords", sum);
+
+            //int totalPages = (totalRecords + PAGE_SIZE - 1) / PAGE_SIZE;
+            models.put("totalPages", (sum + pageSize - 1) / pageSize);
+        } catch (BadRequestParameterException e) {
+            models.put("errorMessage", "Failed to require the tool list.");
+
+            return "errorPage";
+        }
+
+        return "admin/companies";
+    }
+
+    @RequestMapping("/company")
+    public String companyPage(HttpSession session, Map<String, Object> models, String idStr) {
+        Employee employee = (Employee) session.getAttribute("employee");
+
+        if (employee == null) {
+            return "redirect:" + AppContext.getBaseUrl() + "/home/sign-in";
+        }
+
+        if(idStr != null && !idStr.trim().equals(""))
+        {
+            Company company = companyService.getCompanyById(Long.valueOf(idStr));
+
+            models.put("company", company);
+
+            models.put("target", AppContext.getBaseUrl() + "/admin/modifyCompany");
+        }
+        else
+        {
+            models.put("company", employee.getCompany());
+
+            models.put("target", "");
         }
 
         return "admin/company";

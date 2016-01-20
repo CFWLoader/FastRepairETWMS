@@ -106,6 +106,8 @@
                 <span class="visible-xs visible-sm"><a href="#">- Welcome to Fast Repair -</a></span>
                 <li><a href="<%=AppContext.getBaseUrl()%>/admin/company"><span class="fa fa-caret-right"></span> Company
                     Information</a></li>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/companies?pageIndex=0&pageSize=10"><span class="fa fa-caret-right"></span> Company
+                    List</a></li>
             </ul>
         </li>
 
@@ -115,8 +117,8 @@
             <ul class="department-menu nav nav-list collapse">
                 <li><a href="<%=AppContext.getBaseUrl()%>/admin/department"><span class="fa fa-caret-right"></span>
                     Department Information</a></li>
-                <li><a href="<%=AppContext.getBaseUrl()%>/home/reset-password"><span class="fa fa-caret-right"></span>
-                    Reset Password</a></li>
+                <li><a href="<%=AppContext.getBaseUrl()%>/home/departments?pageIndex=0&pageSize=10"><span class="fa fa-caret-right"></span>
+                    Department List</a></li>
             </ul>
         </li>
 
