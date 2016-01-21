@@ -1,39 +1,11 @@
-<%@ page import="pers.evan.fastrepair.service.ToolService" %>
-<%@ page import="pers.evan.fastrepair.service.impl.ToolServiceImpl" %>
-<%@ page import="pers.evan.fastrepair.model.Tool" %>
-<%@ page import="pers.evan.fastrepair.model.Employee" %>
-<%@ page import="pers.evan.fastrepair.service.CompanyService" %>
-<%@ page import="pers.evan.fastrepair.service.impl.CompanyServiceImpl" %>
-<%@ page import="pers.evan.fastrepair.model.Company" %>
-<%@ page import="pers.evan.fastrepair.util.AppContext" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%--@ include file="_seesionCheck.jsp" --%>
-
-<%
-    Employee employee = (Employee) session.getAttribute("employee");
-%>
+<%@ include file="nav.jsp"%>
 
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>Fast Repair Employee,Tool and Warehouse Management System</title>
-    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="<%=AppContext.getBaseUrl()%>/resource/lib/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="<%=AppContext.getBaseUrl()%>/resource/lib/font-awesome/css/font-awesome.css">
-
-    <script src="<%=AppContext.getBaseUrl()%>/resource/lib/jquery-1.11.1.min.js" type="text/javascript"></script>
-
-
-    <link rel="stylesheet" type="text/css" href="<%=AppContext.getBaseUrl()%>/resource/stylesheets/theme.css">
-    <link rel="stylesheet" type="text/css" href="<%=AppContext.getBaseUrl()%>/resource/stylesheets/premium.css">
-
 </head>
 <body class=" theme-blue">
 
@@ -101,114 +73,13 @@
 
 <!--<![endif]-->
 
-<div class="navbar navbar-default" role="navigation">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="" href="<%=AppContext.getBaseUrl()%>/admin/index"><span class="navbar-brand"><span
-                class="fa fa-paper-plane"></span> Fast Repair</span></a></div>
-
-    <div class="navbar-collapse collapse" style="height: 1px;">
-        <ul id="main-menu" class="nav navbar-nav navbar-right">
-            <li class="dropdown hidden-xs">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <span class="glyphicon glyphicon-user padding-right-small"
-                          style="position:relative;top: 3px;"></span> <%=employee.getFirstName() + " " + employee.getLastName()%>
-                    <i class="fa fa-caret-down"></i>
-                </a>
-
-                <ul class="dropdown-menu">
-                    <li><a href="./">My Account</a></li>
-                    <li class="divider"></li>
-                    <li class="dropdown-header">Admin Panel</li>
-                    <li><a href="./">Users</a></li>
-                    <li><a href="./">Security</a></li>
-                    <li><a tabindex="-1" href="./">Payments</a></li>
-                    <li class="divider"></li>
-                    <li><a tabindex="-1" href="<%=AppContext.getBaseUrl()%>/home/logout">Logout</a></li>
-                </ul>
-            </li>
-        </ul>
-
-    </div>
-</div>
-
-<div class="sidebar-nav">
-    <ul>
-        <li><a href="#" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse"><i
-                class="fa fa-fw fa-dashboard"></i> Dashboard<i class="fa fa-collapse"></i></a></li>
-        <li>
-            <ul class="dashboard-menu nav nav-list collapse in">
-                <li><a href="index.jsp"><span class="fa fa-caret-right"></span> Main</a></li>
-            </ul>
-        </li>
-
-        <li data-popover="true"
-            data-content="Items in this group require a <strong><a href='http://portnine.com/bootstrap-themes/aircraft' target='blank'>premium license</a><strong>."
-            rel="popover" data-placement="right"><a href="#" data-target=".company-menu" class="nav-header collapsed"
-                                                    data-toggle="collapse"><i class="fa fa-fw fa-fighter-jet"></i>
-            Company <i class="fa fa-collapse"></i></a></li>
-        <li>
-            <ul class="company-menu nav nav-list collapse">
-                <span class="visible-xs visible-sm"><a href="#">- Welcome to Fast Repair -</a></span>
-                <li><a href="<%=AppContext.getBaseUrl()%>/admin/company"><span class="fa fa-caret-right"></span> Company Information</a></li>
-            </ul>
-        </li>
-
-        <li><a href="#" data-target=".department-menu" class="nav-header collapsed" data-toggle="collapse"><i
-                class="fa fa-fw fa-legal"></i> Department<i class="fa fa-collapse"></i></a></li>
-        <li>
-            <ul class="department-menu nav nav-list collapse">
-                <li><a href="<%=AppContext.getBaseUrl()%>/admin/department"><span class="fa fa-caret-right"></span> Department Information</a></li>
-                <li><a href="<%=AppContext.getBaseUrl()%>/home/reset-password"><span class="fa fa-caret-right"></span> Reset Password</a></li>
-            </ul>
-        </li>
-
-        <li><a href="#" data-target=".tool-menu" class="nav-header collapsed" data-toggle="collapse"><i
-                class="fa fa-fw fa-legal"></i> Tool Management<i class="fa fa-collapse"></i></a></li>
-        <li>
-            <ul class="tool-menu nav nav-list collapse">
-                <li><a href="<%=AppContext.getBaseUrl()%>/admin/tools"><span class="fa fa-caret-right"></span> Tool List</a></li>
-                <li><a href="<%=AppContext.getBaseUrl()%>/admin/tool"><span class="fa fa-caret-right"></span> Tool Profile</a>
-                </li>
-                <li><a href="<%=AppContext.getBaseUrl()%>/admin/inexpensivetoollogs"><span class="fa fa-caret-right"></span> Inexpensive tool logs</a>
-                </li>
-                <li><a href="<%=AppContext.getBaseUrl()%>/admin/expensivetoollogs"><span class="fa fa-caret-right"></span> Expensive tool logs</a></li>
-                <li><a href="<%=AppContext.getBaseUrl()%>/admin/inexpensivetoollog"><span class="fa fa-caret-right"></span> Inexpensive tool log</a>
-                </li>
-                <li><a href="<%=AppContext.getBaseUrl()%>/admin/expensivetoollog"><span class="fa fa-caret-right"></span> Expensive tool logs</a></li>
-            </ul>
-        </li>
-
-        <li><a href="#" data-target=".employee-menu" class="nav-header collapsed" data-toggle="collapse"><i
-                class="fa fa-fw fa-legal"></i> Employee Management<i class="fa fa-collapse"></i></a></li>
-        <li>
-            <ul class="employee-menu nav nav-list collapse">
-                <li><a href="<%=AppContext.getBaseUrl()%>/admin/employees"><span class="fa fa-caret-right"></span> Employee List</a></li>
-                <li><a href="<%=AppContext.getBaseUrl()%>/admin/employee"><span class="fa fa-caret-right"></span> Employee Profile</a>
-                </li>
-            </ul>
-        </li>
-
-        <!--
-        <li><a href="help.html" class="nav-header"><i class="fa fa-fw fa-question-circle"></i> Help</a></li>
-        <li><a href="faq.html" class="nav-header"><i class="fa fa-fw fa-comment"></i> Faq</a></li>
-        <li><a href="http://portnine.com/bootstrap-themes/aircraft" class="nav-header" target="blank"><i
-                class="fa fa-fw fa-heart"></i> Get Premium</a></li>
-                -->
-    </ul>
-</div>
 <div class="content">
     <div class="header">
 
         <h1 class="page-title">Department</h1>
         <ul class="breadcrumb">
-            <li><a href="index.jsp">Home</a></li>
-            <li><a href="company.jsp">Department</a></li>
+            <li><a href="<%=AppContext.getBaseUrl()%>/admin/index">Home</a></li>
+            <li><a href="<%=AppContext.getBaseUrl()%>/admin/department">Department</a></li>
             <li class="active"><%=employee.getDepartment().getDepartmentType()%>
             </li>
         </ul>
@@ -227,7 +98,7 @@
 
                 <div id="myTabContent" class="tab-content">
                     <div class="tab-pane active in" id="home">
-                        <form id="tab">
+                        <form id="tab" name="departmentInfo" action="${taget}" method="post">
                             <div class="form-group">
                                 <label>Company</label>
                                 <input type="text" value="<%=employee.getCompany().getCompanyName()%>"
@@ -235,60 +106,13 @@
                             </div>
                             <div class="form-group">
                                 <label>Department ID</label>
-                                <input type="text" value="<%=employee.getDepartment().getId()%>" class="form-control" readonly="readonly">
+                                <input type="text" value="${department.id}" id="id" name="id" class="form-control" readonly="readonly">
                             </div>
                             <div class="form-group">
                                 <label>Department Type</label>
-                                <input type="text" value="<%=employee.getDepartment().getDepartmentType()%>"
+                                <input type="text" value="${department.departmentType}" id="departmentType" name="departmentType"
                                        class="form-control">
                             </div>
-                            <!--
-                            <div class="form-group">
-                                <label>Address</label>
-                                <textarea value="Smith" rows="3" class="form-control">2817 S 49th
-                                    Apt 314
-                                    San Jose, CA 95101</textarea>
-                            </div>
-                            -->
-
-                            <!--
-                            <div class="form-group">
-                                <label>Time Zone</label>
-                                <select name="DropDownTimezone" id="DropDownTimezone" class="form-control">
-                                    <option value="-12.0">(GMT -12:00) Eniwetok, Kwajalein</option>
-                                    <option value="-11.0">(GMT -11:00) Midway Island, Samoa</option>
-                                    <option value="-10.0">(GMT -10:00) Hawaii</option>
-                                    <option value="-9.0">(GMT -9:00) Alaska</option>
-                                    <option selected="selected" value="-8.0">(GMT -8:00) Pacific Time (US &amp; Canada)</option>
-                                    <option value="-7.0">(GMT -7:00) Mountain Time (US &amp; Canada)</option>
-                                    <option value="-6.0">(GMT -6:00) Central Time (US &amp; Canada), Mexico City</option>
-                                    <option value="-5.0">(GMT -5:00) Eastern Time (US &amp; Canada), Bogota, Lima</option>
-                                    <option value="-4.0">(GMT -4:00) Atlantic Time (Canada), Caracas, La Paz</option>
-                                    <option value="-3.5">(GMT -3:30) Newfoundland</option>
-                                    <option value="-3.0">(GMT -3:00) Brazil, Buenos Aires, Georgetown</option>
-                                    <option value="-2.0">(GMT -2:00) Mid-Atlantic</option>
-                                    <option value="-1.0">(GMT -1:00 hour) Azores, Cape Verde Islands</option>
-                                    <option value="0.0">(GMT) Western Europe Time, London, Lisbon, Casablanca</option>
-                                    <option value="1.0">(GMT +1:00 hour) Brussels, Copenhagen, Madrid, Paris</option>
-                                    <option value="2.0">(GMT +2:00) Kaliningrad, South Africa</option>
-                                    <option value="3.0">(GMT +3:00) Baghdad, Riyadh, Moscow, St. Petersburg</option>
-                                    <option value="3.5">(GMT +3:30) Tehran</option>
-                                    <option value="4.0">(GMT +4:00) Abu Dhabi, Muscat, Baku, Tbilisi</option>
-                                    <option value="4.5">(GMT +4:30) Kabul</option>
-                                    <option value="5.0">(GMT +5:00) Ekaterinburg, Islamabad, Karachi, Tashkent</option>
-                                    <option value="5.5">(GMT +5:30) Bombay, Calcutta, Madras, New Delhi</option>
-                                    <option value="5.75">(GMT +5:45) Kathmandu</option>
-                                    <option value="6.0">(GMT +6:00) Almaty, Dhaka, Colombo</option>
-                                    <option value="7.0">(GMT +7:00) Bangkok, Hanoi, Jakarta</option>
-                                    <option value="8.0">(GMT +8:00) Beijing, Perth, Singapore, Hong Kong</option>
-                                    <option value="9.0">(GMT +9:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk</option>
-                                    <option value="9.5">(GMT +9:30) Adelaide, Darwin</option>
-                                    <option value="10.0">(GMT +10:00) Eastern Australia, Guam, Vladivostok</option>
-                                    <option value="11.0">(GMT +11:00) Magadan, Solomon Islands, New Caledonia</option>
-                                    <option value="12.0">(GMT +12:00) Auckland, Wellington, Fiji, Kamchatka</option>
-                                </select>
-                            </div>
-                            -->
                         </form>
                     </div>
 
@@ -307,7 +131,7 @@
                 </div>
 
                 <div class="btn-toolbar list-toolbar">
-                    <button class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+                    <button class="btn btn-primary" onclick="document.forms['departmentInfo'].submit()"><i class="fa fa-save"></i> Save</button>
                     <a href="#myModal" data-toggle="modal" class="btn btn-danger">Delete</a>
                 </div>
             </div>
@@ -348,8 +172,6 @@
     </div>
 </div>
 
-
-<script src="<%=AppContext.getBaseUrl()%>/resource/lib/bootstrap/js/bootstrap.js"></script>
 <script type="text/javascript">
     $("[rel=tooltip]").tooltip();
     $(function () {

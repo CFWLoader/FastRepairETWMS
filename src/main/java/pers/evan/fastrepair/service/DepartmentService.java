@@ -17,6 +17,8 @@ public interface DepartmentService {
 
     List<Department> getDepartments();
 
+    List<Department> getDepartments(int pageIndex, int pageSize);
+
     List<Department> getEngineerDepartments();
 
     List<Department> getDepartmentsByName(String name);

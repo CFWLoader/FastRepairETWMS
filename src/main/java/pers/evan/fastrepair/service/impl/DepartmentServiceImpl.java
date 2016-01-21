@@ -39,6 +39,17 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    public List<Department> getDepartments(int pageIndex, int pageSize) {
+
+        if(pageIndex < 1)
+        {
+            pageIndex = 1;
+        }
+
+        return departmentDao.getEntities(pageIndex - 1, pageSize);
+    }
+
+    @Override
     public List<Department> getEngineerDepartments() {
         //construction-device, automobile, appliance, computer
 

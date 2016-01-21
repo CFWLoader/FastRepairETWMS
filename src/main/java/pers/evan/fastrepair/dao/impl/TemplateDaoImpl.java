@@ -63,6 +63,14 @@ public class TemplateDaoImpl<T> implements TemplateDao<T> {
     }
 
     @Override
+    public List<T> getEntities(int startIndex, int fetchSize) {
+
+        DetachedCriteria criteria = DetachedCriteria.forClass(clazz);
+
+        return (List<T>) hibernateTemplate.findByCriteria(criteria, startIndex, fetchSize);
+    }
+
+    @Override
     public T getEntityById(long id) {
         return (T) hibernateTemplate.get(clazz, id);
     }

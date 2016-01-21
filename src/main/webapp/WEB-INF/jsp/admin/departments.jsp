@@ -65,18 +65,18 @@
 <div class="content">
     <div class="header">
 
-        <h1 class="page-title">Companies</h1>
+        <h1 class="page-title">Departments</h1>
         <ul class="breadcrumb">
             <li><a href="<%=AppContext.getBaseUrl()%>/admin/index">Home</a></li>
-            <li class="active">Companies</li>
+            <li class="active">Departments</li>
         </ul>
 
     </div>
     <div class="main-content">
 
         <div class="btn-toolbar list-toolbar">
-            <button class="btn btn-primary" onclick="window.location.href='<%=AppContext.getBaseUrl()%>/admin/addCompany'"><i class="fa fa-plus"></i>New
-                Company</button>
+            <button class="btn btn-primary" onclick="window.location.href='<%=AppContext.getBaseUrl()%>/admin/addDepartment'"><i class="fa fa-plus"></i>New
+                Department</button>
             <button class="btn btn-default">Import</button>
             <button class="btn btn-default">Export</button>
             <div class="btn-group">
@@ -85,25 +85,25 @@
         <table class="table">
             <thead>
             <tr>
-                <th>Company ID</th>
-                <th>Compandy Name</th>
-                <th>Location</th>
+                <th>Department ID</th>
+                <th>Department Name</th>
+                <th>Description</th>
 
                 <th style="width: 3.5em;"></th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${companyList}" var="company">
+            <c:forEach items="${departments}" var="department">
 
             <tr>
-                <td>${company.id}
+                <td>${department.id}
                 </td>
-                <td>${company.companyName}
+                <td>${department.departmentType}
                 </td>
-                <td>${company.location}
+                <td>Reserved
                 </td>
                 <td>
-                    <a href="<%=AppContext.getBaseUrl()%>/admin/company?idStr=${company.id}"><i class="fa fa-pencil"></i></a>
+                    <a href="<%=AppContext.getBaseUrl()%>/admin/department?idStr=${department.id}"><i class="fa fa-pencil"></i></a>
                     <a href="#myModal" role="button" data-toggle="modal"><i class="fa fa-trash-o"></i></a>
                 </td>
             </tr>
@@ -112,12 +112,12 @@
         </table>
 
         <ul class="pagination">
-            <li><a href="<%=AppContext.getBaseUrl()%>/admin/companies?pageIndex=1&pageSize=10">&laquo;</a></li>
+            <li><a href="<%=AppContext.getBaseUrl()%>/admin/departments?pageIndex=1&pageSize=10">&laquo;</a></li>
             <c:forEach begin="1" end="${totalPages}" var="i" step="1">
-                <li><a href="<%=AppContext.getBaseUrl()%>/admin/companies?pageIndex=${i}&pageSize=10">${i}
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/departments?pageIndex=${i}&pageSize=10">${i}
                 </a></li>
             </c:forEach>
-            <li><a href="<%=AppContext.getBaseUrl()%>/admin/companies?pageIndex=${totalPages}&pageSize=10">&raquo;</a></li>
+            <li><a href="<%=AppContext.getBaseUrl()%>/admin/departments?pageIndex=${totalPages}&pageSize=10">&raquo;</a></li>
         </ul>
 
         <div class="modal small fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"

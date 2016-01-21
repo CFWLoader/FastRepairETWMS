@@ -103,16 +103,16 @@
                         <form id="tab" action="${target}" method="post" name="companyInfo">
                             <div class="form-group">
                                 <label>Company ID</label>
-                                <input type="text" value="${company.id}%>" class="form-control" readonly="readonly">
+                                <input type="text" id="id" name="id" value="${company.id}" class="form-control" readonly="readonly">
                             </div>
                             <div class="form-group">
                                 <label>Company Name</label>
-                                <input type="text" value="${company.companyName}"
+                                <input type="text" value="${company.companyName}" id="companyName" name="companyName"
                                        class="form-control">
                             </div>
                             <div class="form-group">
                                 <label>Company Location</label>
-                                <input type="text" value="${company.location}"
+                                <input type="text" value="${company.location}" id="location" name="location"
                                        class="form-control">
                             </div>
                         </form>
@@ -133,7 +133,7 @@
                 </div>
 
                 <div class="btn-toolbar list-toolbar">
-                    <button class="btn btn-primary" onclick="$('tab').submit()"><i class="fa fa-save"></i> Save</button>
+                    <button class="btn btn-primary" onclick="document.forms['companyInfo'].submit()"><i class="fa fa-save"></i> Save</button>
                     <a href="#myModal" data-toggle="modal" class="btn btn-danger">Delete</a>
                 </div>
             </div>

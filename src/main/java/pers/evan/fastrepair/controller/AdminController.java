@@ -51,7 +51,7 @@ public class AdminController {
     }
 
     @RequestMapping("/companies")
-    public String companiesPage(HttpSession session, ModelMap models, int pageIndex, int pageSize){
+    public String companiesPage(HttpSession session, ModelMap models, int pageIndex, int pageSize) {
 
         /*
         List<Company> companies = companyService.getCompanies();
@@ -90,7 +90,7 @@ public class AdminController {
         return "admin/companies";
     }
 
-    @RequestMapping("/company")
+    @RequestMapping(value = "/company", method = RequestMethod.GET)
     public String companyPage(HttpSession session, Map<String, Object> models, String idStr) {
         Employee employee = (Employee) session.getAttribute("employee");
 
@@ -98,16 +98,13 @@ public class AdminController {
             return "redirect:" + AppContext.getBaseUrl() + "/home/sign-in";
         }
 
-        if(idStr != null && !idStr.trim().equals(""))
-        {
+        if (idStr != null && !idStr.trim().equals("")) {
             Company company = companyService.getCompanyById(Long.valueOf(idStr));
 
             models.put("company", company);
 
             models.put("target", AppContext.getBaseUrl() + "/admin/modifyCompany");
-        }
-        else
-        {
+        } else {
             models.put("company", employee.getCompany());
 
             models.put("target", "");
@@ -116,12 +113,108 @@ public class AdminController {
         return "admin/company";
     }
 
+    @RequestMapping(value = "/modifyCompany", method = RequestMethod.POST)
+    public String modifyCompany(long id, String companyName, String location, Map<String, Object> models) {
+
+        Company company = companyService.getCompanyById(id);
+
+        if (company == null) {
+            models.put("errorMessage", "Failed to require the company information.");
+
+            return "errorPage";
+        }
+
+        company.setCompanyName(companyName);
+
+        company.setLocation(location);
+
+        companyService.updateCompany(company);
+
+        models.put("company", company);
+
+        models.put("target", AppContext.getBaseUrl() + "/admin/doAddCompany");
+
+        return "admin/company";
+    }
+
+    @RequestMapping("addCompany")
+    public String companyPage(Map<String, Object> models) {
+
+        Company company = new Company();
+
+        company.setId(-1);
+
+        company.setCompanyName("Unset");
+
+        company.setLocation("Unset");
+
+        models.put("company", company);
+
+        models.put("target", AppContext.getBaseUrl() + "/admin/doAddCompany");
+
+        return "admin/company";
+    }
+
+    @RequestMapping(value = "/doAddCompany", method = RequestMethod.POST)
+    public String addCompany(String companyName, String location, Map<String, Object> models) {
+
+        Company company = new Company();
+
+        company.setCompanyName(companyName);
+
+        company.setLocation(location);
+
+        companyService.addCompany(company);
+
+        models.put("company", company);
+
+        models.put("target", AppContext.getBaseUrl() + "/admin/modifyCompany");
+
+        return "admin/company";
+    }
+
+    @RequestMapping("/departments")
+    public String departmentsPage(ModelMap models, int pageIndex, int pageSize) {
+
+        List<Department> departments = departmentService.getDepartments();
+
+        models.put("departments", departments);
+
+        models.put("pageIndex", pageIndex);
+
+        models.put("pageSize", pageSize);
+
+        int sum = departments.size();
+
+        models.put("totalRecords", sum);
+
+        //int totalPages = (totalRecords + PAGE_SIZE - 1) / PAGE_SIZE;
+        models.put("totalPages", (sum + pageSize - 1) / pageSize);
+
+        return "admin/departments";
+    }
+
     @RequestMapping("/department")
-    public String departmentPage(HttpSession session) {
+    public String departmentPage(HttpSession session, Map<String, Object> models, String idStr) {
         Employee employee = (Employee) session.getAttribute("employee");
 
         if (employee == null) {
             return "redirect:" + AppContext.getBaseUrl() + "/home/sign-in";
+        }
+
+        if(idStr != null && !idStr.trim().equals(""))
+        {
+            Department department = departmentService.getDepartmentById(Long.valueOf(idStr));
+
+            models.put("department", department);
+
+            models.put("target", AppContext.getBaseUrl() + "/admin/modifyDepartment");
+        }
+        else
+        {
+            models.put("department", employee.getDepartment());
+
+            models.put("target", "");
         }
 
         return "admin/department";
@@ -159,8 +252,7 @@ public class AdminController {
     }
 
     @RequestMapping("addTool")
-    public String toolPage(Map<String, Object> models)
-    {
+    public String toolPage(Map<String, Object> models) {
 
         Tool tool = new Tool();
         tool.setId(-1);
@@ -189,8 +281,7 @@ public class AdminController {
 
     @RequestMapping("doAddTool")
     public String addTool(String toolName, String isExpensive, int numberOfAvailable,
-                          int companySelection, int departmentSelection, Map<String, Object> models)
-    {
+                          int companySelection, int departmentSelection, Map<String, Object> models) {
 
         Tool tool = new Tool();
         tool.setId(-1);

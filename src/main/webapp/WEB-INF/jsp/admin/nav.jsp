@@ -117,7 +117,7 @@
             <ul class="department-menu nav nav-list collapse">
                 <li><a href="<%=AppContext.getBaseUrl()%>/admin/department"><span class="fa fa-caret-right"></span>
                     Department Information</a></li>
-                <li><a href="<%=AppContext.getBaseUrl()%>/home/departments?pageIndex=0&pageSize=10"><span class="fa fa-caret-right"></span>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/departments?pageIndex=0&pageSize=10"><span class="fa fa-caret-right"></span>
                     Department List</a></li>
             </ul>
         </li>
