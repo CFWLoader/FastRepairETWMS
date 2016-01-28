@@ -23,6 +23,8 @@ public interface TemplateDao<T> {
 
     List<T> getEntities(int startIndex, int fetchSize);
 
+    Long getSumOfEntities();
+
     T getEntityById(long id);
 
     Session getSession();

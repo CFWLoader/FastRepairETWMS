@@ -112,12 +112,12 @@
         </table>
 
         <ul class="pagination">
-            <li><a href="<%=AppContext.getBaseUrl()%>/admin/departments?pageIndex=1&pageSize=10">&laquo;</a></li>
+            <li><a href="<%=AppContext.getBaseUrl()%>/admin/departments?pageIndex=1&pageSize=${pageSize}">&laquo;</a></li>
             <c:forEach begin="1" end="${totalPages}" var="i" step="1">
-                <li><a href="<%=AppContext.getBaseUrl()%>/admin/departments?pageIndex=${i}&pageSize=10">${i}
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/departments?pageIndex=${i}&pageSize=${pageSize}">${i}
                 </a></li>
             </c:forEach>
-            <li><a href="<%=AppContext.getBaseUrl()%>/admin/departments?pageIndex=${totalPages}&pageSize=10">&raquo;</a></li>
+            <li><a href="<%=AppContext.getBaseUrl()%>/admin/departments?pageIndex=${totalPages}&pageSize=${pageSize}">&raquo;</a></li>
         </ul>
 
         <div class="modal small fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"

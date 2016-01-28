@@ -32,4 +32,7 @@ public interface EmployeeService {
 
     int getTotalOfEmployeesByCompany(Company company);
 
+    List<Employee> getEmployees(int startIndex, int pageSize);
+
+    int getTotalOfEmployees();
 }

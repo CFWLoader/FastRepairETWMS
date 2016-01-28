@@ -1,7 +1,10 @@
 package pers.evan.fastrepair.dao.impl;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import pers.evan.fastrepair.dao.TemplateDao;
@@ -68,6 +71,18 @@ public class TemplateDaoImpl<T> implements TemplateDao<T> {
         DetachedCriteria criteria = DetachedCriteria.forClass(clazz);
 
         return (List<T>) hibernateTemplate.findByCriteria(criteria, startIndex, fetchSize);
+    }
+
+    @Override
+    public Long getSumOfEntities() {
+
+        Criteria criteria = this.getSession().createCriteria(clazz);
+
+        criteria.setProjection(Projections.count("id"));
+
+        Long result = (Long) criteria.uniqueResult();
+
+        return result;
     }
 
     @Override

@@ -106,7 +106,7 @@
                 <span class="visible-xs visible-sm"><a href="#">- Welcome to Fast Repair -</a></span>
                 <li><a href="<%=AppContext.getBaseUrl()%>/admin/company"><span class="fa fa-caret-right"></span> Company
                     Information</a></li>
-                <li><a href="<%=AppContext.getBaseUrl()%>/admin/companies?pageIndex=0&pageSize=10"><span class="fa fa-caret-right"></span> Company
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/companies?pageIndex=1&pageSize=10"><span class="fa fa-caret-right"></span> Company
                     List</a></li>
             </ul>
         </li>
@@ -117,7 +117,7 @@
             <ul class="department-menu nav nav-list collapse">
                 <li><a href="<%=AppContext.getBaseUrl()%>/admin/department"><span class="fa fa-caret-right"></span>
                     Department Information</a></li>
-                <li><a href="<%=AppContext.getBaseUrl()%>/admin/departments?pageIndex=0&pageSize=10"><span class="fa fa-caret-right"></span>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/departments?pageIndex=1&pageSize=10"><span class="fa fa-caret-right"></span>
                     Department List</a></li>
             </ul>
         </li>
@@ -131,10 +131,10 @@
                 <li><a href="<%=AppContext.getBaseUrl()%>/admin/addTool"><span class="fa fa-caret-right"></span> Tool
                     Profile</a>
                 </li>
-                <li><a href="<%=AppContext.getBaseUrl()%>/admin/inexpensiveToolLogs?pageIndex=0&pageSize=10"><span
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/inexpensiveToolLogs?pageIndex=1&pageSize=10"><span
                         class="fa fa-caret-right"></span> Inexpensive tool logs</a>
                 </li>
-                <li><a href="<%=AppContext.getBaseUrl()%>/admin/expensiveToolLogs?pageIndex=0&pageSize=10"><span
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/expensiveToolLogs?pageIndex=1&pageSize=10"><span
                         class="fa fa-caret-right"></span> Expensive tool logs</a></li>
                 <li><a href="<%=AppContext.getBaseUrl()%>/admin/inexpensiveToolLog"><span
                         class="fa fa-caret-right"></span> Inexpensive tool log</a>
@@ -148,7 +148,7 @@
                 class="fa fa-fw fa-legal"></i> Employee Management<i class="fa fa-collapse"></i></a></li>
         <li>
             <ul class="employee-menu nav nav-list collapse">
-                <li><a href="<%=AppContext.getBaseUrl()%>/admin/employees"><span class="fa fa-caret-right"></span>
+                <li><a href="<%=AppContext.getBaseUrl()%>/admin/employees?pageIndex=1&pageSize=10"><span class="fa fa-caret-right"></span>
                     Employee List</a></li>
                 <li><a href="<%=AppContext.getBaseUrl()%>/admin/employee"><span class="fa fa-caret-right"></span>
                     Employee Profile</a>

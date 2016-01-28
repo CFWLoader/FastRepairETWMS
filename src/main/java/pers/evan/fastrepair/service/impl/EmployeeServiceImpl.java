@@ -9,6 +9,7 @@ import pers.evan.fastrepair.service.EmployeeService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -99,5 +100,31 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public int getTotalOfEmployeesByCompany(Company company) {
         return employeeDao.getTotalOfEmployeesByCompany(company);
+    }
+
+    @Override
+    public List<Employee> getEmployees(int startIndex, int pageSize) {
+
+        if (startIndex < 1)
+        {
+            startIndex = 1;
+        }
+
+        startIndex -= 1;
+
+        return employeeDao.getEntities(startIndex, pageSize);
+    }
+
+    @Override
+    public int getTotalOfEmployees() {
+
+        Long sum = employeeDao.getSumOfEntities();
+
+        if(sum != null)
+        {
+            return sum.intValue();
+        }
+
+        return 0;
     }
 }

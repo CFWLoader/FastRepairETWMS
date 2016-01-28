@@ -11,6 +11,7 @@ import pers.evan.fastrepair.model.Employee;
 import pers.evan.fastrepair.model.Tool;
 import pers.evan.fastrepair.service.CompanyService;
 import pers.evan.fastrepair.service.DepartmentService;
+import pers.evan.fastrepair.service.EmployeeService;
 import pers.evan.fastrepair.service.ToolService;
 import pers.evan.fastrepair.util.AppContext;
 
@@ -35,18 +36,55 @@ public class AdminController {
     @Resource
     private DepartmentService departmentService;
 
+    @Resource
+    private EmployeeService employeeService;
+
     @RequestMapping("/index")
     public String indexPage() {
         return "admin/index";
     }
 
     @RequestMapping("/employees")
-    public String employeesPage() {
+    public String employeesPage(ModelMap models, int pageIndex, int pageSize) {
+
+        List<Employee> employees = employeeService.getEmployees(pageIndex, pageSize);
+
+        models.put("employees", employees);
+
+        models.put("pageIndex", pageIndex);
+
+        models.put("pageSize", pageSize);
+
+        int sum = employeeService.getTotalOfEmployees();
+
+        models.put("totalRecords", sum);
+
+        //int totalPages = (totalRecords + PAGE_SIZE - 1) / PAGE_SIZE;
+        models.put("totalPages", (sum + pageSize - 1) / pageSize);
+
         return "admin/employees";
     }
 
     @RequestMapping("/employee")
-    public String employeePage() {
+    public String employeePage(HttpSession session, Map<String, Object> models, String idStr) {
+
+        if (idStr != null && !idStr.trim().equals("")) {
+
+            Employee employee = employeeService.getEmployeeById(Long.valueOf(idStr));
+
+            models.put("employee", employee);
+
+            models.put("target", AppContext.getBaseUrl() + "/admin/modifyEmployee");
+        } else {
+            models.put("employee", session.getAttribute("employee"));
+
+            models.put("target", "");
+        }
+
+        models.put("companies", companyService.getCompanies());
+
+        models.put("departments", departmentService.getDepartments());
+
         return "admin/employee";
     }
 
