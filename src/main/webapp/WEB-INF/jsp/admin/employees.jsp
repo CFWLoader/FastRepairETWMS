@@ -99,8 +99,8 @@
     <div class="main-content">
 
         <div class="btn-toolbar list-toolbar">
-            <button class="btn btn-primary"><i class="fa fa-plus"></i> <a href="employee.jsp?action=readytoadd">New
-                Employee</a></button>
+            <button class="btn btn-primary" onclick="window.location.href='<%=AppContext.getBaseUrl()%>/admin/addEmployee'"><i class="fa fa-plus"></i> New
+                Employee</button>
             <button class="btn btn-default">Import</button>
             <button class="btn btn-default">Export</button>
             <div class="btn-group">

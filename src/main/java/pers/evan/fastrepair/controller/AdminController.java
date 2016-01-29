@@ -65,6 +65,46 @@ public class AdminController {
         return "admin/employees";
     }
 
+    @RequestMapping("/addEmployee")
+    public String addEmployee(Map<String, Object> models) {
+
+        Employee employee = new Employee();
+
+        employee.setId(-1);
+
+        employee.setUsername("Not set");
+
+        employee.setPassword("");
+
+        employee.setFirstName("Not set");
+
+        employee.setLastName("Not set");
+
+        employee.setGender("Not set");
+
+        employee.setPhone("Not set");
+
+        employee.setAddress("Not set");
+
+        List<Company> companies = companyService.getCompanies();
+
+        List<Department> departments = departmentService.getDepartments();
+
+        employee.setCompany(companies.get(0));
+
+        employee.setDepartment(departments.get(0));
+
+        models.put("employee", employee);
+
+        models.put("target", AppContext.getBaseUrl() + "/admin/doAddEmployee");
+
+        models.put("companies", companies);
+
+        models.put("departments", departments);
+
+        return "admin/employee";
+    }
+
     @RequestMapping("/employee")
     public String employeePage(HttpSession session, Map<String, Object> models, String idStr) {
 
@@ -80,6 +120,39 @@ public class AdminController {
 
             models.put("target", "");
         }
+
+        models.put("companies", companyService.getCompanies());
+
+        models.put("departments", departmentService.getDepartments());
+
+        return "admin/employee";
+    }
+
+    @RequestMapping("/modifyEmployee")
+    public String modifyEmployee(int id, String firstname, String lastname, String gender, String phone, String address,
+                                 int companyselect, int departmentselect, Map<String, Object> models) {
+
+        Employee employee = employeeService.getEmployeeById(id);
+
+        employee.setFirstName(firstname);
+
+        employee.setLastName(lastname);
+
+        employee.setGender(gender);
+
+        employee.setPhone(phone);
+
+        employee.setAddress(address);
+
+        employee.setCompany(companyService.getCompanyById(companyselect));
+
+        employee.setDepartment(departmentService.getDepartmentById(departmentselect));
+
+        employeeService.updateEmployee(employee);
+
+        models.put("employee", employee);
+
+        models.put("target", AppContext.getBaseUrl() + "/admin/modifyEmployee");
 
         models.put("companies", companyService.getCompanies());
 
@@ -240,16 +313,13 @@ public class AdminController {
             return "redirect:" + AppContext.getBaseUrl() + "/home/sign-in";
         }
 
-        if(idStr != null && !idStr.trim().equals(""))
-        {
+        if (idStr != null && !idStr.trim().equals("")) {
             Department department = departmentService.getDepartmentById(Long.valueOf(idStr));
 
             models.put("department", department);
 
             models.put("target", AppContext.getBaseUrl() + "/admin/modifyDepartment");
-        }
-        else
-        {
+        } else {
             models.put("department", employee.getDepartment());
 
             models.put("target", "");

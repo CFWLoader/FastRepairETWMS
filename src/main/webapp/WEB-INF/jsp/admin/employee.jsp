@@ -182,6 +182,12 @@
                                        readonly="readonly">
                             </div>
 
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input type="text" name="username" value="${employee.username}" class="form-control"
+                                       readonly="readonly">
+                            </div>
+
                             <c:if test="${false}">
                                 <div class="form-group">
                                     <label>New Employee Password</label>
@@ -222,7 +228,7 @@
                             <div class="form-group">
                                 <label>Company location</label>
                                 <input type="text" value="${employee.company.location}"
-                                       class="form-control" readonly>
+                                       class="form-control" readonly="readonly">
                             </div>
                             <div class="form-group">
                                 <label>Department</label>
